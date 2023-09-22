@@ -7,5 +7,7 @@ function nextDay(year, month, day) {
     let newDate = date.getDate(); // pulls the day from the new date
 
     console.log(`${newYear}-${newMonth}-${newDate}`);
+
+
 }
 nextDay(2016, 9, 30)
