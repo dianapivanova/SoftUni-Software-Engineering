@@ -3,7 +3,6 @@ function gladiatorExpenses(lostFights, helmetPrice, swordPrice, shieldPrice, arm
     let helmetBroken = 0
     let shieldBroken = 0
     let armorBroken = 0
-    let armorCounter = 0
 
     for (let i = 1; i <= lostFights; i++) {
         if (i % 2 == 0) {
