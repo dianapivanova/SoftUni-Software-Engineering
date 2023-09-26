@@ -24,5 +24,4 @@ function gladiatorExpenses(lostFights, helmetPrice, swordPrice, shieldPrice, arm
 
 
 }
-gladiatorExpenses(23, 12.50, 21.50, 40, 200
-)
+gladiatorExpenses(23, 12.50, 21.50, 40, 200)
