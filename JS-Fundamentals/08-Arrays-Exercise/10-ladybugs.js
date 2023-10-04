@@ -1,12 +1,12 @@
-function solve(tokens) {
-    let fieldSize = tokens[0];
-    let ladyBugs = [];
+function solve(arr) {
+    let fieldSize = arr[0];
+    let ladyBugs = []; //prints the result
 
     for (let i = 0; i < fieldSize; i++) { // Initialize field
         ladyBugs[i] = 0;
     }
 
-    let initialIndexes = tokens[1].split(' ').map(index => +index);
+    let initialIndexes = arr[1].split(' ').map(index => +index);
 
     for (let i = 0; i < ladyBugs.length; i++) { // Fill bugs on field
         if (initialIndexes.includes(i)) {
@@ -15,8 +15,8 @@ function solve(tokens) {
     }
 
     //------------------------------------------------------------------------------------------
-    for (let i = 2; i < tokens.length; i++) {
-        let command = tokens[i].split(' ');
+    for (let i = 2; i < arr.length; i++) {
+        let command = arr[i].split(' ');
 
         if (command[0].toLowerCase() !== 'end') {
             let index = +command[0];
@@ -85,7 +85,6 @@ function solve(tokens) {
     console.log(ladyBugs.join(' '));
 }
 
-// Don't copy the calling of the function in judge, you won't get any points, just the code above
 solve([3, '0 1', '0 right 1', '2 right 1']);
 solve([3, '0 1 2', '0 right 1', '1 right 1', '2 right 1']);
 solve([5, '3', '3 left 2', '1 left -2']);
