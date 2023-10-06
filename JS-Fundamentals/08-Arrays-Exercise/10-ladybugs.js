@@ -1,90 +1,64 @@
-function solve(arr) {
-    let fieldSize = arr[0];
-    let ladyBugs = []; //prints the result
+function ladybugs(arr) {
+    let fieldSize = arr[0]
+    let ladyBugsIndexes = arr[1].split(" ").map(Number)
+    let field = []
 
-    for (let i = 0; i < fieldSize; i++) { // Initialize field
-        ladyBugs[i] = 0;
-    }
-
-    let initialIndexes = arr[1].split(' ').map(index => +index);
-
-    for (let i = 0; i < ladyBugs.length; i++) { // Fill bugs on field
-        if (initialIndexes.includes(i)) {
-            ladyBugs[i] = 1;
+    for (let i = 0; i < fieldSize; i++) {
+        if (ladyBugsIndexes.includes(i)) {
+            field[i] = 1
+        } else {
+            field[i] = 0
         }
     }
 
-    //------------------------------------------------------------------------------------------
-    for (let i = 2; i < arr.length; i++) {
-        let command = arr[i].split(' ');
+    for (let j = 2; j < arr.length; j++) {
+        let command = arr[j]
+        let tokens = command.split(' ')
 
-        if (command[0].toLowerCase() !== 'end') {
-            let index = +command[0];
+        let ladybugIndex = Number(tokens[0])
+        let direction = tokens[1]
+        let flyLength = Number(tokens[2])
 
-            if (index < 0 || index >= ladyBugs.length) {   // If index is inside the field
-                continue;
-            }
 
-            if (ladyBugs[index] === 0) {  // cell is empty (NO Lady Bug)
-                continue;
-            }
+        if (!field[ladybugIndex]) {
+            continue;
+        }
 
-            //------------- Fly like the wind -------------
-            let direction = command[1];
-            let flyLength = +command[2];
+        field[ladybugIndex] = 0;
 
-            if (flyLength < 0) { // If flyLength is negative, change direction, and make it positive
-                flyLength = Math.abs(flyLength);
-                switch (direction) {
-                    case 'right':
-                        direction = 'left';
-                        break;
-                    case 'left':
-                        direction = 'right';
-                        break;
+        if (direction == "left") {
+            let newIndex = ladybugIndex - flyLength
+
+            if (newIndex >= 0) {
+                while (field[newIndex] == 1) {
+                    newIndex -= flyLength
                 }
+
+                if (newIndex >= 0) {
+                    field[newIndex] = 1
+                }
+
             }
+        } else {
+            let newIndex = ladybugIndex + flyLength
 
-            ladyBugs[index] = 0; // Lift off in 3...2...1
-            let isBugFlying = true;
+            if (newIndex < field.length) {
+                while (field[newIndex] == 1) {
+                    newIndex += flyLength
+                }
 
-            while (isBugFlying) {
-                switch (direction) {
-                    case 'right':
-                        if (index + flyLength >= ladyBugs.length) { // Lady Bug flew away (outside field) 
-                            isBugFlying = false;
-                        } else {
-                            if (ladyBugs[index + flyLength] === 0) { //  is cell empty (no Lady Bug at index)
-                                ladyBugs[index + flyLength] = 1; // Lady Bug landed
-                                isBugFlying = false;
-                            } else {
-                                isBugFlying = true; // Lady Bug continues to fly
-                                index += flyLength;
-                            }
-                        }
-                        break;
-
-                    case 'left':
-                        if (index - flyLength < 0) { // Lady Bug flew away (outside field)
-                            isBugFlying = false;
-                        } else {
-                            if (ladyBugs[index - flyLength] === 0) { //  is cell empty (no Lady Bug at index)
-                                ladyBugs[index - flyLength] = 1; // Lady Bug landed
-                                isBugFlying = false;
-                            } else {
-                                isBugFlying = true; // Lady Bug continues to fly
-                                index -= flyLength;
-                            }
-                        }
-                        break;
+                if (newIndex < field.length) {
+                    field[newIndex] = 1
                 }
             }
         }
     }
 
-    console.log(ladyBugs.join(' '));
+    console.log(field.join(" "))
 }
 
-solve([3, '0 1', '0 right 1', '2 right 1']);
-solve([3, '0 1 2', '0 right 1', '1 right 1', '2 right 1']);
-solve([5, '3', '3 left 2', '1 left -2']);
+
+
+ladybugs([3, '0 1', '0 right 1', '2 right 1']);
+ladybugs([3, '0 1 2', '0 right 1', '1 right 1', '2 right 1']);
+ladybugs([5, '3', '3 left 2', '1 left -2']);

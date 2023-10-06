@@ -8,8 +8,8 @@ function pyramid(baseSide, blockHeight) {
     let gold = 0;
 
     while (baseSide > 1) {
-        let totalBlocks = (baseSide * baseSide * blockHeight);
-        let innerBlocks = ((baseSide - 2) * (baseSide - 2)) * blockHeight;
+        let totalBlocks = (baseSide ** 2 * blockHeight);
+        let innerBlocks = (baseSide - 2) ** 2 * blockHeight;
         let outerBlocks = totalBlocks - innerBlocks;
 
         if (baseSide - 2 === 0) {
@@ -30,7 +30,7 @@ function pyramid(baseSide, blockHeight) {
     }
     floor++;
     height = Math.floor(floor * blockHeight);
-    gold += Math.ceil(baseSide * baseSide * blockHeight);
+    gold = Math.ceil(baseSide ** 2 * blockHeight);
 
     console.log(`Stone required: ${Math.ceil(stone)}`);
     console.log(`Marble required: ${Math.ceil(marble)}`);
@@ -38,4 +38,4 @@ function pyramid(baseSide, blockHeight) {
     console.log(`Gold required: ${gold}`);
     console.log(`Final pyramid height: ${height}`);
 }
-pyramid()
+pyramid(11, 1)
