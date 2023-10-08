@@ -1,13 +1,8 @@
 function smallestNumPrinter(numOne, numTwo, numThree) {
-    let smallestNumber = numOne
 
-    if (numTwo < numOne && numTwo < numThree) {
-        smallestNumber = numTwo
-    } else if (numThree < numTwo && numThree < numOne) {
-        smallestNumber = numThree
-    }
+    let minNum = Math.min(numOne, numTwo, numThree)
 
-    console.log(smallestNumber)
+    console.log(minNum)
 
 }
 
