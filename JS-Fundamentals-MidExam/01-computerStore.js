@@ -19,7 +19,7 @@ function computerStore(arr) {
     }
 
 
-    if (totalPriceNoTaxes == 0) {
+    if (totalPrice == 0) {
         console.log('Invalid order!');
     } else {
         console.log(`Congratulations you've just bought a new computer!`)

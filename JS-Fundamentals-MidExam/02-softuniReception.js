@@ -10,12 +10,11 @@ function reception(arr) {
 
     while (totalStudents > 0) {
         hours++;
-        if (hours % 4 == 0 && hours !== 0) {
+        if (hours % 4 == 0) {
             continue;
         }
 
-        let totalCapacity = totalCapacityperHour
-        totalStudents -= totalCapacity
+        totalStudents -= totalCapacityperHour
 
     }
 

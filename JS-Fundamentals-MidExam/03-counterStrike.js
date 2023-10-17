@@ -1,34 +1,35 @@
-function counterStrike(input) {
+function counterStrike(array) {
+    let initialHealth = Number(array.shift())
+    let wins = 0
+    let isDead = false
+
     let index = 0
-    let energy = Number(input[index]);
-    index++
-    let distance = input[index];
-    let gamesWon = 0;
+    let command = array[index]
 
-    while (distance != "End of battle") {
+    while (command !== "End of battle") {
+        let distance = Number(array[index])
 
-        let numDistance = Number(distance);
-
-        if (energy >= numDistance) {
-            gamesWon++;
-            energy -= numDistance;
-        } else {
-            console.log(`Not enough energy! Game ends with ${gamesWon} won battles and ${energy} energy`);
-            energy -= numDistance;
-            break;
+        if (initialHealth >= distance) {
+            initialHealth -= distance
+            wins++
+        } else if (initialHealth < distance) {
+            console.log(`Not enough energy! Game ends with ${wins} won battles and ${initialHealth} energy`);
+            initialHealth = 0
+            isDead = true; break;
         }
 
-        if (gamesWon % 3 === 0) {
-            energy += gamesWon;
+        if (wins % 3 == 0) {
+            initialHealth += wins
         }
 
         index++
-        distance = input[index]
+        command = array[index]
     }
 
-    if (energy >= 0) {
-        console.log(`Won battles: ${gamesWon}. Energy left: ${energy}`);
+    if (!isDead) {
+        console.log(`Won battles: ${wins}. Energy left: ${initialHealth}`)
     }
+
 }
 counterStrike(["200",
     "54",
@@ -36,5 +37,7 @@ counterStrike(["200",
     "28",
     "13",
     "End of battle"])
+
+
 
 

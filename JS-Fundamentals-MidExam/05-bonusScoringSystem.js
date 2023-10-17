@@ -2,14 +2,14 @@ function bonusSystem(arr) {
     let students = Number(arr.shift())
     let lecturesNum = Number(arr.shift())
     let addBonus = Number(arr.shift())
-    let highestResult = Number.MIN_SAFE_INTEGER
+    let highestResult = 0
     let maxStudentLectures = 0
 
     for (let i = 0; i < arr.length; i++) {
         let attendance = Number(arr[i])
         let totalBonus = attendance / lecturesNum * (5 + addBonus)
 
-        if (totalBonus > highestResult) {
+        if (totalBonus >= highestResult) {
             highestResult = totalBonus
             maxStudentLectures = attendance
         }
