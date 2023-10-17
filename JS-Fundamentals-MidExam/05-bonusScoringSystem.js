@@ -1,26 +1,26 @@
 function bonusSystem(arr) {
-    let studentNum = Number(arr.shift())
+    let students = Number(arr.shift())
     let lecturesNum = Number(arr.shift())
-    let additionalBonus = Number(arr.shift())
-    let highestResult = 0
-    let lookedAttendances = 0
+    let addBonus = Number(arr.shift())
+    let highestResult = Number.MIN_SAFE_INTEGER
+    let maxStudentLectures = 0
 
-    for (let i = 0; i < studentNum; i++) {
-        let attendances = arr[i]
-        let totalBonus = attendances / lecturesNum * (5 + additionalBonus)
+    for (let i = 0; i < arr.length; i++) {
+        let attendance = Number(arr[i])
+        let totalBonus = attendance / lecturesNum * (5 + addBonus)
 
-        if (totalBonus >= highestResult) {
+        if (totalBonus > highestResult) {
             highestResult = totalBonus
-            lookedAttendances = attendances
+            maxStudentLectures = attendance
         }
-
     }
 
     console.log(`Max Bonus: ${Math.ceil(highestResult)}.`)
-    console.log(`The student has attended ${lookedAttendances} lectures.`)
-
+    console.log(`The student has attended ${Math.ceil(maxStudentLectures)} lectures.`)
 }
 bonusSystem([
     '5', '25', '30',
     '12', '19', '24',
-    '16', '20'])
+    '16', '20'
+]
+)
