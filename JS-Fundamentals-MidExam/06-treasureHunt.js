@@ -5,49 +5,42 @@ function treasureHunt(array) {
         let tokens = array[i].split(" ")
         let command = tokens[0]
 
-        switch (command) {
-            case "Loot":
-                for (let j = 1; j < tokens.length; j++) {
-                    if (!lootArray.includes(tokens[j])) {
-                        lootArray.unshift(tokens[j])
-                    } else {
-                        continue;
-                    }
-                }; break;
-
-            case "Drop":
-                let index = Number(tokens[1])
-                if (index >= 0 && index < lootArray.length) {
-                    let removedItem = lootArray.splice(index, 1)
-                    lootArray.push(String(removedItem))
+        if (command == "Loot") {
+            for (let j = 1; j < tokens.length; j++) {
+                let item = tokens[j]
+                if (!lootArray.includes(item)) {
+                    lootArray.unshift(item)
                 } else {
                     continue;
                 }
-                ; break;
-            case "Steal":
-                let stealedItems = Number(tokens[1])
-                let stealedItemsArray = lootArray.slice(-stealedItems)
-                lootArray.splice(-stealedItems)
-
-                console.log(stealedItemsArray.join(", "))
-                    ; break;
+            }
+        } else if (command == "Drop") {
+            let idx = tokens[1]
+            if (idx >= 0 && idx < lootArray.length) {
+                let currentEl = lootArray[idx]
+                lootArray.splice(idx, 1)
+                lootArray.push(currentEl)
+            } else {
+                continue;
+            }
+        } else if (command == "Steal") {
+            let stolenItems = Number(tokens[1])
+            stolenArray = lootArray.slice(-stolenItems)
+            lootArray.splice(-stolenItems)
+            console.log(stolenArray.join(", "))
         }
     }
 
-    let total = 0
-    for (let k = 0; k < lootArray.length; k++) {
-        let el = lootArray[k].length
-        total += el
+    let sum = 0
+    for (let i = 0; i < lootArray.length; i++) {
+        sum += lootArray[i].length
     }
-
-    let averageGain = (total / lootArray.length).toFixed(2)
 
     if (lootArray.length > 0) {
-        console.log(`Average treasure gain: ${averageGain} pirate credits.`)
+        console.log(`Average treasure gain: ${(sum / lootArray.length).toFixed(2)} pirate credits.`)
     } else {
-        console.log(`Failed treasure hunt.`)
+        console.log("Failed treasure hunt.")
     }
-
 
 }
 treasureHunt((["Gold|Silver|Bronze|Medallion|Cup",

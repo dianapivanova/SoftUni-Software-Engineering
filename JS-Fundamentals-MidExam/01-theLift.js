@@ -1,41 +1,41 @@
-function solve(input) {
-    let peopleInQueue = Number(input.shift());
-    let wagons = input.toString().split(" ").map(Number);
+function theLift(array) {
+    let tourists = Number(array.shift())
+    let wagons = array[0].split(' ').map(Number)
+    let isFull = true;
 
     for (let i = 0; i < wagons.length; i++) {
-        if (wagons[i] < 4) {
-            if (peopleInQueue >= 4 - wagons[i]) { // if people are more than the sports in the wagon, people in the wagon = spots and wagon is full
-                peopleInQueue -= 4 - wagons[i];
-                wagons[i] = 4;
-            } else { // people are less than the spots in the wagon, people will be 0 and spots will be fullfilled with # of people
-                wagons[i] += peopleInQueue;
-                peopleInQueue = 0;
+        if (wagons[i] == 4) {
+            continue;
+        } else {
+            if (tourists <= 4 - wagons[i]) {
+                wagons[i] += tourists
+                tourists = 0
+            } else {
+                tourists -= 4 - wagons[i]
+                wagons[i] = 4
             }
         }
     }
 
-    let isEmpty = false;
-
-    for (let i = 0; i < wagons.length; i++) {
-        let currenEl = wagons[i];
-
-        if (currenEl < 4) {
-            isEmpty = true;
+    for (let j = 0; j < wagons.length; j++) {
+        if (wagons[j] !== 4) {
+            isFull = false; break;
         }
     }
 
-    if (!isEmpty && peopleInQueue > 0) {
-        console.log(`There isn't enough space! ${peopleInQueue} people in a queue!`);
+    if (tourists == 0 && isFull) {
+        console.log(wagons.join(" "))
+    } else if (tourists == 0 & !isFull) {
+        console.log(`The lift has empty spots!`)
+        console.log(wagons.join(' '))
+    } else if (tourists > 0 && isFull) {
+        console.log(`There isn't enough space! ${tourists} people in a queue!`)
+        console.log(wagons.join(' '))
     }
 
-    if (isEmpty && peopleInQueue == 0) {
-        console.log("The lift has empty spots!");
-    }
-
-    console.log(wagons.join(" "));
 }
 
 theLift([
-    "",
-    "5 5 5"
+    "15",
+    "0 0 0 0 0"
 ])

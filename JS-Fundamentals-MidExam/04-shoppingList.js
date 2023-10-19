@@ -1,50 +1,64 @@
-function shoppingList(arr) {
-    let initialList = arr.shift().split('!')
+function shopping(arr) {
+    let shoppingList = arr.shift().split("!")
 
-    for (let i = 0; i < arr.length - 1; i++) {
-        let currentRow = arr[i]
-        let tokens = currentRow.split(' ')
+    let index = 0
+    let currentRow = arr[index]
+
+    while (currentRow !== "Go Shopping!") {
+        let tokens = currentRow.split(" ")
         let command = tokens[0]
         let item = tokens[1]
-        let correctItem = tokens[2]
+        let newItem = tokens[2]
 
         switch (command) {
-            case 'Urgent':
-                if (!initialList.includes(item)) {
-                    initialList.unshift(item)
-                } else {
-                    continue;
-                } break;
-            case 'Unnecessary':
-                if (initialList.includes(item)) {
-                    initialList = initialList.filter(x => x !== item)
-                } else {
-                    continue;
-                } break;
-            case 'Correct':
-                if (initialList.includes(item)) {
-                    let index = initialList.indexOf(item);
-                    initialList[index] = correctItem;
-                } else {
-                    continue;
-                } break;
-            case 'Rearrange':
-                if (initialList.includes(item)) {
-                    initialList.splice(1, 0, "shit")
-                } else {
-                    continue;
-                }
+            case "Urgent": urgent(item); break;
+            case "Unnecessary": unnecessary(item); break;
+            case "Correct": correct(item, newItem); break;
+            case "Rearrange": rearrange(item); break;
+        }
+
+        index++
+        currentRow = arr[index]
+
+    }
+
+    console.log(shoppingList.join(', '))
+
+    function urgent(item) {
+        if (!shoppingList.includes(item)) {
+            shoppingList.unshift(item)
         }
 
     }
-    console.log(initialList.join(', '))
+    function unnecessary(item) {
+        if (shoppingList.includes(item)) {
+            let currentIdx = shoppingList.indexOf(item)
+            shoppingList.splice(currentIdx, 1)
+        }
+
+    }
+    function correct(item, newItem) {
+        if (shoppingList.includes(item)) {
+            let currentIdx = shoppingList.indexOf(item)
+            shoppingList.splice(currentIdx, 1, newItem)
+        }
+
+    }
+    function rearrange(item) {
+        if (shoppingList.includes(item)) {
+            let currentIdx = shoppingList.indexOf(item)
+            shoppingList.splice(currentIdx, 1)
+            shoppingList.push(item)
+        }
+
+    }
 
 }
-shoppingList(["Milk!Pepper!Salt!Water!Banana",
+shopping(["Milk!Pepper!Salt!Water!Banana",
     "Urgent Salt",
     "Unnecessary Grapes",
     "Correct Pepper Onion",
-    "Rearrange Onion",
+    "Rearrange Grapes",
     "Correct Tomatoes Potatoes",
     "Go Shopping!"])
 
