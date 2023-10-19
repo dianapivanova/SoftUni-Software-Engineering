@@ -1,56 +1,55 @@
 function memoryGame(arr) {
-    let sequenceOfEls = arr.shift().split(" ")
+    let matchingElsArray = arr.shift().split(" ")
 
-    let numberOfMoves = 0
-    let isFinish = false
+    let command = arr.shift()
+    let moves = 0
+    let hasWon = false
 
-    for (let i = 0; i < arr.length - 1; i++) {
-        let tokens = arr[i].split(' ')
-        let index1 = Number(tokens[0])
-        let index2 = Number(tokens[1])
+    while (command !== "end") {
 
-        if (sequenceOfEls.length == 0) {
-            console.log(`You have won in ${numberOfMoves} turns!`); isFinish = true; break;
+        if (matchingElsArray.length == 0) {
+            console.log(`You have won in ${moves} turns!`); hasWon = true; break;
         }
 
-        numberOfMoves++
+        moves++
+        let tokens = command.split(' ')
+        let idx1 = Number(tokens[0])
+        let idx2 = Number(tokens[1])
 
-        if (
-            index1 < 0 || index1 >= sequenceOfEls.length ||
-            index2 < 0 || index2 >= sequenceOfEls.length || index1 === index2) {
-            let addedEl = `-${numberOfMoves}a`
-            sequenceOfEls.splice(Math.trunc(sequenceOfEls.length / 2), 0, addedEl, addedEl)
+        if (idx1 < 0 || idx1 >= matchingElsArray.length
+            || idx2 < 0 || idx2 >= matchingElsArray.length
+            || idx1 == idx2) {
+            let addedEl = `-${moves}a`
+            matchingElsArray.splice(Math.trunc(matchingElsArray.length / 2), 0, addedEl, addedEl)
             console.log('Invalid input! Adding additional elements to the board')
-        } else if (sequenceOfEls[index1] === sequenceOfEls[index2]) {
-            console.log(`Congrats! You have found matching elements - ${sequenceOfEls[index1]}!`)
-            sequenceOfEls.splice(index1, 1)
-            if (index2 !== 0) {
-                sequenceOfEls.splice(index2 - 1, 1)
-            } else {
-                sequenceOfEls.splice(index2, 1)
-            }
-
-        } else {
-            console.log('Try again!')
+            command = arr.shift()
+            continue;
         }
 
+        if (matchingElsArray[idx1] === matchingElsArray[idx2]) {
+            console.log(`Congrats! You have found matching elements - ${matchingElsArray[idx1]}!`)
+            matchingElsArray.splice(Math.max(idx1, idx2), 1)
+            matchingElsArray.splice(Math.min(idx1, idx2), 1)
+        } else {
+            console.log(`Try again!`)
+        }
+
+        command = arr.shift()
     }
 
-    if (!isFinish) {
-        if (sequenceOfEls.length > 0) {
-            console.log(`Sorry you lose :(`)
-            console.log(`${sequenceOfEls.join(' ')}`)
-        } else {
-            console.log(`You have won in ${numberOfMoves} turns!`);
-        }
+    if (matchingElsArray.length > 0) {
+        console.log(`Sorry you lose :(`)
+        console.log(matchingElsArray.join(' '))
+    } else if (matchingElsArray == 0 & hasWon == false) {
+        console.log(`You have won in ${moves} turns!`)
     }
 }
 memoryGame([
-    "1 1 2 2 3 3 4 4 5 5",
-    "1 0",
-    "-1 0",
-    "0 0",
-    "1 0",
-    "1 0",
+    "a 2 4 a 2 4",
+    "4 0",
+    "0 2",
+    "0 1",
+    "0 1",
     "end"
-])
+]
+)

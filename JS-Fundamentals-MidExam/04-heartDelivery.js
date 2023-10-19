@@ -1,50 +1,48 @@
 function heartDelivery(input) {
     let houses = input.shift().split('@').map(Number);
-    let commands = input.shift();
+    let command = input.shift()
+    let index = 0
 
-    let currentIndex = 0;
+    while (command !== "Love!") {
+        let tokens = command.split(' ')
+        let jumpLength = Number(tokens[1])
+        index += jumpLength
 
-    while (commands !== 'Love!') {
-        let tokens = commands.split(' ');
-        let jumpLength = +tokens[1];
-
-        currentIndex += jumpLength;
-
-        if (currentIndex >= houses.length) {
-            currentIndex = 0;
+        if (index >= houses.length) {
+            index = 0;
         }
 
-        if (houses[currentIndex] === 0) {
-            console.log(`Place ${currentIndex} already had Valentine's day.`);
+        if (houses[index] == 0) {
+            console.log(`Place ${index} already had Valentine\'s day.`);
+            command = input.shift()
+            continue;
         } else {
-            houses[currentIndex] -= 2;
-            if (houses[currentIndex] === 0) {
-                console.log(`Place ${currentIndex} has Valentine's day.`);
+            houses[index] -= 2
+            if (houses[index] == 0) {
+                console.log(`Place ${index} has Valentine's day.`)
             }
         }
 
-        commands = input.shift();
+        command = input.shift()
+
     }
 
-    console.log(`Cupid's last position was ${currentIndex}.`);
+    console.log(`Cupid's last position was ${index}.`)
 
-    let isSuccess = true;
-    let count = 0;
+    let failedHouses = 0
 
-    for (const house of houses) {
+    for (let house of houses) {
         if (house !== 0) {
-            isSuccess = false;
-            count++;
+            failedHouses++
         }
     }
 
-    if (isSuccess) {
-        console.log(`Mission was successful.`);
+    if (failedHouses > 0) {
+        console.log(`Cupid has failed ${failedHouses} places.`)
     } else {
-        console.log(`Cupid has failed ${count} places.`);
+        console.log('Mission was successful.')
     }
 }
-
 heartDelivery(["2@4@2",
     "Jump 2",
     "Jump 2",

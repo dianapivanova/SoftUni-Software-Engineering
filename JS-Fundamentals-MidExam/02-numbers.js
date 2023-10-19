@@ -1,32 +1,25 @@
 function numbers(input) {
-    let nums = input.split(" ").map(Number)
+    let nums = input.split(" ").map(Number).sort((a, b) => (b - a))
 
-    let total = 0
-    for (let i = 0; i < nums.length; i++) {
-        total += nums[i]
-    }
-    averageValue = Number(total / nums.length)
+    let averageSum = nums.reduce((acc, val) => acc + val) / nums.length
 
-    nums.sort((a, b) => (a - b))
     let resultArray = []
-
-    let index = nums.length - 1
-    let currentValue = nums[index]
-
-    while (currentValue > averageValue) {
-        if (resultArray.length == 5) {
+    let count = 0
+    for (let num of nums) {
+        if (count == 5) {
             break;
         }
-        resultArray.push(nums[index])
-        index--
-        currentValue = nums[index]
+        if (num > averageSum) {
+            resultArray.push(num)
+            count++
+        }
     }
 
-    if (resultArray.length == 0) {
-        console.log('No')
+    if (resultArray.length > 0) {
+        console.log(resultArray.join(' '))
     } else {
-        console.log(resultArray.join(" "))
+        console.log('No')
     }
 
 }
-numbers('5 5 5 5 5 5 5 5 5 5 5 5')
+numbers('0')
