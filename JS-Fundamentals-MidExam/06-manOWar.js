@@ -1,87 +1,100 @@
 function manOWar(array) {
-    let pirateShipStatus = array.shift().split('>').map(Number)
-    let warShipStatus = array.shift().split('>').map(Number)
+    let pirateShip = array.shift().split(">").map(Number)
+    let warShip = array.shift().split(">").map(Number)
     let maxCapacity = Number(array.shift())
-    let isStaleMate = true
 
-    for (let row = 0; row < array.length - 1; row++) {
-        let currentRow = array[row]
+    let currentRow = array.shift()
+    isStalemate = true
+
+    while (currentRow !== "Retire") {
         let tokens = currentRow.split(" ")
         let command = tokens[0]
 
         if (command == "Fire") {
-            let index = Number(tokens[1])
+            let idx = Number(tokens[1])
             let damage = Number(tokens[2])
 
-            if (index >= 0 && index < warShipStatus.length) {
-                warShipStatus[index] -= damage
-                if (warShipStatus[index] <= 0) {
-                    console.log(`You won! The enemy ship has sunken.`); isStaleMate = false; break;
-                }
-            } else {
+            if (idx < 0 || idx >= warShip.length) {
+                currentRow = array.shift()
                 continue;
+            } else {
+                warShip[idx] -= damage
+                if (warShip[idx] <= 0) {
+                    console.log('You won! The enemy ship has sunken.'); isStalemate = false; break;
+                }
             }
+
         } else if (command == "Defend") {
-            let startIndex = Number(tokens[1])
-            let endIndex = Number(tokens[2])
+            let startIdx = Number(tokens[1])
+            let endIdx = Number(tokens[2])
             let damage = Number(tokens[3])
 
-            if (startIndex >= 0 && startIndex < pirateShipStatus.length &&
-                endIndex >= 0 && endIndex < pirateShipStatus.length) {
-                for (let i = startIndex; i <= endIndex; i++) {
-                    pirateShipStatus[i] -= damage
-                    if (pirateShipStatus[i] <= 0) {
-                        console.log(`You lost! The pirate ship has sunken.`); isStaleMate = false; break;
+            if (startIdx < 0 || startIdx >= pirateShip.length
+                || endIdx < 0 || endIdx >= pirateShip.length) {
+                currentRow = array.shift(); continue;
+            } else {
+                for (let i = startIdx; i <= endIdx; i++) {
+                    pirateShip[i] -= damage
+                    if (pirateShip[i] <= 0) {
+                        console.log('You lost! The pirate ship has sunken.'); isStalemate = false; break;
                     }
                 }
-            } else {
-                continue;
             }
 
         } else if (command == "Repair") {
-            let index = Number(tokens[1])
+            let idx = Number(tokens[1])
             let health = Number(tokens[2])
 
-            if (index >= 0 && index < pirateShipStatus.length) {
-                if (pirateShipStatus[index] + health <= maxCapacity) {
-                    pirateShipStatus[index] += health
-                } else {
-                    pirateShipStatus[index] += maxCapacity - pirateShipStatus[index]
-                }
-            } else {
+            if (idx < 0 || idx >= pirateShip.length) {
+                currentRow = array.shift();
                 continue;
+            } else {
+                if (health + pirateShip[idx] > maxCapacity) {
+                    pirateShip[idx] = maxCapacity
+                } else {
+                    pirateShip[idx] += health
+                }
             }
         } else if (command == "Status") {
-            let statusCounter = 0
-            for (let i = 0; i < pirateShipStatus.length; i++) {
-
-                if (pirateShipStatus[i] < maxCapacity * 0.2) {
-                    statusCounter++
+            let count = 0
+            for (let j = 0; j < pirateShip.length; j++) {
+                if (pirateShip[j] < maxCapacity * 0.2) {
+                    count++
                 }
             }
-            console.log(`${statusCounter} sections need repair.`)
+
+            console.log(`${count} sections need repair.`)
+
         }
+
+        currentRow = array.shift()
     }
 
-    if (isStaleMate) {
-        let pirateShipSum = 0
-        let warShipSum = 0
-
-        for (let j = 0; j < pirateShipStatus.length; j++) {
-            pirateShipSum += pirateShipStatus[j]
+    if (isStalemate) {
+        let sumPirateShip = 0
+        let sumWarShip = 0
+        for (let k = 0; k < pirateShip.length; k++) {
+            sumPirateShip += pirateShip[k]
+        }
+        for (let l = 0; l < warShip.length; l++) {
+            sumWarShip += warShip[l]
         }
 
-        for (let k = 0; k < warShipStatus.length; k++) {
-            warShipSum += warShipStatus[k]
-        }
-
-        console.log(`Pirate ship status: ${pirateShipSum}`)
-        console.log(`Warship status: ${warShipSum}`)
+        console.log(`Pirate ship status: ${sumPirateShip}`)
+        console.log(`Warship status: ${sumWarShip}`)
     }
-
 }
+
 manOWar(["12>13>11>20>66",
     "12>22>33>44>55>32>18",
     "70",
-    "Defend 0 0 11",
+    "Fire 2 11",
+    "Fire 8 100",
+    "Defend 3 6 11",
+    "Defend 0 3 5",
+    "Repair 1 33",
+    "Status",
     "Retire"])
+
+
+

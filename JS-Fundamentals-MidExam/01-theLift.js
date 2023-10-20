@@ -1,7 +1,6 @@
 function theLift(array) {
     let tourists = Number(array.shift())
     let wagons = array[0].split(' ').map(Number)
-    let isFull = true;
 
     for (let i = 0; i < wagons.length; i++) {
         if (wagons[i] == 4) {
@@ -17,6 +16,7 @@ function theLift(array) {
         }
     }
 
+    let isFull = true;
     for (let j = 0; j < wagons.length; j++) {
         if (wagons[j] !== 4) {
             isFull = false; break;

@@ -1,45 +1,47 @@
 function movingTarget(array) {
     let targets = array.shift().split(' ').map(Number)
+    let currentRow = array.shift()
 
-    for (let i = 0; i < array.length - 1; i++) {
-        let tokens = array[i].split(' ')
+    while (currentRow !== "End") {
+        let tokens = currentRow.split(" ")
         let command = tokens[0]
+        let idx = Number(tokens[1])
 
         if (command == "Shoot") {
-            let index = tokens[1]
             let power = Number(tokens[2])
-
-            if (index >= 0 && index < targets.length) {
-                targets[index] -= power
-                if (targets[index] <= 0) {
-                    targets.splice(index, 1)
-                }
-            } else {
+            if (idx < 0 || idx >= targets.length) {
+                currentRow = array.shift();
                 continue;
+            } else {
+                targets[idx] -= power
+                if (targets[idx] <= 0) {
+                    targets.splice(idx, 1)
+                }
             }
         } else if (command == "Add") {
-            let index = tokens[1]
             let value = Number(tokens[2])
-            if (index >= 0 && index < targets.length) {
-                targets.splice(index, 0, value)
-            } else {
-                console.log("Invalid placement!")
+            if (idx < 0 || idx >= targets.length) {
+                console.log("Invalid placement!");
+                currentRow = array.shift();
                 continue;
+            } else {
+                targets.splice(idx, 0, value)
             }
         } else if (command == "Strike") {
-            let index = Number(tokens[1])
             let radius = Number(tokens[2])
-
-            if (index - radius >= 0 && index + radius < targets.length && index >= 0 && index < targets.length) {
-                targets.splice(index - radius, radius * 2 + 1)
-            } else {
-                console.log("Strike missed!")
+            if (idx - radius < 0 || idx + radius >= targets.length) {
+                console.log("Strike missed!");
+                currentRow = array.shift();
                 continue;
+            } else {
+                targets.splice(idx - radius, radius * 2 + 1)
             }
+
         }
+        currentRow = array.shift()
     }
 
-    console.log(targets.join('|'))
+    console.log(targets.join("|"))
 }
 movingTarget(["52 74 23 44 96 110",
     "Shoot 5 10",
@@ -47,3 +49,4 @@ movingTarget(["52 74 23 44 96 110",
     "Strike 2 1",
     "Add 22 3",
     "End"])
+

@@ -1,58 +1,60 @@
 function invention(array) {
-    let itemsArray = array.shift().split(', ')
+    let itemsArray = array.shift().split(", ")
 
-    for (let i = 0; i < array.length - 1; i++) {
-        let tokens = array[i].split(' - ')
+    let currentRow = array.shift()
+
+    while (currentRow !== "Craft!") {
+        let tokens = currentRow.split(' - ')
         let command = tokens[0]
+        let item = tokens[1]
 
         if (command == "Collect") {
-            let item = tokens[1]
-
-            if (itemsArray.includes(item)) {
-                continue;
-            } else {
+            if (!itemsArray.includes(item)) {
                 itemsArray.push(item)
-            }
-
-        } else if (command == "Drop") {
-            let item = tokens[1]
-            if (itemsArray.includes(item)) {
-                let itemIndex = itemsArray.indexOf(item)
-                itemsArray.splice(itemIndex, 1)
             } else {
+                currentRow = array.shift()
+                continue;
+            }
+        } else if (command == "Drop") {
+            if (itemsArray.includes(item)) {
+                let removedItem = itemsArray.indexOf(item)
+                itemsArray.splice(removedItem, 1)
+            } else {
+                currentRow = array.shift()
                 continue;
             }
         } else if (command == "Combine Items") {
-            let items = tokens[1].split(":")
-            let oldItem = items[0]
-            let newItem = items[1]
-
+            let tokens2 = item.split(":")
+            let oldItem = tokens2[0]
+            let newItem = tokens2[1]
             if (itemsArray.includes(oldItem)) {
-                let index = itemsArray.indexOf(oldItem)
-                itemsArray.splice(index + 1, 0, newItem)
+                let idx = itemsArray.indexOf(oldItem)
+                itemsArray.splice(idx + 1, 0, newItem)
             } else {
+                currentRow = array.shift()
                 continue;
             }
-
         } else if (command == "Renew") {
-            let item = tokens[1]
             if (itemsArray.includes(item)) {
-                let itemIndex = itemsArray.indexOf(item)
-                let pushedItem = itemsArray.splice(itemIndex, 1)
-                itemsArray.push(pushedItem)
+                let removedItem = itemsArray.indexOf(item)
+                itemsArray.splice(removedItem, 1)
+                itemsArray.push(item)
             } else {
+                currentRow = array.shift()
                 continue;
             }
         }
 
-
+        currentRow = array.shift()
     }
+
     console.log(itemsArray.join(', '))
 }
 invention([
-    'Iron, Wood, Sword',
-    'Collect - Gold',
-    'Drop - Wood',
+    'Iron, Sword',
+    'Drop - Bronze',
+    'Combine Items - Sword:Bow',
+    'Renew - Iron',
     'Craft!'
 ]
 )
