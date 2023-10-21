@@ -15,6 +15,7 @@ function maxSequence(arr) {
                 break;
             }
 
+
         }
 
         if (currentSeq.length > maxSeq.length) {

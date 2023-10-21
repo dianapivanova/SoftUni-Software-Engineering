@@ -15,8 +15,6 @@ function maxNumber(arr) {
             newArr.push(firstNum)
         }
     }
-
-
     console.log(newArr.join(' '))
 }
-maxNumber([41, 41, 34, 20])
+maxNumber([1, 4, 3, 2])

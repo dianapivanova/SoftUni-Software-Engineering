@@ -1,26 +1,26 @@
 function trainProblem(array) {
-    let train = array.shift().split(" ").map(Number)
-    let capacity = array.shift()
+    let wagons = array.shift().split(" ").map(Number)
+    let maxCapacity = Number(array.shift())
 
     for (let i = 0; i < array.length; i++) {
-        let tokens = (array[i]).split(' ')
-
+        let tokens = array[i].split(' ')
         if (tokens[0] == "Add") {
-            let passengers = tokens[1]
-            train.push(passengers)
+            let newWagon = Number(tokens[1])
+            wagons.push(newWagon)
         } else {
             let passengers = Number(tokens[0])
-            for (let j = 0; j < train.length; j++) {
-                if (train[j] + passengers <= capacity) {
-                    train[j] += passengers
-                    break;
+            for (let j = 0; j < wagons.length; j++) {
+                if (passengers + wagons[j] <= maxCapacity) {
+                    wagons[j] += passengers; break;
+                } else {
+                    continue;
                 }
             }
-        }
 
+        }
     }
 
-    console.log(train.join(" "))
+    console.log(wagons.join(" "))
 }
 trainProblem(['32 54 21 12 4 0 23',
     '75',
