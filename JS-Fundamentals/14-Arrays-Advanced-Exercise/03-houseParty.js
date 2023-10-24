@@ -1,26 +1,27 @@
 function houseParty(array) {
     let guests = []
 
-    for (let command of array) {
-        let tokens = command.split(' ')
-        let name = tokens[0]
+    for (let i = 0; i < array.length; i++) {
+        let command = array[i].split(" ")
 
-        if (tokens.includes('not')) {
-            if (guests.includes(name)) {
-                let index = guests.indexOf(name)
-                guests.splice(index, 1)
+        if (command.includes('not')) {
+            if (guests.includes(command[0])) {
+                let removedNameIdx = array.indexOf(command[0])
+                guests.splice(removedNameIdx, 1)
             } else {
-                console.log(`${name} is not in the list!`)
+                console.log(`${command[0]} is not in the list!`)
+                continue;
             }
-
         } else {
-            if (guests.includes(name)) {
-                console.log(`${name} is already in the list!`)
+            if (guests.includes(command[0])) {
+                console.log(`${command[0]} is already in the list!`)
+                continue;
             } else {
-                guests.push(name)
+                guests.push(command[0])
             }
         }
     }
+
 
     console.log(guests.join('\n'))
 }
