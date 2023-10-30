@@ -19,7 +19,7 @@ class Storage {
 let productOne = { name: 'Cucumber', price: 1.50, quantity: 15 };
 let productTwo = { name: 'Tomato', price: 0.90, quantity: 25 };
 let productThree = { name: 'Bread', price: 1.10, quantity: 8 };
-let storage = new Storage(50);
+let storage = new Storage(50); // we are creating the object (the instance) of the class
 storage.addProduct(productOne);
 storage.addProduct(productTwo);
 storage.addProduct(productThree);
