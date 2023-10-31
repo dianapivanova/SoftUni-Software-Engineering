@@ -16,6 +16,6 @@ class Vehicle { // vehicle class is defined by a constructor that takes 4 parame
 let parts = { engine: 6, power: 100 };
 let vehicle = new Vehicle('a', 'b', parts, 200); // this is the instance created from the Vehicle class
 vehicle.drive(100);
-console.log(vehicle.fuel);
+console.log(vehicle);
 console.log(vehicle.parts.quality);
 
