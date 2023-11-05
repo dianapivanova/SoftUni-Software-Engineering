@@ -4,7 +4,8 @@ function movies(array) {
     for (let command of array) {
         if (command.includes('addMovie')) {
             let movieName = command.split('addMovie ')[1]
-            let movieObj = { name: movieName }
+            let movieObj = {}
+            movieObj['name'] = movieName
             movies.push(movieObj)
 
         } else if (command.includes('directedBy')) {

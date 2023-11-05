@@ -1,8 +1,6 @@
 function convertToJson(name, lastName, hairColor) {
-    let obj = {}
-    obj.name = name
-    obj.lastName = lastName
-    obj.hairColor = hairColor
+    let obj = { name, lastName, hairColor }
+
 
     console.log(JSON.stringify(obj))
 

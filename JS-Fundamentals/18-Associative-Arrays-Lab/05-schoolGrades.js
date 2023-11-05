@@ -1,38 +1,25 @@
-function schoolGrades(array) {
-    let gradeObj = {}
+function storeAndPrintGrades(data) {
+    let studentGrades = new Map();
 
-    for (let tokens of array) {
-        let tokensArr = tokens.split(' ')
-        let name = tokensArr[0]
+    for (let entry of data) {
+        let [name, ...grades] = entry.split(' ');
+        grades = grades.map(Number);
 
-        let totalGrade = 0
-        let count = 0
-
-        if (tokensArr.length > 1) {
-            for (let i = 1; i < tokensArr.length; i++) {
-                let grade = Number(tokensArr[i])
-                totalGrade += grade
-                count++
-            }
-
-            totalGrade = totalGrade / count; // Calculate the average after the loop
+        if (studentGrades.has(name)) {
+            // If the student already exists, add the new grades to the existing ones
+            studentGrades.set(name, studentGrades.get(name).concat(grades));
         } else {
-            totalGrade = 0; // Set totalGrade to 0 if there are no grades
-        }
-
-        if (gradeObj[name]) {
-            gradeObj[name] = (totalGrade + gradeObj[name]) / 2; // Update the average correctly
-        } else {
-            gradeObj[name] = totalGrade;
+            // If it's a new student, set their grades
+            studentGrades.set(name, grades);
         }
     }
 
-    let sortedArr = Object.entries(gradeObj).sort((a, b) => (a[0].localeCompare(b[0])))
+    let sortedStudents = Array.from(studentGrades).sort((a, b) => a[0].localeCompare(b[0]));
 
-    for (let kvp of sortedArr) {
-        let name = kvp[0]
-        let grade = Number(kvp[1]).toFixed(2)
-        console.log(`${name}: ${grade}`)
+    for (let [name, grades] of sortedStudents) {
+        let total = grades.reduce((acc, grade) => acc + grade, 0);
+        let average = (total / grades.length).toFixed(2);
+        console.log(`${name}: ${average}`);
     }
 }
 schoolGrades(['Lilly', 'Josh 5 3 3 3', 'Josh 3 3 3 3', 'Josh 3 3 3 3']

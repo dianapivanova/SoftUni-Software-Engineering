@@ -9,8 +9,7 @@ function dictionary(array) {
     sortedKeys.sort((a, b) => a.localeCompare(b));
 
     for (let term of sortedKeys) {
-        let definition = dict[term];
-        console.log(`Term: ${term} => Definition: ${definition}`);
+        console.log(`Term: ${term} => Definition: ${dict[term]}`);
     }
 }
 dictionary([
