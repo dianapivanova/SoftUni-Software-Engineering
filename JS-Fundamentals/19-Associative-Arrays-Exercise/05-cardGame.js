@@ -2,7 +2,7 @@ function cardGame(arr) {
     const powerObj = { 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, "J": 11, "Q": 12, "K": 13, "A": 14 };
     const typeObj = { "S": 4, "H": 3, "D": 2, "C": 1 };
 
-    const peopleObj = {};
+    let peopleObj = {};
 
     for (let row of arr) {
         let entries = row.split(': ');
@@ -20,7 +20,7 @@ function cardGame(arr) {
         }
     }
 
-    const resultObj = {};
+    let resultObj = {};
 
     for (let [person, cards] of Object.entries(peopleObj)) {
         let totalPerPerson = 0;
