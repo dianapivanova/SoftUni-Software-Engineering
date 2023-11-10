@@ -1,26 +1,34 @@
-function storeAndPrintGrades(data) {
-    let studentGrades = new Map();
+function schoolGrades(data) {
 
-    for (let entry of data) {
-        let [name, ...grades] = entry.split(' ');
-        grades = grades.map(Number);
+    let obj = {}
+    for (let row of data) {
+        let tokens = row.split(' ')
+        let name = tokens.shift()
+        let gradeArr = tokens
 
-        if (studentGrades.has(name)) {
-            // If the student already exists, add the new grades to the existing ones
-            studentGrades.set(name, studentGrades.get(name).concat(grades));
+        if (!obj.hasOwnProperty(name)) {
+            obj[name] = gradeArr
         } else {
-            // If it's a new student, set their grades
-            studentGrades.set(name, grades);
+            obj[name].push(...gradeArr)
         }
+
     }
 
-    let sortedStudents = Array.from(studentGrades).sort((a, b) => a[0].localeCompare(b[0]));
 
-    for (let [name, grades] of sortedStudents) {
-        let total = grades.reduce((acc, grade) => acc + grade, 0);
-        let average = (total / grades.length).toFixed(2);
-        console.log(`${name}: ${average}`);
+    for (let [name, gradeArr] of Object.entries(obj).sort((a, b) => (a[0].localeCompare(b[0])))) {
+        let totalGrade = 0
+        let avgGrade = 0
+
+        for (let grade of gradeArr) {
+            totalGrade += Number(grade)
+        }
+        avgGrade = totalGrade / gradeArr.length
+
+        console.log(`${name}: ${avgGrade.toFixed(2)}`)
     }
 }
-schoolGrades(['Lilly', 'Josh 5 3 3 3', 'Josh 3 3 3 3', 'Josh 3 3 3 3']
+schoolGrades(['Lilly 4 6 6 5',
+    'Tim 5 6',
+    'Tammy 2 4 3',
+    'Tim 6 6']
 )

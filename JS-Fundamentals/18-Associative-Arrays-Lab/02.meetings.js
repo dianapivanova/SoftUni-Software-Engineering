@@ -1,21 +1,20 @@
 function meetings(array) {
-    let schedule = {}
+    let calendar = {}
 
-    for (let tokens of array) {
-        let [day, name] = tokens.split(' ')
+    for (let entries of array) {
+        let [day, name] = entries.split(' ')
 
-        if (schedule.hasOwnProperty(day)) {
-            console.log(`Conflict on ${day}!`)
+        if (calendar.hasOwnProperty(day)) {
+            console.log(`Conflict on ${day}!`);
             continue;
         } else {
+            calendar[day] = name
             console.log(`Scheduled for ${day}`)
-            schedule[day] = name
         }
-
     }
 
-    for (let [day, name] of Object.entries(schedule)) {
-        console.log(`${day} -> ${name}`)
+    for (let entries of Object.entries(calendar)) {
+        console.log(`${entries[0]} -> ${entries[1]}`)
     }
 }
 meetings(['Monday Peter',

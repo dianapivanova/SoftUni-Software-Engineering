@@ -1,17 +1,16 @@
 function addressBook(array) {
-    let addressBookObj = {}
+    let addressBook = {}
 
-    for (let row of array) {
-        [personName, address] = row.split(':')
-        addressBookObj[personName] = address
+    for (let entries of array) {
+        let [name, address] = entries.split(':')
+
+        addressBook[name] = address
     }
 
-    let entries = Object.entries(addressBookObj).sort((a, b) => (a[0].localeCompare(b[0])))
 
-    for (let entry of entries) {
-        console.log(entry.join(' -> '))
+    for (let entries of Object.entries(addressBook).sort((a, b) => a[0].localeCompare(b[0]))) {
+        console.log(`${entries[0]} -> ${entries[1]}`)
     }
-
 
 }
 addressBook(['Tim:Doe Crossing',

@@ -1,19 +1,21 @@
 function storage(array) {
-    let products = new Map()
+    let storage = new Map()
 
-    for (let tokens of array) {
-        [product, qty] = tokens.split(' ')
+    for (let entries of array) {
+        let [product, qty] = entries.split(' ')
         qty = Number(qty)
 
-        if (products[product]) {
-            products[product] += qty
+        if (!storage.has(product)) {
+            storage.set(product, qty)
         } else {
-            products[product] = qty
+            let oldQty = storage.get(product)
+            let newQty = oldQty + qty
+            storage.set(product, newQty)
         }
     }
 
-    for (let [product, qty] of Object.entries(products)) {
-        console.log(`${product} -> ${qty}`)
+    for (let entries of storage) {
+        console.log(`${entries[0]} -> ${entries[1]}`)
     }
 }
 storage(['tomatoes 10',

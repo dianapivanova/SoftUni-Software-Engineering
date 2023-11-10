@@ -1,13 +1,14 @@
 function phoneBook(array) {
-    let phoneBookObj = {}
+    let phoneBook = {}
 
-    for (let row of array) {
-        [personName, phone] = row.split(' ')
-        phoneBookObj[personName] = phone
+    for (let entries of array) {
+        let [name, phone] = entries.split(' ')
+
+        phoneBook[name] = phone
     }
 
-    for (let [personName, phone] of Object.entries(phoneBookObj)) {
-        console.log(`${personName} -> ${phone}`)
+    for (let entries of Object.entries(phoneBook)) {
+        console.log(`${entries[0]} -> ${entries[1]}`)
     }
 }
 phoneBook(['Tim 0834212554',
