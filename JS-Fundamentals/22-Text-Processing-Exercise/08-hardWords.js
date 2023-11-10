@@ -1,7 +1,8 @@
 function hardWords(array) {
 
-    let words = array[1];
     let text = array[0];
+    let words = array[1];
+
 
     words.sort((a, b) => b.length - a.length);
     for (let word of words) {
