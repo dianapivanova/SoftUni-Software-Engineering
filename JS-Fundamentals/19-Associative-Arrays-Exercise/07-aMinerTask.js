@@ -1,20 +1,20 @@
 function aMinerTask(array) {
-
-    let resultObj = {}
-
+    let objResoures = {}
     for (let i = 0; i < array.length; i += 2) {
-        let resource = array[i]
+        let resoure = array[i]
         let qty = Number(array[i + 1])
 
-        if (resource in resultObj) {
-            resultObj[resource] += qty
+        if (!objResoures.hasOwnProperty(resoure)) {
+            objResoures[resoure] = qty
         } else {
-            resultObj[resource] = qty
+            objResoures[resoure] += qty
         }
     }
 
-    for (let entries of Object.entries(resultObj)) {
-        console.log(`${entries[0]} -> ${entries[1]}`)
+    let resultArr = Object.entries(objResoures)
+
+    for (let entry of resultArr) {
+        console.log(entry.join(' -> '));
     }
 }
 aMinerTask([
