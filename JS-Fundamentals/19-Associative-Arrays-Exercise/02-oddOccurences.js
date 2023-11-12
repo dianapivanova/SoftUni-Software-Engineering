@@ -1,35 +1,24 @@
 function oddOccurences(input) {
-    input = input.toLowerCase()
-    let wordArray = input.split(" ")
-
+    let words = input.split(' ')
     let wordObj = {}
 
-    for (let word of wordArray) {
-        word = String(word)
+    for (let word of words) {
+        word = word.toLowerCase()
 
-
-        if (word in wordObj) {
-            wordObj[word] += 1
-
-
-        } else {
+        if (!wordObj.hasOwnProperty(word)) {
             wordObj[word] = 1
-
+        } else {
+            wordObj[word]++
         }
     }
 
     let resultArr = []
-
-    for (let word of wordArray) {
-        if (wordObj[word] % 2 !== 0) {
-            if (!resultArr.includes(word)) {
-                resultArr.push(word)
-            }
-
+    for (let [word, occurences] of Object.entries(wordObj)) {
+        if (!(occurences % 2 == 0)) {
+            resultArr.push(word)
         }
     }
 
-    console.log(resultArr.join(" "))
-
+    console.log(resultArr.join(' '))
 }
 oddOccurences('Java C# Php PHP Java PhP 3 C# 3 1 5 C#')

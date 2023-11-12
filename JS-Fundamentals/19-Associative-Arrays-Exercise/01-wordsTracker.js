@@ -1,26 +1,25 @@
 function wordsTracker(input) {
-    let lookedWords = input.shift().split(' ')
+    let words = input.shift().split(' ')
 
-    let resultObj = {}
+    let wordObj = {}
 
-    for (let word of lookedWords) {
-        resultObj[word] = 0
+    for (let word of words) {
+        wordObj[word] = 0
     }
 
     for (let word of input) {
-        if (lookedWords.includes(word)) {
-            resultObj[word]++
+        if (wordObj.hasOwnProperty(word)) {
+            wordObj[word]++
         }
     }
 
-    let sortedArr = Object.entries(resultObj).sort((a, b) => (b[1] - a[1]))
-
-    for (let kvp of sortedArr) {
-        console.log(kvp.join(" - "))
+    for (let [word, occurences] of Object.entries(wordObj).sort((a, b) => (b[1] - a[1]))) {
+        console.log(`${word} - ${occurences}`)
     }
-
 }
 wordsTracker([
-    'is the',
-    'first', 'sentence', 'Here', 'is', 'another', 'the', 'And', 'finally', 'the', 'the', 'sentence']
+    'this sentence',
+    'In', 'this', 'sentence', 'you', 'have', 'to', 'count', 'the', 'occurrences', 'of', 'the', 'words', 'this', 'and', 'sentence', 'because', 'this', 'is', 'your', 'task'
+]
+
 )

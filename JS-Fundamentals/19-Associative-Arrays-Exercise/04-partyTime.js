@@ -1,56 +1,45 @@
-function creatingPartyList(input) {
-    let vips = [];
-    let regulars = [];
-    let person = input.shift();
-    while (person != 'PARTY') {
-        if (isNaN(Number(person[0]))) {
-            regulars.push(person);
+function partyTime(input) {
+
+    let command = input.shift()
+    let regulars = []
+    let vips = []
+
+    while (command !== "PARTY") {
+        let firstSymb = command[0]
+        if (!isNaN(firstSymb)) {
+            vips.push(command)
         } else {
-            vips.push(person);
+            regulars.push(command)
         }
-        person = input.shift();
+
+        command = input.shift()
     }
-    for (let comingGuest of input) {
-        if (vips.includes(comingGuest)) {
-            vips.splice(vips.indexOf(comingGuest), 1);
-        }
-        if (regulars.includes(comingGuest)) {
-            regulars.splice(regulars.indexOf(comingGuest), 1);
+
+
+
+    for (let name of input) {
+        if (regulars.includes(name)) {
+            let idx = regulars.indexOf(name)
+            regulars.splice(idx, 1)
+        } else if (vips.includes(name)) {
+            let idx = vips.indexOf(name)
+            vips.splice(idx, 1)
         }
     }
-    console.log(vips.concat(regulars).length);
-    vips.concat(regulars).forEach(guest => {
-        console.log(guest);
-    });
+
+    let resultArr = vips.concat(regulars)
+
+    console.log(resultArr.length)
+    console.log(resultArr.join('\n'))
+
 }
-partyTime(['m8rfQBvl',
-    'fc1oZCE0',
-    'UgffRkOn',
-    '7ugX7bm0',
-    '9CQBGUeJ',
-    '2FQZT3uC',
-    'dziNz78I',
-    'mdSGyQCJ',
-    'LjcVpmDL',
-    'fPXNHpm1',
-    'HTTbwRmM',
-    'B5yTkMQi',
-    '8N0FThqG',
-    'xys2FYzn',
-    'MDzcM9ZK',
+partyTime(['7IK9Yo0h',
+    '9NoBUajQ',
+    'Ce8vwPmE',
+    'SVQXQCbc',
+    'tSzE5t0p',
     'PARTY',
-    '2FQZT3uC',
-    'dziNz78I',
-    'mdSGyQCJ',
-    'LjcVpmDL',
-    'fPXNHpm1',
-    'HTTbwRmM',
-    'B5yTkMQi',
-    '8N0FThqG',
-    'm8rfQBvl',
-    'fc1oZCE0',
-    'UgffRkOn',
-    '7ugX7bm0',
-    '9CQBGUeJ'
-]
-)
+    '9NoBUajQ',
+    'Ce8vwPmE',
+    'SVQXQCbc'
+])

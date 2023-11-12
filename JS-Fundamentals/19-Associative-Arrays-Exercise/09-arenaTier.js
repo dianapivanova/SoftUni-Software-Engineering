@@ -1,79 +1,88 @@
 function arenaTier(arr) {
-    let list = {}
-    for (let el of arr) {
-        if (el === 'Ave Cesar') {
-            break
-        }
-        else if (el.includes(' -> ')) {
-            add(el)
-        }
-        else if (el.includes(' vs ')) {
-            battle(el)
-        }
-    }
-    let tier = Object.entries(list)
-    let array = []
-    for (let elem of tier) {
-        let name = elem[0]
-        let pow = Object.entries(elem[1])
-        let sum = pow.map(a => a[1]).reduce((a, b) => a + b)
-        array.push([name, pow, sum])
-    }
-    array.sort((a, b) => b[2] - a[2] || a[0].localeCompare(b[0]))
-    for (let part of array) {
-        console.log(`${part[0]}: ${part[2]} skill`);
-        part[1]
-            .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
-            .map(x => console.log(`- ${x[0]} <!> ${x[1]}`))
-    }
+    let arena = {}
+    let command = arr.shift()
 
-    function add(el) {
-        let [gladiator, skill, power] = el.split(' -> ')
-        power = Number(power)
-        if (!list.hasOwnProperty(gladiator)) {
-            list[gladiator] = {}
-            list[gladiator][skill] = power
-        }
-        else {
-            if (!list[gladiator].hasOwnProperty(skill)) {
-                list[gladiator][skill] = power
-            }
-            else {
-                let oldPow = list[gladiator][skill]
-                if (power > oldPow) {
-                    list[gladiator][skill] = power
+    while (command !== "Ave Cesar" && command !== undefined) {
+
+        if (command.includes(' -> ')) {
+            let tokens = command.split(' -> ')
+            let name = tokens[0]
+            let technique = tokens[1]
+            let skill = Number(tokens[2])
+
+            if (!arena.hasOwnProperty(name)) {
+                arena[name] = {}
+                arena[name][technique] = skill
+            } else {
+                if (!arena[name].hasOwnProperty(technique) || arena[name][technique] < skill) {
+                    arena[name][technique] = skill
                 }
             }
-        }
-    }
-    function battle(el) {
-        let [gladiatorA, gladiatorB] = el.split(' vs ')
-        if (list.hasOwnProperty(gladiatorA) && list.hasOwnProperty(gladiatorB)) {
-            let skillA = list[gladiatorA]
-            let skillB = list[gladiatorB]
-            for (let elA in skillA) {
-                for (let elB in skillB) {
-                    if (elA === elB) {
-                        if (skillA[elA] > skillB[elB]) {
-                            delete list[gladiatorB]
-                        }
-                        else if (skillA[elA] < skillB[elB]) {
-                            delete list[gladiatorA]
+        } else {
+            let [nameA, nameB] = command.split(' vs ')
+            if (arena.hasOwnProperty(nameA) && arena.hasOwnProperty(nameB)) {
+                let entriesA = Object.entries(arena[nameA])
+                let entriesB = Object.entries(arena[nameB])
+                for (let [technique, skill] of entriesA) {
+                    for (let [technique1, skill1] of entriesB) {
+                        if (technique == technique1) {
+                            if (skill > skill1) {
+                                delete arena[nameB]
+                            } else {
+                                delete arena[nameA]
+                            }
+                        } else {
+                            continue;
                         }
                     }
                 }
+            } else {
+                command = arr.shift()
+                continue;
             }
+        }
+
+        command = arr.shift()
+
+    }
+
+
+    // Calculate total skill for each gladiator
+    let gladiatorsWithTotalSkill = Object.keys(arena).map((gladiator) => {
+        let totalSkill = Object.values(arena[gladiator]).reduce((acc, skill) => acc + skill, 0);
+        return { name: gladiator, totalSkill: totalSkill, techniques: arena[gladiator] };
+    });
+
+    // Sort gladiators by total skill (descending) and then by name (ascending)
+    gladiatorsWithTotalSkill.sort((a, b) => {
+        if (b.totalSkill !== a.totalSkill) {
+            return b.totalSkill - a.totalSkill;
+        } else {
+            return a.name.localeCompare(b.name);
+        }
+    });
+
+    // Print the sorted gladiators and their techniques
+    for (let gladiator of gladiatorsWithTotalSkill) {
+        console.log(`${gladiator.name}: ${gladiator.totalSkill} skill`);
+        let sortedTechniques = Object.entries(gladiator.techniques)
+            .filter(([key]) => key !== 'totalSkill')
+            .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+
+        for (let [technique, skill] of sortedTechniques) {
+            console.log(`- ${technique} <!> ${skill}`);
         }
     }
 }
+
 arenaTier([
     'Peter -> Duck -> 400',
     'Julius -> Shield -> 150',
     'Gladius -> Heal -> 200',
     'Gladius -> Support -> 250',
     'Gladius -> Shield -> 250',
-    'Peter vs Gladius',
     'Gladius vs Julius',
+    'Peter vs Gladius',
     'Gladius vs Maximilian',
     'Ave Cesar'
 ]
