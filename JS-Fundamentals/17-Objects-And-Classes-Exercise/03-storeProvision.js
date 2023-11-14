@@ -5,7 +5,11 @@ function storeProvision(stock, orderedProducts) {
         let product = stock[i]
         let qty = Number(stock[i + 1])
 
-        products[product] = qty // creating a new key in the empty object {products}, qty is its value
+        if (product in products) {
+            products[product] += qty
+        } else {
+            products[product] = qty
+        }
     }
 
     for (let j = 0; j < orderedProducts.length; j += 2) {
@@ -19,15 +23,9 @@ function storeProvision(stock, orderedProducts) {
         }
     }
 
-    let kvp = Object.entries(products)
-    for (let tuple of kvp) {
-        let product = tuple[0]
-        let qty = tuple[1]
-
-        console.log(`${product} -> ${qty}`)
+    for (let tokens of Object.entries(products)) {
+        console.log(tokens.join(' -> '))
     }
-
-
 }
 storeProvision([
     'Chips', '5', 'CocaCola', '9', 'Bananas', '14', 'Pasta', '4', 'Beer', '2'],

@@ -1,21 +1,18 @@
 function inventory(array) {
 
-    let heroArr = []
+    let resutArr = []
 
-    for (let elements of array) {
-
-        let [hero, level, items] = elements.split(' / ')
+    for (let command of array) {
+        let [hero, level, items] = command.split(' / ')
         level = Number(level)
-
-        let heroObj = { hero, level, items }
-        heroArr.push(heroObj)
-
+        let obj = { hero, level, items }
+        resutArr.push(obj)
     }
 
-    heroArr.sort((a, b) => (a.level - b.level))
-
-    for (let heroes of heroArr) {
-        console.log(`Hero: ${heroes.hero}\nlevel => ${heroes.level}\nitems => ${heroes.items}`)
+    for (let heroes of resutArr.sort((a, b) => (a.level) - (b.level))) {
+        console.log(`Hero: ${heroes.hero}`)
+        console.log(`level => ${heroes.level}`)
+        console.log(`items => ${heroes.items}`)
     }
 
 }

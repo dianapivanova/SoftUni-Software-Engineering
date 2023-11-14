@@ -4,10 +4,8 @@ function towns(array) {
         latitude = Number(latitude).toFixed(2)
         longitude = Number(longitude).toFixed(2)
 
-        let townData = { town, latitude, longitude }
-
-        console.log(townData)
-
+        let townObj = { town, latitude, longitude }
+        console.log(townObj)
     }
 
 }

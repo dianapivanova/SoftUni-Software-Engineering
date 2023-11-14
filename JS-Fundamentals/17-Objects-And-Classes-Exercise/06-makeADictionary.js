@@ -9,9 +9,11 @@ function dictionary(array) {
     sortedKeys.sort((a, b) => a.localeCompare(b));
 
     for (let term of sortedKeys) {
-        console.log(`Term: ${term} => Definition: ${dict[term]}`);
+        let definition = dict[term];
+        console.log(`Term: ${term} => Definition: ${definition}`);
     }
 }
+
 dictionary([
     '{"Coffee":"A hot drink made from the roasted and ground seeds (coffee beans) of a tropical shrub."}',
     '{"Bus":"A large motor vehicle carrying passengers by road, typically one serving the public on a fixed route and for a fare."}',

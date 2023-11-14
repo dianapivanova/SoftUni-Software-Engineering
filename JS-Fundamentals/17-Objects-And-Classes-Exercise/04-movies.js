@@ -3,29 +3,21 @@ function movies(array) {
 
     for (let command of array) {
         if (command.includes('addMovie')) {
-            let movieName = command.split('addMovie ')[1]
-            let movieObj = {}
-            movieObj['name'] = movieName
+            let movie = command.split('addMovie ')[1]
+            let movieObj = { name: movie }
             movies.push(movieObj)
-
         } else if (command.includes('directedBy')) {
-            let [movieName, director] = command.split(' directedBy ')
-
-            let movie = movies.find(movie => movie.name == movieName)
-
-            if (movie) {
-                movie.director = director
+            let [movie, director] = command.split(' directedBy ')
+            let movieName = movies.find(movieName => movieName.name == movie)
+            if (movieName) {
+                movieName.director = director
             }
-
-        } else if (command.includes('onDate')) {
-            let [movieName, date] = command.split(' onDate ')
-
-            let movie = movies.find(movie => movie.name == movieName)
-
-            if (movie) {
-                movie.date = date
+        } else if (command.includes(' onDate ')) {
+            let [movie, date] = command.split(' onDate ')
+            let movieName = movies.find(movieName => movieName.name == movie)
+            if (movieName) {
+                movieName.date = date
             }
-
         }
 
     }
@@ -35,7 +27,9 @@ function movies(array) {
             console.log(JSON.stringify(movie))
         }
     }
+
 }
+
 movies([
     'addMovie Fast and Furious',
     'addMovie Godfather',
@@ -45,5 +39,4 @@ movies([
     'Fast and Furious onDate 30.07.2018',
     'Batman onDate 01.08.2018',
     'Fast and Furious directedBy Rob Cohen'
-]
-)
+])

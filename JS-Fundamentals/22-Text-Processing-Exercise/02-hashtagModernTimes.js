@@ -1,22 +1,21 @@
 function hashtagReplacement(sentence) {
-    let array = sentence.split(' ');
+    let sentenceArr = sentence.split(' ')
+    let resultArr = []
 
-    for (let i = 0; i < array.length; i++) {
-        let word = array[i].toUpperCase();
-
-        if (word.startsWith("#") && word.length > 1 && isOnlyLetters(word.slice(1))) {
-            console.log(array[i].slice(1));
-        }
-    }
-
-
-    function isOnlyLetters(str) {
-        for (let char of str) {
-            if (!(char >= 'A' && char <= 'Z')) {
-                return false;
+    for (let word of sentenceArr) {
+        let isValid = false
+        if (word.startsWith('#') && word.length > 1) {
+            let specialWord = word.substring(1)
+            if (/^[A-Za-z]+$/.test(specialWord)) {
+                isValid = true
+                resultArr.push(specialWord)
             }
         }
-        return true;
+    }
+
+    // Print the special words on new lines
+    for (let specialWord of resultArr) {
+        console.log(specialWord)
     }
 }
-hashtagReplacement('Nowadays everyone uses # to tag a #speci@l word in #socialMedia')
+hashtagReplacement('Nowadays everyone uses # to tag a #special word in #socialMedia')
