@@ -5,7 +5,7 @@ function matchDates([dateArr]) {
 
     while (match !== null) {
 
-        let { day, month, year } = match.groups
+        let { day, month, year } = match.groups //  the result of a match contains a groups property that is an object with named capturing groups.
         console.log(`Day: ${day}, Month: ${month}, Year: ${year}`)
 
         match = pattern.exec(dateArr)
