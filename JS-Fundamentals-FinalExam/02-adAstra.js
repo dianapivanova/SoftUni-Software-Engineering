@@ -3,14 +3,16 @@ function adAstra(array) {
     let totalCalories = 0;
     let foodArr = [];
 
-    let matches = array[0].matchAll(pattern);
+    let match = pattern.exec(array)
 
-    for (let match of matches) {
+    while (match !== null) {
         if (match.groups && match.groups.item && match.groups.date && match.groups.calories) {
             let { item, date, calories } = match.groups;
             let foodObj = { item: item, date: date, calories: calories };
             foodArr.push(foodObj);
             totalCalories += Number(calories);
+
+            match = pattern.exec(array)
         }
     }
 
