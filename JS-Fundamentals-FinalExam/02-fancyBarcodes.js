@@ -1,19 +1,23 @@
 function solve(input) {
+    let barcodeNum = Number(input.shift())
+    let pattern = /@#+[A-Z]([A-Za-z0-9]{4,})[A-Z]@#+/
 
-    let numberOfbarcode = Number(input.shift());
-    let pattern = /^(?<start>@#+)(?<barcode>[A-Z][A-Za-z0-9]{4,}[A-Z])(?<end>@#+)$/
+
     for (let line of input) {
-        let code = '';
-        let match = pattern.exec(line);
+        let group = ''
+        let match = pattern.exec(line)
         if (match) {
-            for (let el of match.groups.barcode) {
-                if (el.charCodeAt() >= 48 && el.charCodeAt() <= 57) {
-                    code += el;
-                }
+            let barcode = match[1].split('')
+            let numbers = barcode.filter(x => !isNaN(Number(x)))
+
+            if (numbers.length > 0) {
+                group = numbers.join('')
+                console.log(`Product group: ${group}`)
+            } else {
+                console.log(`Product group: 00`)
             }
-            code == '' ? console.log(`Product group: 00`) : console.log(`Product group: ${code}`);
         } else {
-            console.log(`Invalid barcode`);
+            console.log(`Invalid barcode`)
         }
     }
 }
