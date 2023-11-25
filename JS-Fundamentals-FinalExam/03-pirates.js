@@ -22,6 +22,8 @@ function pirates(array) {
         command = array.shift()
     }
 
+    console.log(cities)
+
     command = array.shift()
 
     while (command !== "End") {

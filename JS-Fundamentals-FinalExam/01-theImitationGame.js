@@ -1,32 +1,37 @@
 function imitationGame(array) {
+    let message = array.shift()
 
-    let encryptedMessage = array.shift()
     let command = array.shift()
 
     while (command !== 'Decode') {
         let tokens = command.split('|')
 
-        if (command.includes('ChangeAll')) {
-            let substring = tokens[1]
+        if (tokens[0] == 'ChangeAll') {
+            let substr = tokens[1]
             let replacement = tokens[2]
-            encryptedMessage = encryptedMessage.split(substring).join(replacement)
-        } else if (command.includes('Insert')) {
+
+            message = message.split(substr).join(replacement)
+
+        } else if (tokens[0] == 'Insert') {
             let idx = Number(tokens[1])
             let value = tokens[2]
-            encryptedMessageArr = encryptedMessage.split('')
-            encryptedMessageArr.splice(idx, 0, value)
-            encryptedMessage = encryptedMessageArr.join('')
-        } else if (command.includes('Move')) {
-            lettersNum = Number(tokens[1])
-            let substr = encryptedMessage.substring(0, lettersNum)
-            encryptedMessage = encryptedMessage.replace(substr, "")
-            encryptedMessage = encryptedMessage.concat(substr)
+
+            let firstPart = message.slice(0, idx)
+            let secondPart = message.slice(idx)
+
+            message = firstPart + value + secondPart
+
+        } else if (tokens[0] == 'Move') {
+            let lettersNum = Number(tokens[1])
+            let removedPart = message.slice(0, lettersNum)
+            message = message.replace(removedPart, '')
+            message = message + removedPart
         }
 
         command = array.shift()
     }
 
-    console.log(`The decrypted message is: ${encryptedMessage}`)
+    console.log(`The decrypted message is: ${message}`)
 }
 imitationGame([
     'zzHe',

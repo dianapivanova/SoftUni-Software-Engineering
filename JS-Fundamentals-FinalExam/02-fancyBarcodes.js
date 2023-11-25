@@ -5,7 +5,7 @@ function solve(input) {
 
     for (let line of input) {
         let group = ''
-        let match = pattern.exec(line)
+        let match = pattern.exec(line) // if we dd the flag, we will need to update the index anytime after this row to pattern.lastIndex = 0; otherwise its match will be staying on the last match.
         if (match) {
             let barcode = match[1].split('')
             let numbers = barcode.filter(x => !isNaN(Number(x)))
