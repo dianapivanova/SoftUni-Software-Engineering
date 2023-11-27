@@ -3,79 +3,82 @@ function nfs3(array) {
     let cars = []
 
     for (let i = 0; i < carNum; i++) {
-        let command = array.shift()
-        let [model, distance, fuel] = command.split('|')
-        distance = Number(distance)
+        let [model, mileage, fuel] = array.shift().split('|')
+        mileage = Number(mileage)
         fuel = Number(fuel)
-        let car = { model: model, distance: distance, fuel: fuel }
-
-        cars.push(car)
+        let carObj = { model, mileage, fuel }
+        cars.push(carObj)
     }
 
     let command = array.shift()
 
     while (command !== 'Stop') {
-        if (command.includes('Drive')) {
-            let tokens = command.split(' : ')
-            let car = tokens[1]
-            let distance = Number(tokens[2])
-            let fuel = Number(tokens[3])
+        let tokens = command.split(' : ')
+        let action = tokens[0]
 
-            let lookedCar = cars.find(x => x.model == car)
+        if (action == 'Drive') {
+            let driveModel = tokens[1]
+            let driveDistance = Number(tokens[2])
+            let driveFuel = Number(tokens[3])
 
-            if (lookedCar.fuel >= fuel) {
-                lookedCar.fuel -= fuel
-                lookedCar.distance += distance
-                console.log(`${car} driven for ${distance} kilometers. ${fuel} liters of fuel consumed.`)
+            let findCar = cars.find(x => x.model == driveModel)
+
+
+            if (findCar.fuel >= driveFuel) {
+                findCar.mileage += driveDistance
+                findCar.fuel -= driveFuel
+                console.log(`${driveModel} driven for ${driveDistance} kilometers. ${driveFuel} liters of fuel consumed.`)
             } else {
-                console.log('Not enough fuel to make that ride')
+                console.log(`Not enough fuel to make that ride`)
             }
 
-            if (lookedCar.distance >= 100000) {
-                console.log(`Time to sell the ${car}!`)
-                let idx = cars.findIndex(x => x.model == car)
+            if (findCar.mileage >= 100000) {
+                let idx = cars.indexOf(findCar)
                 cars.splice(idx, 1)
+                console.log(`Time to sell the ${driveModel}!`)
             }
 
-        } else if (command.includes('Refuel')) {
-            let tokens = command.split(' : ')
-            let car = tokens[1]
-            let fuel = Number(tokens[2])
+        } else if (action == 'Refuel') {
+            let refuelCar = tokens[1]
+            let refueledFuel = Number(tokens[2])
 
-            let lookedCar = cars.find(x => x.model == car)
+            let findCar = cars.find(x => x.model == refuelCar)
 
-            let refilledFuel = 0
 
-            if (lookedCar.fuel + fuel <= 75) {
-                refilledFuel = fuel
-                lookedCar.fuel += refilledFuel
+            let refueling = 0
+            if (findCar.fuel + refueledFuel >= 75) {
+                refueling = 75 - findCar.fuel
             } else {
-                refilledFuel = 75 - lookedCar.fuel
-                lookedCar.fuel += refilledFuel
+                refueling = refueledFuel
             }
 
-            console.log(`${car} refueled with ${refilledFuel} liters`)
+            findCar.fuel += refueling
+            console.log(`${refuelCar} refueled with ${refueling} liters`)
 
-        } else if (command.includes('Revert')) {
-            let tokens = command.split(' : ')
-            let car = tokens[1]
-            let kilometres = Number(tokens[2])
 
-            let lookedCar = cars.find(x => x.model == car)
+        } else if (action == 'Revert') {
+            let carRevert = tokens[1]
+            let km = Number(tokens[2])
 
-            lookedCar.distance -= kilometres
+            let findCar = cars.find(x => x.model == carRevert)
 
-            if (lookedCar.distance >= 10000) {
-                console.log(`${car} mileage decreased by ${kilometres} kilometers`)
+
+            findCar.mileage -= km
+            if (findCar.mileage < 10000) {
+                findCar.mileage = 10000
             } else {
-                lookedCar.distance = 10000
+                console.log(`${carRevert} mileage decreased by ${km} kilometers`)
             }
+
         }
 
         command = array.shift()
     }
 
-    cars.forEach(x => console.log(`${x.model} -> Mileage: ${x.distance} kms, Fuel in the tank: ${x.fuel} lt.`))
+    for (let row of cars) {
+        console.log(`${row.model} -> Mileage: ${row.mileage} kms, Fuel in the tank: ${row.fuel} lt.`)
+
+    }
 }
 nfs3([
     '4',

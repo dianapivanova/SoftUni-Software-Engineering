@@ -1,73 +1,76 @@
 function pirates(array) {
     let command = array.shift()
-
     let cities = []
 
     while (command !== 'Sail') {
-        let [city, population, gold] = command.split('||')
+        let [town, population, gold] = command.split('||')
         population = Number(population)
         gold = Number(gold)
-        let cityObj = { city: city, population: population, gold: gold }
 
-        let lookedCity = cities.find(x => x.city == city)
+        let findCity = cities.find(x => x.town == town)
 
-        if (lookedCity) {
-            lookedCity.city = cityObj.city
-            lookedCity.population += cityObj.population
-            lookedCity.gold += cityObj.gold
+        if (findCity) {
+            findCity.population += population
+            findCity.gold += gold
         } else {
-            cities.push(cityObj)
+            let obj = { town, population, gold }
+            cities.push(obj)
         }
 
         command = array.shift()
     }
 
-    console.log(cities)
-
     command = array.shift()
 
-    while (command !== "End") {
-        if (command.includes('Plunder')) {
-            let [action, town, killedPeople, gold] = command.split('=>')
-            killedPeople = Number(killedPeople)
-            gold = Number(gold)
+    while (command !== 'End') {
+        let tokens = command.split('=>')
+        let action = tokens[0]
 
-            let findCity = cities.find(x => x.city == town)
+        if (action == 'Plunder') {
+            let city = tokens[1]
+            let people = Number(tokens[2])
+            let stolenGold = Number(tokens[3])
 
-            findCity.gold -= gold
-            findCity.population -= killedPeople
-            console.log(`${town} plundered! ${gold} gold stolen, ${killedPeople} citizens killed.`)
+            let findCity = cities.find(x => x.town == city)
 
-            if (findCity.population <= 0 || findCity.gold <= 0) {
-                let idx = cities.findIndex(x => x.city == town)
+            findCity.population -= people
+            findCity.gold -= stolenGold
+
+            console.log(`${city} plundered! ${stolenGold} gold stolen, ${people} citizens killed.`)
+
+            if (findCity.gold <= 0 || findCity.population <= 0) {
+                let idx = cities.indexOf(findCity)
                 cities.splice(idx, 1)
-                console.log(`${town} has been wiped off the map!`)
+                console.log(`${city} has been wiped off the map!`)
             }
 
-        } else if (command.includes('Prosper')) {
-            let [action, town, gold] = command.split('=>')
-            gold = Number(gold)
 
-            if (gold < 0) {
-                console.log(`Gold added cannot be a negative number!`)
+        } else if (action == 'Prosper') {
+            let city = tokens[1]
+            let treasure = Number(tokens[2])
+
+            let findCity = cities.find(x => x.town == city)
+
+            if (treasure < 0) {
+                console.log(`Gold added cannot be a negative number!`);
+                command = array.shift(); continue;
             } else {
-                let findCity = cities.find(x => x.city == town)
-                findCity.gold += gold
-                console.log(`${gold} gold added to the city treasury. ${town} now has ${findCity.gold} gold.`)
+                findCity.gold += treasure
             }
+
+            console.log(`${treasure} gold added to the city treasury. ${city} now has ${findCity.gold} gold.`)
         }
 
         command = array.shift()
     }
 
     if (cities.length == 0) {
-        console.log('Ahoy, Captain! All targets have been plundered and destroyed!')
+        console.log('Ahoy, Captain! All targets have been plundered and destroyed!"')
     } else {
         console.log(`Ahoy, Captain! There are ${cities.length} wealthy settlements to go to:`)
-        for (let city of cities) {
-            console.log(`${city.city} -> Population: ${city.population} citizens, Gold: ${city.gold} kg`)
-        }
+        cities.forEach(x => (console.log(`${x.town} -> Population: ${x.population} citizens, Gold: ${x.gold} kg`)))
     }
+
 }
 pirates(["Nassau||95000||1000",
     "San Juan||930000||1250",
