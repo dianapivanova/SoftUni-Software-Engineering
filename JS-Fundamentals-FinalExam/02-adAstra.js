@@ -1,28 +1,26 @@
 function adAstra(array) {
-    let pattern = /([#|\|])(?<item>[A-Za-z ]+)\1(?<date>[0-9]{2}\/[0-9]{2}\/[0-9]{2})\1(?<calories>[0-9]+)\1/g;
-    let totalCalories = 0;
-    let foodArr = [];
+    let pattern = /([#|])(?<product>[A-Za-z\s]+)\1(?<date>\d{2}\/\d{2}\/\d{2})\1(?<kcal>\d{1,5})\1/g
+    let totalKcal = 0
 
-    let match = pattern.exec(array)
+    let str = array.shift()
+    let matches = str.matchAll(pattern)
+    let allProducts = []
 
-    while (match !== null) {
-        if (match.groups && match.groups.item && match.groups.date && match.groups.calories) {
-            let { item, date, calories } = match.groups;
-            let foodObj = { item: item, date: date, calories: calories };
-            foodArr.push(foodObj);
-            totalCalories += Number(calories);
-
-            match = pattern.exec(array)
+    if (matches) {
+        for (let match of matches) {
+            let { product, date, kcal } = match.groups
+            kcal = Number(kcal)
+            totalKcal += kcal
+            let obj = { product, date, kcal }
+            allProducts.push(obj)
         }
     }
 
-    let days = totalCalories / 2000;
-    console.log(`You have food to last you for: ${Math.floor(days)} days!`);
 
-    for (let el of foodArr) {
-        let [item, date, calories] = Object.entries(el)
-        console.log(`Item: ${item[1]}, Best before: ${date[1]}, Nutrition: ${calories[1]}`)
 
+    console.log(`You have food to last you for: ${Math.floor(totalKcal / 2000)} days!`)
+    for (let obj of allProducts) {
+        console.log(`Item: ${obj.product}, Best before: ${obj.date}, Nutrition: ${obj.kcal}`)
     }
 }
 

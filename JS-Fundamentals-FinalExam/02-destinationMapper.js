@@ -1,22 +1,17 @@
 function destinationMapper(str) {
     let travelPoints = 0
     let destinations = []
-    let pattern = /(=|\/)(?<city>[A-Z][A-Za-z]{2,})\1/g
+    let pattern = /(=|\/)(?<destination>[A-Z][A-Za-z]{2,})\1/gm
 
-    let match = pattern.exec(str)
+    let matches = str.matchAll(pattern)
 
-    while (match !== null) {
-        if (match.groups && match.groups.city) {
-            let { city } = match.groups
-            destinations.push(city)
-            travelPoints += city.length
-        }
-
-        match = pattern.exec(str)
+    for (let match of matches) {
+        let { destination } = match.groups
+        travelPoints += destination.length
+        destinations.push(destination)
     }
 
-    console.log(`Destinations: ` + destinations.join(', '))
+    console.log(`Destinations: ${destinations.join(', ')}`)
     console.log(`Travel Points: ${travelPoints}`)
-
 }
-destinationMapper("=HAadddddd=/Cyprus/=Invalid/invalid==i5valid=/I5valid/=i=")
+destinationMapper("=Hawai=/Cyprus/=Invalid/invalid==i5valid=/I5valid/=i=")

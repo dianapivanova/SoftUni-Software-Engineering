@@ -1,48 +1,51 @@
-function worldTour(array) {
-    let stops = array.shift()
+function worldTour(arr) {
+    let stops = arr.shift();
+    let command = arr.shift();
 
-    let command = array.shift()
-
-    while (command !== 'Travel') {
-        let tokens = command.split(':')
-        let action = tokens[0]
+    while (command != 'Travel') {
+        let tokens = command.split(':');
+        let action = tokens.shift();
 
         if (action == 'Add Stop') {
-            let idx = Number(tokens[1])
-            let str = tokens[2]
-
-            if (idx >= 0 && idx < stops.length) {
-                let firstPart = stops.slice(0, idx)
-                let secondPart = stops.slice(idx)
-                stops = firstPart + str + secondPart
+            let index = Number(tokens[0]);
+            let string = tokens[1];
+            if (index >= 0 && index < stops.length) {
+                stops = stops.split('');
+                stops.splice(index, 0, string);
+                stops = stops.join('');
+                console.log(stops);
             }
-            console.log(stops)
         } else if (action == 'Remove Stop') {
-            let startIdx = Number(tokens[1])
-            let endIdx = Number(tokens[2])
+            let startIndex = Number(tokens[0]);
+            let endIndex = Number(tokens[1]);
 
-            if (startIdx >= 0 && startIdx < stops.length && endIdx >= 0 && endIdx < stops.length) {
-                let removedStr = stops.slice(startIdx, endIdx + 1)
-                stops = stops.replace(removedStr, '')
-            }
-            console.log(stops)
-        } else if (action == 'Switch') {
-            let oldStr = tokens[1]
-            let newStr = tokens[2]
+            if ((startIndex >= 0 && startIndex < stops.length) && (endIndex >= 0 && endIndex < stops.length)) {
+                stops = stops.split('');
+                stops.splice(startIndex, endIndex - startIndex + 1);
+                stops = stops.join('');
 
-            if (stops.includes(oldStr)) {
-                stops = stops.split(oldStr).join(newStr)
             }
-            console.log(stops)
+            console.log(stops);
+        } else {
+            let oldString = tokens[0];
+            let newString = tokens[1];
+
+            if (stops.includes(oldString)) {
+                stops = stops.split(oldString).join(newString)
+            }
+            console.log(stops);
         }
 
-        command = array.shift()
+        command = arr.shift();
     }
-    console.log(`Ready for world tour! Planned stops: ${stops}`)
+    console.log(`Ready for world tour! Planned stops: ${stops}`);
+
 }
-worldTour(["Hawai::Cyprys-Greece",
-    "Add Stop:7:Rome",
-    "Remove Stop:11:16",
-    "Switch:Hawai:Bulgaria",
+
+worldTour(["Albania:Bulgaria:Cyprus:Deuchland",
+    "Add Stop:3:Nigeria",
+    "Remove Stop:4:8",
+    "Switch:Albania: Azərbaycan",
     "Travel"])
+
 
