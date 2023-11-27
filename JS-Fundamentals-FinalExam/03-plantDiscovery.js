@@ -1,23 +1,21 @@
 function plantDiscovery(array) {
     let plantNum = Number(array.shift())
-    let plantArr = []
+    let plants = []
 
     for (let i = 0; i < plantNum; i++) {
-        let [plantName, rarity] = array.shift().split('<->')
-        let plantObj = { name: plantName, rarity: rarity }
-        plantArr.push(plantObj)
+        let [plant, rarity] = array.shift().split('<->')
+        let objPlant = { plant, rarity }
+        plants.push(objPlant)
     }
 
     let command = array.shift()
 
     while (command !== 'Exhibition') {
+        let [action, other] = command.split(': ')
 
-        let [task, rest] = command.split(': ')
-
-        if (task == 'Rate') {
-            let [name, rating] = rest.split(' - ');
-
-            let findName = plantArr.find(x => x.name == name)
+        if (action == "Rate") {
+            let [name, rating] = other.split(' - ')
+            let findName = plants.find(x => x.plant === name)
 
             if (findName) {
                 if (findName.rating) {
@@ -26,39 +24,39 @@ function plantDiscovery(array) {
                     findName.rating = [Number(rating)]
                 }
             } else {
-                console.log('error')
+                console.log(`error`)
             }
-        } else if (task == 'Update') {
-            let [name, newRarity] = rest.split(' - ');
-            let findName = plantArr.find(x => x.name == name)
+        } else if (action == "Update") {
+            let [name, updateRarity] = other.split(' - ')
+            let findName = plants.find(x => x.plant === name)
+
             if (findName) {
-                findName.rarity = newRarity
+                findName.rarity = updateRarity
             } else {
-                console.log('error')
+                console.log(`error`)
             }
 
-        } else if (task == 'Reset') {
-            let name = rest
-            let findName = plantArr.find(x => x.name == name)
+        } else if (action == 'Reset') {
+            let name = other
+            let findName = plants.find(x => x.plant === name)
+
             if (findName) {
                 delete findName.rating
             } else {
-                console.log('error')
+                console.log(`error`)
             }
         }
 
         command = array.shift()
     }
 
-
-    console.log('Plants for the exhibition:')
-    for (let object of plantArr) {
+    console.log(`Plants for the exhibition:`)
+    for (let obj of plants) {
         let avgRating = 0
-
-        if (object.rating) {
-            avgRating = (object.rating.reduce((acc, value) => (acc + value), 0)) / object.rating.length
+        if (obj.rating) {
+            avgRating = (obj.rating.reduce((acc, value) => acc + value)) / obj.rating.length
         }
-        console.log(`- ${object.name}; Rarity: ${object.rarity}; Rating: ${(avgRating.toFixed(2))}`)
+        console.log(`- ${obj.plant}; Rarity: ${obj.rarity}; Rating: ${avgRating.toFixed(2)}`)
     }
 }
 plantDiscovery((["3",

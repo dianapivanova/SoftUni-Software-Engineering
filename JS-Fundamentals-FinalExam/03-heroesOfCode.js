@@ -3,75 +3,76 @@ function heroesOfCode(array) {
     let heroes = []
 
     for (let i = 0; i < heroNum; i++) {
-        let tokens = array.shift().split(' ')
-        let heroName = tokens[0]
-        let hp = Number(tokens[1])
-        let mp = Number(tokens[2])
-
-        let heroObj = { heroName: heroName, hp: hp, mp: mp }
-
+        let [heroName, hp, mp] = array.shift().split(' ')
+        hp = Number(hp)
+        mp = Number(mp)
+        let heroObj = { heroName, hp, mp }
         heroes.push(heroObj)
     }
 
     let command = array.shift()
 
     while (command !== 'End') {
-        if (command.includes('CastSpell')) {
-            let [action, hero, mp, spellname] = command.split(' - ')
-            mp = Number(mp)
+        let tokens = command.split(' - ')
+        let action = tokens[0]
+        let hero = tokens[1]
+
+        if (action == 'CastSpell') {
+            let mpNeeded = Number(tokens[2])
+            let spellName = tokens[3]
 
             let findHero = heroes.find(x => x.heroName == hero)
-
-            if (findHero.mp >= mp) {
-                findHero.mp -= mp
-                console.log(`${hero} has successfully cast ${spellname} and now has ${findHero.mp} MP!`)
+            if (findHero.mp >= mpNeeded) {
+                findHero.mp -= mpNeeded
+                console.log(`${hero} has successfully cast ${spellName} and now has ${findHero.mp} MP!`)
             } else {
-                console.log(`${hero} does not have enough MP to cast ${spellname}!`)
+                console.log(`${hero} does not have enough MP to cast ${spellName}!`)
             }
-        } else if (command.includes('TakeDamage')) {
-            let [action, hero, damage, attacker] = command.split(' - ')
-            damage = Number(damage)
+
+        } else if (action == 'TakeDamage') {
+            let damage = Number(tokens[2])
+            let attacker = tokens[3]
             let findHero = heroes.find(x => x.heroName == hero)
 
             findHero.hp -= damage
-
             if (findHero.hp > 0) {
                 console.log(`${hero} was hit for ${damage} HP by ${attacker} and now has ${findHero.hp} HP left!`)
             } else {
                 console.log(`${hero} has been killed by ${attacker}!`)
-                let idx = heroes.findIndex(x => x.heroName == hero)
+                let idx = heroes.indexOf(findHero)
                 heroes.splice(idx, 1)
             }
-
-        } else if (command.includes('Recharge')) {
-            let [action, hero, amount] = command.split(' - ')
-            amount = Number(amount)
+        } else if (action == 'Recharge') {
+            let amount = Number(tokens[2])
             let findHero = heroes.find(x => x.heroName == hero)
-            let amountRecovered = 0
 
-            if (findHero.mp + amount <= 200) {
-                amountRecovered = amount
-                findHero.mp += amount
+            let recovered = 0
+
+            if (findHero.mp + amount > 200) {
+                recovered = 200 - findHero.mp
             } else {
-                amountRecovered = 200 - findHero.mp
-                findHero.mp = 200
+                recovered = amount
             }
-            console.log(`${hero} recharged for ${amountRecovered} MP!`)
 
-        } else if (command.includes('Heal')) {
-            let [action, hero, amount] = command.split(' - ')
-            amount = Number(amount)
+            findHero.mp += recovered
+
+            console.log(`${hero} recharged for ${recovered} MP!`)
+
+        } else if (action == 'Heal') {
+            let amount = Number(tokens[2])
             let findHero = heroes.find(x => x.heroName == hero)
-            let amountRecovered = 0
 
-            if (findHero.hp + amount <= 100) {
-                amountRecovered = amount
-                findHero.hp += amount
+            let healed = 0
+
+            if (findHero.hp + amount > 100) {
+                healed = 100 - findHero.hp
             } else {
-                amountRecovered = 100 - findHero.hp
-                findHero.hp = 100
+                healed = amount
             }
-            console.log(`${hero} healed for ${amountRecovered} HP!`)
+
+            findHero.hp += healed
+
+            console.log(`${hero} healed for ${healed} HP!`)
         }
 
         command = array.shift()
@@ -82,6 +83,7 @@ function heroesOfCode(array) {
         console.log(`  HP: ${hero.hp}`)
         console.log(`  MP: ${hero.mp}`)
     }
+
 
 }
 heroesOfCode([

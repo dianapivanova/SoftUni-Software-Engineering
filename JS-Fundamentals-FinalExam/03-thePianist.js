@@ -1,62 +1,65 @@
 function thePianist(array) {
-    let pieceCount = Number(array.shift())
-    let piecesArr = []
+    let piecesNum = Number(array.shift())
+    let pieces = []
 
-    for (let i = 0; i < pieceCount; i++) {
-        let [name, compositor, key] = array.shift().split('|')
-        let pieceObj = { name: name, compositor: compositor, key: key }
-        piecesArr.push(pieceObj)
+    for (let i = 0; i < piecesNum; i++) {
+        let [piece, composer, key] = array.shift().split('|')
+        let pieceObj = { piece, composer, key }
+        pieces.push(pieceObj)
     }
 
     let command = array.shift()
 
-    while (command !== "Stop") {
+    //Remove|{piece}":
+
+    while (command !== 'Stop') {
         let tokens = command.split('|')
+        let action = tokens[0]
 
-        if (tokens.includes('Add')) {
-            let name = tokens[1]
-            let compositor = tokens[2]
-            let key = tokens[3]
+        if (action == 'Add') {
+            let pieceAdd = tokens[1]
+            let composerAdd = tokens[2]
+            let keyAdd = tokens[3]
 
-            let existingPiece = piecesArr.find(x => x.name === name)
-
-            if (existingPiece) {
-                console.log(`${name} is already in the collection!`)
+            let pieceFind = pieces.find(x => x.piece === pieceAdd)
+            if (pieceFind) {
+                console.log(`${pieceAdd} is already in the collection!`)
             } else {
-                let pieceObj = { name: name, compositor: compositor, key: key }
-                piecesArr.push(pieceObj)
-                console.log(`${name} by ${compositor} in ${key} added to the collection!`)
+                pieces.push({ piece: pieceAdd, composer: composerAdd, key: keyAdd })
+                console.log(`${pieceAdd} by ${composerAdd} in ${keyAdd} added to the collection!`)
             }
-        } else if (tokens.includes('Remove')) {
-            let name = tokens[1]
-            let pieceIndex = piecesArr.findIndex(piece => piece.name === name)
+        } else if (action == 'Remove') {
+            let pieceRemove = tokens[1]
+            let pieceFind = pieces.find(x => x.piece === pieceRemove)
 
-            if (pieceIndex !== -1) {
-                piecesArr.splice(pieceIndex, 1)
-                console.log(`Successfully removed ${name}!`)
+            if (pieceFind) {
+                let idx = pieces.indexOf(pieceFind)
+                pieces.splice(idx, 1)
+                console.log(`Successfully removed ${pieceRemove}!`)
             } else {
-                console.log(`Invalid operation! ${name} does not exist in the collection.`)
+                console.log(`Invalid operation! ${pieceRemove} does not exist in the collection.`)
             }
-        } else if (tokens.includes('ChangeKey')) {
-            let name = tokens[1]
-            let newKey = tokens[2]
 
-            let existingPiece = piecesArr.find(piece => piece.name === name)
+        } else if (action == 'ChangeKey') {
+            let changePiece = tokens[1]
+            let changeKey = tokens[2]
+            let pieceFind = pieces.find(x => x.piece === changePiece)
 
-            if (existingPiece) {
-                existingPiece.key = newKey
-                console.log(`Changed the key of ${name} to ${newKey}!`)
+            if (pieceFind) {
+                pieceFind.key = changeKey
+                console.log(`Changed the key of ${changePiece} to ${changeKey}!`)
             } else {
-                console.log(`Invalid operation! ${name} does not exist in the collection.`)
+                console.log(`Invalid operation! ${changePiece} does not exist in the collection.`)
             }
         }
 
         command = array.shift()
     }
 
-    for (let pieceObj of piecesArr) {
-        console.log(`${pieceObj.name} -> Composer: ${pieceObj.compositor}, Key: ${pieceObj.key}`)
+    for (let row of pieces) {
+        console.log(`${row.piece} -> Composer: ${row.composer}, Key: ${row.key}`)
     }
+
 }
 thePianist([
     '3',
