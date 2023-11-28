@@ -1,27 +1,26 @@
 function orderedCatalogue(array) {
-    let products = {}
-    for (let tokens of array) {
-        let [product, price] = tokens.split(' : ')
-        price = Number(price)
-
-        products[product] = price
+    let object = {}
+    for (let item of array) {
+        let [product, price] = item.split(' : ')
+        object[product] = price
     }
 
-    let currentLetter = ""
-    for (let [product, price] of Object.entries(products).sort((a, b) => a[0].localeCompare(b[0]))) {
+    let sortedArr = Object.entries(object).sort((a, b) => a[0].localeCompare(b[0]))
 
+    let letter = ""
+    for (let entries of sortedArr) {
 
-        if (currentLetter !== product.substring(0, 1)) {
-            currentLetter = product.substring(0, 1)
-            console.log(currentLetter)
+        if (entries[0][0] !== letter) {
+            letter = entries[0][0]
+            console.log(letter)
         }
+        console.log(`${entries[0]}: ${entries[1]}`)
 
-        console.log(`  ${product}: ${price}`)
     }
 
 }
 orderedCatalogue([
-    'Appricot : 20.4',
+    'Apricot : 20.4',
     'Fridge : 1500',
     'TV : 1499',
     'Deodorant : 10',

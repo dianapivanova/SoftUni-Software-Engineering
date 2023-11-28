@@ -38,7 +38,7 @@ function pirates(array) {
 
             console.log(`${city} plundered! ${stolenGold} gold stolen, ${people} citizens killed.`)
 
-            if (findCity.gold <= 0 || findCity.population <= 0) {
+            if (findCity.gold == 0 || findCity.population == 0) {
                 let idx = cities.indexOf(findCity)
                 cities.splice(idx, 1)
                 console.log(`${city} has been wiped off the map!`)
@@ -65,7 +65,7 @@ function pirates(array) {
     }
 
     if (cities.length == 0) {
-        console.log('Ahoy, Captain! All targets have been plundered and destroyed!"')
+        console.log('Ahoy, Captain! All targets have been plundered and destroyed!')
     } else {
         console.log(`Ahoy, Captain! There are ${cities.length} wealthy settlements to go to:`)
         cities.forEach(x => (console.log(`${x.town} -> Population: ${x.population} citizens, Gold: ${x.gold} kg`)))

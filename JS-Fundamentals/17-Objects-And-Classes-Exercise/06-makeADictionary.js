@@ -2,15 +2,14 @@ function dictionary(array) {
     let dict = {};
     for (let element of array) {
         let obj = JSON.parse(element);
-        dict = Object.assign(dict, obj);
+        let [term, description] = Object.entries(obj)[0]
+        dict[term] = description
     }
 
-    let sortedKeys = Object.keys(dict);
-    sortedKeys.sort((a, b) => a.localeCompare(b));
+    let sortedArr = Object.entries(dict).sort((a, b) => (a[0].localeCompare(b[0])))
 
-    for (let term of sortedKeys) {
-        let definition = dict[term];
-        console.log(`Term: ${term} => Definition: ${definition}`);
+    for (let entries of sortedArr) {
+        console.log(`Term: ${entries[0]} => Definition: ${entries[1]}`)
     }
 }
 
@@ -20,5 +19,4 @@ dictionary([
     '{"Boiler":"A fuel-burning apparatus or container for heating water."}',
     '{"Tape":"A narrow strip of material, typically used to hold or fasten something."}',
     '{"Microphone":"An instrument for converting sound waves into electrical energy variations which may then be amplified, transmitted, or recorded."}'
-]
-)
+])

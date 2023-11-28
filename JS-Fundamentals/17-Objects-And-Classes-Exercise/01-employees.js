@@ -4,8 +4,7 @@ function employees(array) {
     for (let i = 0; i < array.length; i++) {
         let name = array[i]
         let personalNum = name.length
-        namesObj.name = name
-        namesObj.personalNum = personalNum
+        let namesObj = { name, personalNum }
 
         console.log(`Name: ${namesObj.name} -- Personal Number: ${personalNum}`)
     }
