@@ -1,33 +1,35 @@
 function lettersChange(str) {
-    let arr = str.split(' ')
-    arr = arr.filter(x => x !== "")
-
-    let sum = 0
-
-    for (let combination of arr) {
-        let firstLetter = combination[0]
-        let lastLetter = combination[combination.length - 1]
-        let num = Number(combination.slice(1, combination.length - 1))
+    let els = str.split(' ')
+    els = els.filter(x => x !== '')
+    let totalSum = 0
+    for (let el of els) {
+        let firstLetter = el.slice(0, 1)
+        let lastLetter = el.slice(el.length - 1)
+        let num = Number(el.slice(1, el.length - 1))
 
         if (firstLetter == firstLetter.toUpperCase()) {
-            let code = firstLetter.charCodeAt() - 64
-            num /= code
+            let code = firstLetter.charCodeAt()
+            let divisionNum = code - 64
+            num /= divisionNum
         } else {
-            let code = firstLetter.charCodeAt() - 96
-            num *= code
+            let code = firstLetter.charCodeAt()
+            let multiplyNum = code - 96
+            num *= multiplyNum
         }
 
         if (lastLetter == lastLetter.toUpperCase()) {
-            let code = lastLetter.charCodeAt() - 64
-            num -= code
+            let code = lastLetter.charCodeAt()
+            let subtractNum = code - 64
+            num -= subtractNum
         } else {
-            let code = lastLetter.charCodeAt() - 96
-            num += code
+            let code = lastLetter.charCodeAt()
+            let addNum = code - 96
+            num += addNum
         }
-        sum += num
+
+        totalSum += num
     }
 
-    console.log(sum.toFixed(2))
-
+    console.log(totalSum.toFixed(2))
 }
 lettersChange('A12b s17G')
