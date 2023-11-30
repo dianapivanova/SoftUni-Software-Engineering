@@ -1,37 +1,33 @@
 function partyTime(input) {
 
-    let command = input.shift()
-    let regulars = []
     let vips = []
+    let regulars = []
+
+    let command = input.shift()
 
     while (command !== "PARTY") {
-        let firstSymb = command[0]
-        if (!isNaN(firstSymb)) {
-            vips.push(command)
+        let name = command
+        if (!isNaN(Number(name.slice(0, 1)))) {
+            vips.push(name)
         } else {
-            regulars.push(command)
+            regulars.push(name)
         }
 
         command = input.shift()
     }
 
 
+    let combinedArr = vips.concat(regulars)
 
-    for (let name of input) {
-        if (regulars.includes(name)) {
-            let idx = regulars.indexOf(name)
-            regulars.splice(idx, 1)
-        } else if (vips.includes(name)) {
-            let idx = vips.indexOf(name)
-            vips.splice(idx, 1)
+    for (let guests of input) {
+        if (combinedArr.includes(guests)) {
+            let idx = combinedArr.indexOf(guests)
+            combinedArr.splice(idx, 1)
         }
     }
 
-    let resultArr = vips.concat(regulars)
-
-    console.log(resultArr.length)
-    console.log(resultArr.join('\n'))
-
+    console.log(combinedArr.length)
+    console.log(combinedArr.join('\n'))
 }
 partyTime(['7IK9Yo0h',
     '9NoBUajQ',

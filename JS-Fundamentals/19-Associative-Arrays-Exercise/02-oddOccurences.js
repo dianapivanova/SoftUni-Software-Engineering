@@ -1,21 +1,23 @@
 function oddOccurences(input) {
+
     let words = input.split(' ')
-    let wordObj = {}
+    let obj = {}
 
     for (let word of words) {
         word = word.toLowerCase()
-
-        if (!wordObj.hasOwnProperty(word)) {
-            wordObj[word] = 1
+        if (word in obj) {
+            obj[word]++
         } else {
-            wordObj[word]++
+            obj[word] = 1
         }
     }
 
+
     let resultArr = []
-    for (let [word, occurences] of Object.entries(wordObj)) {
-        if (!(occurences % 2 == 0)) {
-            resultArr.push(word)
+
+    for (let entries of Object.entries(obj)) {
+        if (entries[1] % 2 !== 0) {
+            resultArr.push(entries[0])
         }
     }
 

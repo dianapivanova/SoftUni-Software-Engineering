@@ -1,20 +1,19 @@
 function wordsTracker(input) {
-    let words = input.shift().split(' ')
-
+    let lookedWords = input.shift().split(' ')
     let wordObj = {}
-
-    for (let word of words) {
+    for (let word of lookedWords) {
         wordObj[word] = 0
     }
 
     for (let word of input) {
-        if (wordObj.hasOwnProperty(word)) {
+        if (word in wordObj) {
             wordObj[word]++
         }
     }
 
-    for (let [word, occurences] of Object.entries(wordObj).sort((a, b) => (b[1] - a[1]))) {
-        console.log(`${word} - ${occurences}`)
+    let sortedArr = Object.entries(wordObj).sort((a, b) => (b[1] - a[1]))
+    for (let entries of sortedArr) {
+        console.log(`${entries[0]} - ${entries[1]}`)
     }
 }
 wordsTracker([

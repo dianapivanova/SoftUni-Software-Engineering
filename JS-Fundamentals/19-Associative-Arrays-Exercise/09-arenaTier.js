@@ -31,8 +31,6 @@ function arenaTier(arr) {
                             } else {
                                 delete arena[nameA]
                             }
-                        } else {
-                            continue;
                         }
                     }
                 }

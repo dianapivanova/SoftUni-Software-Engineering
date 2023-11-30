@@ -1,24 +1,27 @@
 function companyUsers(arr) {
 
-    let companiesObj = {}
+    let companies = {}
 
-    for (let entries of arr) {
-        let [company, id] = entries.split(' -> ')
+    for (let employee of arr) {
+        let tokens = employee.split(' -> ')
+        let company = tokens[0]
+        let employeeId = tokens[1]
 
-        if (!companiesObj.hasOwnProperty(company)) {
-            companiesObj[company] = [id]
-        } else {
-            if (!companiesObj[company].includes(id)) {
-                companiesObj[company].push(id)
+        if (company in companies) {
+            if (!companies[company].includes(employeeId)) {
+                companies[company].push(employeeId)
             }
+        } else {
+            companies[company] = [employeeId]
         }
     }
 
+    let sortedCompanies = Object.entries(companies).sort((a, b) => a[0].localeCompare(b[0]))
 
-    for (let [company, ids] of Object.entries(companiesObj).sort((a, b) => a[0].localeCompare(b[0]))) {
-        console.log(company)
-
-        ids.map(x => console.log(`-- ${x}`))
+    for (let entries of sortedCompanies) {
+        console.log(entries[0])
+        for (let id of entries[1])
+            console.log(`-- ${id}`)
     }
 }
 companyUsers([
