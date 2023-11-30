@@ -1,20 +1,13 @@
 function pascalCaseSplitter(input) {
-    let wordsArr = []
-    let currentWord = ""
+    let pattern = /[A-Z][a-z]*/g
+    let match = input.matchAll(pattern)
 
-    for (let char of input) {
-        if (char == char.toUpperCase()) {
-            if (currentWord) {
-                wordsArr.push(currentWord)
-                currentWord = ''
-            }
-        }
-        currentWord += char
+    let resultArr = []
+
+    for (let el of match) {
+        resultArr.push(el[0])
     }
 
-    if (currentWord) {
-        wordsArr.push(currentWord)
-    }
-    console.log(wordsArr.join(', '))
+    console.log(resultArr.join(', '))
 }
 pascalCaseSplitter('SplitMeIfYouCanHaHaYouCantOrYouCan')

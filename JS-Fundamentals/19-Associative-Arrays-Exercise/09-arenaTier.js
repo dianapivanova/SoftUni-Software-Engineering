@@ -52,12 +52,8 @@ function arenaTier(arr) {
     });
 
     // Sort gladiators by total skill (descending) and then by name (ascending)
-    gladiatorsWithTotalSkill.sort((a, b) => {
-        if (b.totalSkill !== a.totalSkill) {
-            return b.totalSkill - a.totalSkill;
-        } else {
-            return a.name.localeCompare(b.name);
-        }
+    gladiatorsWithTotalSkill = gladiatorsWithTotalSkill.sort((a, b) => {
+        return b.totalSkill - a.totalSkill || (a.name).localeCompare(b.name)
     });
 
     // Print the sorted gladiators and their techniques

@@ -1,16 +1,16 @@
 function replaceChars(text) {
-    let textArr = text.split('')
-    let resultArr = [textArr[0]]
+    text = text.split('')
+    let result = ''
 
-    for (let i = 1; i < text.length; i++) {
-        if (text[i] === text[i - 1]) {
-            continue;
-        } else {
-            resultArr.push(text[i])
+    let currentLetter = text[0]
+    result += (currentLetter)
+    for (let el of text) {
+        if (!(el == currentLetter)) {
+            currentLetter = el
+            result += el
         }
     }
 
-    console.log(resultArr.join(''))
-
+    console.log(result)
 }
 replaceChars('aaaaabbbbbcdddeeeedssaa')

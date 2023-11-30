@@ -1,12 +1,10 @@
 function cutAndReverse(input) {
-    let firstPart = input.substring(0, input.length / 2)
-    let secondPart = input.substring(input.length / 2, input.length)
+    let firstPart = input.slice(0, input.length / 2).split('').reverse().join('')
+    let secondPart = input.slice(input.length / 2).split('').reverse().join('')
 
-    let firstRes = firstPart.split('').reverse().join('')
-    let secondRes = secondPart.split('').reverse().join('')
+    console.log(firstPart)
+    console.log(secondPart)
 
-    console.log(firstRes)
-    console.log(secondRes)
 
 }
 cutAndReverse('tluciffiDsIsihTgnizamAoSsIsihT')

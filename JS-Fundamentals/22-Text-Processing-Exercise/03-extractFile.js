@@ -1,7 +1,7 @@
 function extractFile(str) {
     let arr = str.split('\\')
 
-    let lookedFile = arr[arr.length - 1]
+    let lookedFile = arr.pop()
 
     lookedFileArr = lookedFile.split(".")
 

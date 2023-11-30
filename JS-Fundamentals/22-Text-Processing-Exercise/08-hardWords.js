@@ -1,14 +1,12 @@
 function hardWords(array) {
+    let letter = array.shift()
+    let words = array.shift()
 
-    let letter = array[0]
-    let words = array[1].sort((a, b) => b.length - a.length)
+    words = words.sort((a, b) => b.length - a.length)
 
-    let word = words.shift()
-
-    while (letter.includes('_')) {
+    for (let word of words) {
         let censored = '_'.repeat(word.length)
         letter = letter.replace(censored, word)
-        word = words.shift()
     }
 
     console.log(letter)

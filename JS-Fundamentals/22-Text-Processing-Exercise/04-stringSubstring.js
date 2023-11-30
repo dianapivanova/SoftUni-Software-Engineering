@@ -1,17 +1,22 @@
 function stringSubstring(originalWord, text) {
-    let lookedWord = originalWord.toLowerCase()
-    textArr = text.toLowerCase().split(' ')
+
+    text = text.split(' ')
+
     let isFound = false
-    for (let word of textArr) {
-        if (lookedWord == word) {
-            console.log(originalWord); isFound = true; break;
+    for (let word of text) {
+        word = word.toLowerCase()
+
+        if (word == originalWord) {
+            isFound = true; break;
         }
     }
 
     if (!isFound) {
         console.log(`${originalWord} not found!`)
+    } else {
+        console.log(originalWord)
     }
 }
-stringSubstring('Javascript',
-    'Javascript is the best javascripting language'
+stringSubstring('javascript',
+    'Javascript is the best programming language'
 )
