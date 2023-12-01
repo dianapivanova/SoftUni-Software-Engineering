@@ -1,36 +1,41 @@
 function race(array) {
     let participants = array.shift().split(', ')
-    let partObj = {}
-    participants.forEach(x => partObj[x] = 0)
+    let participantObj = {}
 
+    for (let participant of participants) {
+        participantObj[participant] = 0
+    }
+
+    let command = array.shift()
     let namePattern = /[A-Za-z]/g
     let kmPattern = /\d/g
 
-    let command = array.shift()
-
     while (command !== 'end of race') {
-        let nameMatch = command.match(namePattern)
-        let name = nameMatch.join('')
-        let kmArray = command.match(kmPattern)
-        let totalKm = 0
+        let matchName = command.match(namePattern)
+        let name = matchName.join('')
 
-        for (let km of kmArray) {
+        let totalKm = 0
+        let kms = command.match(kmPattern)
+
+        for (let km of kms) {
             km = Number(km)
             totalKm += km
         }
 
-        if (name in partObj) {
-            partObj[name] += totalKm
+        if (name in participantObj) {
+            participantObj[name] += totalKm
         }
 
         command = array.shift()
     }
 
-    let sortedArr = Object.entries(partObj).sort((a, b) => (b[1] - a[1]))
+    let sortedArr = Object.entries(participantObj).sort((a, b) => (b[1] - a[1]))
+
 
     console.log(`1st place: ${sortedArr[0][0]}`)
     console.log(`2nd place: ${sortedArr[1][0]}`)
     console.log(`3rd place: ${sortedArr[2][0]}`)
+
 }
 race(['George, Peter, Bill, Tom',
     'G4e@55or%6g6!68e!!@ ',

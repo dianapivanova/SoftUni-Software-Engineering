@@ -1,28 +1,37 @@
 function barIncome(array) {
+    let pattern = /%(?<name>[A-Z][a-z]+)%[^|$.%]*<(?<product>\w+)>[^|$.%]*\|(?<quantity>\d+)\|[^|$.%0-9]*(?<price>\d+\.?\d*)\$/
 
-    let pattern = /%(?<name>[A-Z][a-z]+)%[^|$.%]*<(?<product>\w+)>[^|$.%]*\|(?<qty>\d+)\|[^|$.%0-9]*(?<price>\d+\.?\d*)\$/
+
     let command = array.shift()
+    let customers = []
+    let totalPrice = 0
 
-    let totalIncome = 0
 
-    while (command !== "end of shift") {
-
+    while (command !== 'end of shift') {
+        let barInfo = {}
         let match = command.match(pattern)
-
+        let customerTotal = 0
         if (match) {
-            let { name, product, qty, price } = match.groups
-            qty = Number(qty)
+            let { name, product, quantity, price } = match.groups
+            quantity = Number(quantity)
             price = Number(price)
-            let currentPrice = qty * price
-            totalIncome += currentPrice
+            customerTotal = quantity * price
 
-            console.log(`${name}: ${product} - ${currentPrice.toFixed(2)}`)
+            barInfo = { name, product, customerTotal }
+            customers.push(barInfo)
         }
 
+        totalPrice += customerTotal
         command = array.shift()
     }
 
-    console.log(`Total income: ${totalIncome.toFixed(2)}`)
+
+    for (let customer of customers) {
+        let tokens = Object.entries(customer)
+        console.log(`${tokens[0][1]}: ${tokens[1][1]} - ${(tokens[2][1]).toFixed(2)}`)
+    }
+
+    console.log(`Total income: ${totalPrice.toFixed(2)}`)
 }
 barIncome(['%George%<Croissant>|2|10.3$',
     '%Peter%<Gum>|1|1.3$',
