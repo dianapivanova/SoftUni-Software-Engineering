@@ -1,33 +1,38 @@
 function mirrorWords([str]) {
 
+
     let pattern = /(@|#)(?<wordOne>[A-Za-z]{3,})\1\1(?<wordTwo>[A-Za-z]{3,})\1/g
-    let matches = str.matchAll(pattern)
-    let mirror = []
-    let count = 0
 
-    for (let match of matches) {
-        count++
-        let firstWord = match.groups.wordOne
-        let secondWord = match.groups.wordTwo
+    let validPairs = 0
+    let mirrorWords = []
 
-        if (firstWord == secondWord.split('').reverse().join('')) {
-            mirror.push(`${firstWord} <=> ${secondWord}`)
+    let match = str.matchAll(pattern)
+
+    for (let word of match) {
+
+        validPairs++
+        let { wordOne, wordTwo } = word.groups
+
+        if (wordOne == wordTwo.split('').reverse().join('')) {
+            mirrorWords.push(`${wordOne} <=> ${wordTwo}`)
         }
+
     }
 
-    if (count > 0) {
-        console.log(`${count} word pairs found!`)
 
-        if (mirror.length > 0) {
+    if (validPairs == 0) {
+        console.log(`No word pairs found!`)
+        console.log(`No mirror words!`)
+    } else {
+        console.log(`${validPairs} word pairs found!`)
+        if (mirrorWords.length > 0) {
             console.log(`The mirror words are:`)
-            console.log(mirror.join(', '))
+            console.log(mirrorWords.join(', '))
         } else {
             console.log(`No mirror words!`)
         }
-    } else {
-        console.log(`No word pairs found!`)
-        console.log(`No mirror words!`)
     }
 
 }
-mirrorWords(['#lol#lol# @#God@@doG@# #abC@@Cba# @Xyu@#uyX#'])
+mirrorWords([
+    '@mix#tix3dj#poOl##loOp#wl@@bong&song%4very$long@thong#Part##traP##@@leveL@@Level@##car#rac##tu@pack@@ckap@#rr#sAw##wAs#r#@w1r'])

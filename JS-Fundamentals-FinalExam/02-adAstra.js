@@ -1,29 +1,27 @@
-function adAstra(array) {
-    let pattern = /([#|])(?<product>[A-Za-z\s]+)\1(?<date>\d{2}\/\d{2}\/\d{2})\1(?<kcal>\d{1,5})\1/g
-    let totalKcal = 0
+function adAstra([str]) {
+    let pattern = /(\||#)(?<item>[A-Za-z ]+)\1(?<expdate>\d{2}\/\d{2}\/\d{2})\1(?<calories>\d+)\1/gm
 
-    let str = array.shift()
     let matches = str.matchAll(pattern)
-    let allProducts = []
+    let totalKcal = 0
+    let products = []
 
-    if (matches) {
-        for (let match of matches) {
-            let { product, date, kcal } = match.groups
-            kcal = Number(kcal)
-            totalKcal += kcal
-            let obj = { product, date, kcal }
-            allProducts.push(obj)
-        }
+    for (let match of matches) {
+        let { item, expdate, calories } = match.groups
+        calories = Number(calories)
+        totalKcal += calories
+        let product = { item, expdate, calories }
+        products.push(product)
     }
 
+    let days = totalKcal / 2000
 
-
-    console.log(`You have food to last you for: ${Math.floor(totalKcal / 2000)} days!`)
-    for (let obj of allProducts) {
-        console.log(`Item: ${obj.product}, Best before: ${obj.date}, Nutrition: ${obj.kcal}`)
+    console.log(`You have food to last you for: ${Math.floor(days)} days!`)
+    for (let product of products) {
+        let entries = Object.entries(product)
+        console.log(`Item: ${entries[0][1]}, Best before: ${entries[1][1]}, Nutrition: ${entries[2][1]}`)
     }
 }
 
 adAstra([
-    '#Bread#19/03/21#4000#|Invalid|03/03.20||Apples|08/10/20|200||Carrots|06/08/20|500||Not right|6.8.20|5|'
+    '$$#@@%^&#Fish#24/12/20#8500#|#Incorrect#19.03.20#450|$5*(@!#Ice Cream#03/10/21#9000#^#@aswe|Milk|05/09/20|2000|'
 ])

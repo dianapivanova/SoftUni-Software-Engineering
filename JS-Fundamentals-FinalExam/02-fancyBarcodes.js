@@ -1,20 +1,23 @@
 function solve(input) {
-    let pattern = /@#+(?<barcode>[A-Z][A-Za-z0-9]{4,}[A-Z])@#+/
-    let numBarcode = Number(input.shift())
+    let barcodes = Number(input.shift())
+    let pattern = /@#+[A-Z][A-Za-z\d]{4,}[A-Z]@#+/
 
-    for (let line of input) {
-        let match = line.match(pattern)
+    for (let barcode of input) {
+        let match = barcode.match(pattern)
 
         if (match) {
-            let barcode = match.groups.barcode
-            let filteredArr = barcode.split('').filter(x => (!isNaN(Number(x))))
-            if (filteredArr.length > 0) {
-                console.log(`Product group: ${filteredArr.join('')}`)
+            let digitPattern = /\d/g
+            let digitMatch = match[0].match(digitPattern)
+
+            if (digitMatch) {
+
+                console.log(`Product group: ${digitMatch.join('')}`)
             } else {
                 console.log(`Product group: 00`)
             }
+
         } else {
-            console.log('Invalid barcode')
+            console.log(`Invalid barcode`)
         }
     }
 
