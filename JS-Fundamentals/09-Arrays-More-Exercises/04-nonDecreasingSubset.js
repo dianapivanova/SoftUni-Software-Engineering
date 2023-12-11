@@ -1,17 +1,17 @@
 function nonDecreasingSubset(arr) {
-    let newArr = []
-    let biggestNum = Number.MIN_SAFE_INTEGER
+    let resultArr = []
+    let num = Number(arr[0])
+    resultArr.push(num)
 
-    for (let i = 0; i < arr.length; i++) {
-        let currentNum = arr[i]
+    for (let i = 1; i < arr.length; i++) {
+        let nextNum = arr[i]
+        resultArr.sort((a, b) => a - b)
 
-        if (currentNum >= biggestNum) {
-            biggestNum = currentNum
-            newArr.push(biggestNum)
+        if (resultArr[resultArr.length - 1] <= nextNum) {
+            resultArr.push(nextNum)
         }
-
     }
 
-    console.log(newArr.join(' '))
+    console.log(resultArr.join(' '))
 }
-nonDecreasingSubset([1, 3, 8, 4, 10, 12, 3, 2, 24])
+nonDecreasingSubset([20, 3, 2, 15, 6, 1])
