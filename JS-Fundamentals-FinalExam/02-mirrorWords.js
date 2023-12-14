@@ -1,24 +1,36 @@
 function mirrorWords([str]) {
 
-    let pattern = /(#|@)(?<wordOne>[A-Za-z]{3,})\1\1(?<wordTwo>[A-Za-z]{3,})\1/gm
 
-    let matches = Array.from(str.matchAll(pattern))
+    let pattern = /(@|#)(?<wordOne>[A-Za-z]{3,})\1\1(?<wordTwo>[A-Za-z]{3,})\1/gm
+
+    let validPairs = 0
     let mirrorWords = []
 
-    if (matches.length > 0) {
-        for (let words of matches) {
-            let { wordOne, wordTwo } = words.groups
+    let match = str.matchAll(pattern)
 
-            if (wordOne == wordTwo.split('').reverse().join('')) {
-                mirrorWords.push(`${wordOne} <=> ${wordTwo}`)
-            }
+    for (let word of match) {
+
+        validPairs++
+        let { wordOne, wordTwo } = word.groups
+
+        if (wordOne == wordTwo.split('').reverse().join('')) {
+            mirrorWords.push(`${wordOne} <=> ${wordTwo}`)
         }
-        console.log(`${matches.length} word pairs found!`)
-        console.log('The mirror words are:')
-        console.log(mirrorWords.join(', '))
+
+    }
+
+
+    if (validPairs == 0) {
+        console.log(`No word pairs found!`)
+        console.log(`No mirror words!`)
     } else {
-        console.log('No word pairs found!')
-        console.log('No mirror words!')
+        console.log(`${validPairs} word pairs found!`)
+        if (mirrorWords.length > 0) {
+            console.log(`The mirror words are:`)
+            console.log(mirrorWords.join(', '))
+        } else {
+            console.log(`No mirror words!`)
+        }
     }
 
 }

@@ -3,88 +3,96 @@ function heroesOfCode(array) {
     let heroes = []
 
     for (let i = 0; i < heroNum; i++) {
-        let [heroName, hp, mp] = array.shift().split(' ')
+        let [name, hp, mp] = array.shift().split(' ')
         hp = Number(hp)
         mp = Number(mp)
-        let heroObj = { heroName, hp, mp }
-        heroes.push(heroObj)
+        heroes.push({ name, hp, mp })
     }
 
     let command = array.shift()
 
-    while (command !== 'End') {
+    while (command !== "End") {
         let tokens = command.split(' - ')
         let action = tokens[0]
-        let hero = tokens[1]
 
-        if (action == 'CastSpell') {
-            let mpNeeded = Number(tokens[2])
+        if (action == "Heal") {
+            let heroName = tokens[1]
+            let healingHp = Number(tokens[2])
+            let amount = 0
+
+            let findHero = heroes.find(x => x.name == heroName)
+
+            if (findHero) {
+                if (findHero.hp + healingHp <= 100) {
+                    amount += healingHp
+                } else {
+                    amount += 100 - findHero.hp
+                }
+                findHero.hp += amount
+                console.log(`${heroName} healed for ${amount} HP!`)
+            }
+        } else if (action == "Recharge") {
+            let heroName = tokens[1]
+            let rechargingMp = Number(tokens[2])
+            let amount = 0
+
+            let findHero = heroes.find(x => x.name == heroName)
+
+            if (findHero) {
+                if (findHero.mp + rechargingMp <= 200) {
+                    amount += rechargingMp
+
+                } else {
+                    amount += 200 - findHero.mp
+                }
+                findHero.mp += amount
+                console.log(`${heroName} recharged for ${amount} MP!`)
+            }
+
+        } else if (action == "CastSpell") {
+            let heroName = tokens[1]
+            let findHero = heroes.find(x => x.name == heroName)
+
+            let neededMp = Number(tokens[2])
             let spellName = tokens[3]
 
-            let findHero = heroes.find(x => x.heroName == hero)
-            if (findHero.mp >= mpNeeded) {
-                findHero.mp -= mpNeeded
-                console.log(`${hero} has successfully cast ${spellName} and now has ${findHero.mp} MP!`)
-            } else {
-                console.log(`${hero} does not have enough MP to cast ${spellName}!`)
+            if (findHero) {
+                if (findHero.mp >= neededMp) {
+                    findHero.mp -= neededMp
+                    console.log(`${heroName} has successfully cast ${spellName} and now has ${findHero.mp} MP!`)
+                } else {
+                    console.log(`${heroName} does not have enough MP to cast ${spellName}!`)
+                }
             }
 
-        } else if (action == 'TakeDamage') {
+        } else if (action == "TakeDamage") {
+            let heroName = tokens[1]
+            let findHero = heroes.find(x => x.name == heroName)
+
             let damage = Number(tokens[2])
             let attacker = tokens[3]
-            let findHero = heroes.find(x => x.heroName == hero)
 
-            findHero.hp -= damage
-            if (findHero.hp > 0) {
-                console.log(`${hero} was hit for ${damage} HP by ${attacker} and now has ${findHero.hp} HP left!`)
-            } else {
-                console.log(`${hero} has been killed by ${attacker}!`)
-                let idx = heroes.indexOf(findHero)
-                heroes.splice(idx, 1)
+            if (findHero) {
+                if (findHero.hp >= damage) {
+                    findHero.hp -= damage
+                    console.log(`${heroName} was hit for ${damage} HP by ${attacker} and now has ${findHero.hp} HP left!"`)
+                } else {
+                    let idx = heroes.indexOf(findHero)
+                    heroes.splice(idx, 1)
+                    console.log(`${heroName} has been killed by ${attacker}!`)
+                }
             }
-        } else if (action == 'Recharge') {
-            let amount = Number(tokens[2])
-            let findHero = heroes.find(x => x.heroName == hero)
-
-            let recovered = 0
-
-            if (findHero.mp + amount > 200) {
-                recovered = 200 - findHero.mp
-            } else {
-                recovered = amount
-            }
-
-            findHero.mp += recovered
-
-            console.log(`${hero} recharged for ${recovered} MP!`)
-
-        } else if (action == 'Heal') {
-            let amount = Number(tokens[2])
-            let findHero = heroes.find(x => x.heroName == hero)
-
-            let healed = 0
-
-            if (findHero.hp + amount > 100) {
-                healed = 100 - findHero.hp
-            } else {
-                healed = amount
-            }
-
-            findHero.hp += healed
-
-            console.log(`${hero} healed for ${healed} HP!`)
         }
 
         command = array.shift()
     }
 
     for (let hero of heroes) {
-        console.log(hero.heroName)
-        console.log(`  HP: ${hero.hp}`)
-        console.log(`  MP: ${hero.mp}`)
+        let [name, hp, mp] = Object.entries(hero)
+        console.log(name[1])
+        console.log(`HP: ${hp[1]}`)
+        console.log(`MP: ${mp[1]}`)
     }
-
-
 }
 heroesOfCode([
     "4",
