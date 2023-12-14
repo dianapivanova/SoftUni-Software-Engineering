@@ -1,41 +1,38 @@
 function furniture(array) {
-    let pattern = />>(?<furniture>[A-Za-z]+)<<(?<price>\d+\.?\d*)!(?<qty>\d+)/
-    let furnitures = []
-    let totalSum = 0
+    let pattern = />>(?<product>[A-Za-z]+)<<(?<price>\d+\.?\d*)\!(?<quantity>\d+)/
+    let totalMoney = 0
+    let furniture = []
 
-    for (let el of array) {
-
-        let match = el.match(pattern)
+    for (let row of array) {
+        let match = row.match(pattern)
 
         if (match) {
-            let { furniture, price, qty } = match.groups
+            let { product, price, quantity } = match.groups
             price = Number(price)
-            qty = Number(qty)
+            quantity = Number(quantity)
+            let totalPrice = price * quantity
+            totalMoney += totalPrice
 
-            furnitures.push(furniture)
-            totalSum += qty * price
+            furniture.push(product)
+
         }
-
-
     }
 
-    console.log(`Bought furniture:`)
-    if (furnitures.length > 0) {
-        console.log(`${furnitures.join('\n')}`)
-    }
-    console.log(`Total money spend: ${totalSum.toFixed(2)}`)
+    console.log('Bought furniture:')
+    console.log(furniture.join('\n'))
+    console.log(`Total money spend: ${totalMoney.toFixed(2)}`)
 
 }
-// furniture(['>>Sofa<<312.23!3',
-//     '>>TV<<300!5',
-//     '>Invalid<<!5',
-//     'Purchase'])
-
-furniture(['>>Laptop<<312.2323!3',
-    '>>TV<<300.21314!5',
+furniture(['>>Sofa<<312.23!3',
+    '>>TV<<300!5',
     '>Invalid<<!5',
-    '>>TV<<300.21314!20',
-    '>>Invalid<!5',
-    '>>TV<<30.21314!5',
-    '>>Invalid<<!!5',
     'Purchase'])
+
+// furniture(['>>Laptop<<312.2323!3',
+//     '>>TV<<300.21314!5',
+//     '>Invalid<<!5',
+//     '>>TV<<300.21314!20',
+//     '>>Invalid<!5',
+//     '>>TV<<30.21314!5',
+//     '>>Invalid<<!!5',
+//     'Purchase'])
