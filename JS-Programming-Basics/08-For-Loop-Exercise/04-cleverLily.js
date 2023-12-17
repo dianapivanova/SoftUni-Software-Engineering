@@ -1,30 +1,31 @@
-function lily(input) {
-    let age = Number(input[0]);
-    let washer = Number(input[1]);
-    let toyPrice = Number(input[2]);
+function lily(array) {
+    let age = Number(array.shift())
+    let washerPrice = Number(array.shift())
+    let toyPrice = Number(array.shift())
 
-    let sum = 0
-    let toysCounter = 0
-    let moneyCounter = 0
-    let moneyPerBday = 10
+    let totalMoneySaved = 0
+    let toyNum = 0
+    let money = 10
 
-    for (let birthday = 1; birthday <= age; birthday++) {
-        if (birthday % 2 === 0) {
-            moneyCounter += moneyPerBday
-            moneyCounter--
-            moneyPerBday += 10
+    for (let i = 1; i <= age; i++) {
+        if (i % 2 == 0) {
+            totalMoneySaved += money - 1
+            money += 10
         } else {
-            toysCounter++
+            toyNum++
         }
     }
 
-    sum = toyPrice * toysCounter + moneyCounter
+    let moneyFromToys = toyPrice * toyNum
+    totalMoneySaved += moneyFromToys
 
-    if (sum >= washer) {
-        console.log(`Yes! ${(sum - washer).toFixed(2)}`)
+    if (washerPrice <= totalMoneySaved) {
+        console.log(`Yes! ${(totalMoneySaved - washerPrice).toFixed(2)}`)
     } else {
-        console.log(`No! ${(washer - sum).toFixed(2)}`)
+        console.log(`No! ${(washerPrice - totalMoneySaved).toFixed(2)}`)
     }
 
 }
-lily()
+lily(["21",
+    "1570.98",
+    "3"])
