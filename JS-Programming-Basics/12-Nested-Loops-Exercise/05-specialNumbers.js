@@ -1,28 +1,21 @@
-function specialNumbers(input) {
+function specialNumbers([num]) {
+    num = Number(num)
+    let specialNums = []
 
-    let n = Number(input[0])
-    let result = ''
-
-    for (let currentNum = 1111; currentNum <= 9999; currentNum++) {
-
-        let currentNumStr = currentNum.toString()
-        let isSpecial = true;
-
-        for (let index = 0; index < currentNumStr.length; index++) {
-
-            let currentDigit = Number(currentNumStr[index])
-
-            if (n % currentDigit !== 0) {
+    for (let i = 1111; i <= 9999; i++) {
+        let isSpecial = true
+        let currentNum = String(i)
+        for (let j = 0; j < currentNum.length; j++) {
+            if (num % Number(currentNum[j]) !== 0) {
                 isSpecial = false;
-                break;
             }
         }
-
-        if (isSpecial == true) {
-            result += `${currentNumStr} `
+        if (isSpecial) {
+            specialNums.push(i)
         }
-
     }
-    console.log(result)
+
+    console.log(specialNums.join(' '))
+
 }
-specialNumbers()
+specialNumbers(["3"])

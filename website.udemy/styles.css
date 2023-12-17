@@ -1,0 +1,14 @@
+section {
+    background-color: pink;
+}
+body {
+    background-color: aqua;
+}
+
+.main-title {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#second-section {
+    font-family: 'Times New Roman', Times, serif;
+}
