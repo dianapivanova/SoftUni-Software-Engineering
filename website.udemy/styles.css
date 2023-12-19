@@ -35,10 +35,12 @@ body {
 .header {
     list-style: none;
     display: inline;
-    padding-right: 50px;
+    margin: 20px;
     
 }
 
 header {
     text-align: right;
+    display: inline;
+    width: calc(100% - 300px);
 }
