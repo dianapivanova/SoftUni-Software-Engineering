@@ -31,3 +31,14 @@ body {
 .main-box:hover {
     background-color: black;
 }
+
+.header {
+    list-style: none;
+    display: inline;
+    padding-right: 50px;
+    
+}
+
+header {
+    text-align: right;
+}
