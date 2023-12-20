@@ -1,3 +1,29 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.logo {
+    display: inline-block;
+    margin: 10px;
+}
+
+.header {
+    display: inline-block;
+    text-align: right;
+    margin: 10px;
+}
+
+.header ul {
+    list-style: none;
+    padding: 0;
+}
+
+.header li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
 section {
     background-color: pink;
 }
@@ -18,29 +44,9 @@ body {
     width: 250px;
     height: 200px;
     text-align: center;
-}
-
-.main-box {
-    display: inline-block;
-}
-
-.second-box {
     display: inline-block;
 }
 
 .main-box:hover {
     background-color: black;
-}
-
-.header {
-    list-style: none;
-    display: inline;
-    margin: 20px;
-    
-}
-
-header {
-    text-align: right;
-    display: inline;
-    width: calc(100% - 300px);
 }
