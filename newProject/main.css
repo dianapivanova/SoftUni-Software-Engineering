@@ -14,15 +14,17 @@ body {
     padding: 10px;   
 }
 
+#product-overview__text {
+    color:white;
+    font-size: bold;
+    font-family: Anton, sans-serif;
+}
+
 .section-title {
     color: #2ddf5c;
     text-align: center;
 }
 
-#product-overview h1 {
-    color: white;
-    font-family: 'Anton', sans-serif;
-}
 
 .plan {
     background:#d5ffdc;
@@ -49,6 +51,22 @@ body {
     
 }
 
+.plan__title {
+    color: #0e4f1f;
+}
+
+.plan__price {
+    color: rgb(133, 133, 133)
+}
+
+.plan--highlighted .plan__title {
+    color: white
+}
+
+.plan--highlighted .plan__price {
+    color: #0e4f1f
+}
+
 .plan__features {
     list-style: none;
     margin:0;
@@ -58,6 +76,44 @@ body {
 .plan__features li {
     margin: 8px 0;
 }
+
+.button {
+    color: white;
+    background: #0e4f1f;
+    font: inherit;
+    border: 1.5px solid darkgreen;
+    padding: 8px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: white;
+    color:#0e4f1f
+}
+
+.second-section__title {
+    color:#2ddf5c;
+    text-align: center;
+}
+
+#key-features {
+    background-color: #ff1b68;
+    margin-top: 80px;
+    padding: 16px;
+}
+
+#key-features .second-section__title {
+    color:white;
+    padding:32px;
+
+}
+
+.key-feature__list {
+    
+}
+
 
 /* h1 {
     font-family: sans-serif;
@@ -125,3 +181,4 @@ body {
     background: white;
     border: none;
 }
+
