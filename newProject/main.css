@@ -111,7 +111,30 @@ body {
 }
 
 .key-feature__list {
-    
+    list-style: none;
+    margin:0;
+    padding:0;
+}
+
+.key-feature {
+    display: inline-block;
+    width: 30%;
+}
+
+.key-feature__image {
+    background-color: #ffcede;
+    width: 128px;
+    height: 128px;
+    border: 2px solid darkgray;
+    border-radius: 50%;
+    margin: auto;
+}
+
+.key-feature__description {
+    text-align: center;
+    font-weight: bold;
+    color:white;
+    font-size:20px;
 }
 
 
@@ -180,5 +203,33 @@ body {
     color: #ff1b68;
     background: white;
     border: none;
+}
+
+.main-footer {
+    background-color: black;
+    padding:16px;
+    margin-top:48px;
+}
+
+.main-footer__links {
+    list-style: none;
+    padding:0;
+    margin:0;
+    text-align:center;
+}
+
+.main-footer__link {
+    display: inline-block;
+    margin:0 16px;
+}
+
+.main-footer__link > a {
+    color: white;
+    text-decoration: none;
+}
+
+.main-footer__link a:hover,
+.main-footer__link a:active {
+    color:lightgray
 }
 
