@@ -1,21 +1,20 @@
-function spice(startYield) {
+function spice(yield) {
+
     let days = 0
-    let minedYield = 0
+    let spices = 0
 
-    while (startYield >= 100) {
+    while (yield >= 100) {
+        spices += yield
         days++
-        minedYield += startYield - 26
-        startYield -= 10
+        yield -= 10
+        spices -= 26
     }
 
-    if (minedYield >= 26) {
-        minedYield -= 26
+    if (spices >= 26) {
+        spices -= 26
     }
-
 
     console.log(days)
-    console.log(minedYield)
-
-
+    console.log(spices)
 }
 spice()
