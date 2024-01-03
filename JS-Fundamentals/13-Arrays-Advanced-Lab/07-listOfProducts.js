@@ -1,10 +1,9 @@
 function listOfProducts(arr) {
-    let result = arr.sort()
+    let sortedArr = arr.sort()
 
-    for (let i = 0; i < arr.length; i++) {
-        console.log(`${i + 1}.${arr[i]}`)
+    for (let i = 0; i < sortedArr.length; i++) {
+        console.log(`${i + 1}.${sortedArr[i]}`)
     }
-
 
 }
 listOfProducts(['Potatoes', 'Tomatoes', 'Onions', 'Apples'])
