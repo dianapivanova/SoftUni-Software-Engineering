@@ -6,4 +6,4 @@ function nextDay2(year, month, day) {
     let newDate = date.getDate();
     console.log(`${newYear}-${newMonth}-${newDate}`);
 }
-nextDay2()
+nextDay2(2016, 9, 30)
