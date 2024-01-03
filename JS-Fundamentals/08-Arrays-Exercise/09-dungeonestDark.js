@@ -1,37 +1,42 @@
 function dungeonestDark(arr) {
-    let roomsInfo = arr[0]
-    let rooms = roomsInfo.split('|')
+
     let health = 100
     let coins = 0
-    let roomCounter = 0
+    let levels = arr[0].split('|')
+    let rooms = 0
 
-    for (let room of rooms) {
-        roomCounter++
-        let tokens = room.split(' ')
+    for (let level of levels) {
+        rooms++
+        let tokens = level.split(' ')
 
-        let command = tokens[0]
-        let num = Number(tokens[1])
-
-        if (command == "potion") {
-            let newHP = health + num <= 100 ? num : 100 - health
-            health += newHP
-            console.log(`You healed for ${newHP} hp.`)
-            console.log(`Current health: ${health} hp.`)
-        } else if (command == "chest") {
-            coins += num
-            console.log(`You found ${num} coins.`)
-        } else {
-            health -= num
-
-            if (health > 0) {
-                console.log(`You slayed ${command}.`)
+        if (tokens[0] == 'potion') {
+            let addedHealth = Number(tokens[1])
+            if (health + addedHealth <= 100) {
+                health += addedHealth
             } else {
-                console.log(`You died! Killed by ${command}.`)
-                console.log(`Best room: ${roomCounter}`); break;
+                addedHealth = 100 - health
+                health = 100
             }
+            console.log(`You healed for ${addedHealth} hp.`)
+            console.log(`Current health: ${health} hp.`)
+        } else if (tokens[0] == 'chest') {
+            let gold = Number(tokens[1])
+            coins += gold
+            console.log(`You found ${gold} coins.`)
+        } else {
+            let monster = tokens[0]
+            let attack = Number(tokens[1])
 
+            if (health > attack) {
+                health -= attack
+                console.log(`You slayed ${monster}.`)
+            } else {
+                health -= attack
+                console.log(`You died! Killed by ${monster}.`)
+                console.log(`Best room: ${rooms}`)
+                break;
+            }
         }
-
     }
 
     if (health > 0) {
@@ -39,6 +44,5 @@ function dungeonestDark(arr) {
         console.log(`Coins: ${coins}`)
         console.log(`Health: ${health}`)
     }
-
 }
 dungeonestDark(["cat 10|potion 30|orc 10|chest 10|snake 25|chest 110"])
