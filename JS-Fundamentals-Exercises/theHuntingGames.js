@@ -2,13 +2,14 @@ function theHuntingGames(array) {
     let days = Number(array.shift())
     let players = Number(array.shift())
     let groupEnergy = Number(array.shift())
-    let water = Number(array.shift()) * players
-    let food = Number(array.shift()) * players
+    let water = Number(array.shift()) * players * days
+    let food = Number(array.shift()) * players * days
 
 
-    for (let i = 0; i < array.length; i++) {
-        let dailyEnergy = Number(array[i])
+    for (let i = 1; i <= array.length; i++) {
+        let dailyEnergy = Number(array[i - 1])
 
+        groupEnergy -= dailyEnergy
 
         if (i % 2 == 0) {
             water -= water * 0.3
@@ -17,10 +18,10 @@ function theHuntingGames(array) {
 
         if (i % 3 == 0) {
             groupEnergy *= 1.10
-            food /= players
+            food -= food / players
         }
 
-        groupEnergy -= dailyEnergy
+
 
         if (groupEnergy <= 0) {
             break;
@@ -28,25 +29,23 @@ function theHuntingGames(array) {
 
     }
 
-    if (groupEnergy > 0) {
+    if (groupEnergy >= 0) {
         console.log(`You are ready for the quest. You will be left with - ${groupEnergy.toFixed(2)} energy!`)
     } else {
         console.log(`You will run out of energy. You will be left with ${food.toFixed(2)} food and ${water.toFixed(2)} water.`)
     }
 
 }
-theHuntingGames(["10",
-    "7",
-    "5035.5",
-    "11.3",
-    "7.2",
-    "942.3",
-    "500.57",
-    "520.68",
-    "540.87",
-    "505.99",
-    "630.3",
-    "784.20",
-    "321.21",
-    "456.8",
-    "330"])
+theHuntingGames(["1",
+
+    "1",
+
+    "620.3",
+
+    "0.00",
+
+    "0.00",
+
+    "620.3",
+
+])
