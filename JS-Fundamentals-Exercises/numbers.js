@@ -26,7 +26,7 @@ function numbers(array) {
             }
         } else if (action == 'Collapse') {
             let value = Number(tokens[1])
-            numArray = numArray.filter(x => x > value)
+            numArray = numArray.filter(x => x >= value)
         }
 
         command = array.shift()
