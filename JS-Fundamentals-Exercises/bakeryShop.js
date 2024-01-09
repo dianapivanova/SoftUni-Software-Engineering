@@ -4,7 +4,7 @@ function bakery(array) {
     let storage = []
     let sold = 0
 
-    while (command != 'Complete ') {
+    while (command != 'Complete') {
         let [action, qty, product] = command.split(' ')
         qty = Number(qty)
 
