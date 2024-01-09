@@ -44,6 +44,8 @@ function warriorsQuest(array) {
                     str = str.replace(substr, '')
                     console.log(str)
                 }
+            } else {
+                console.log('Command doesn\'t exist!')
             }
 
         } else {
