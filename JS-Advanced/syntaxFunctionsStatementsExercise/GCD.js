@@ -12,4 +12,4 @@ function GCD(num1, num2) {
 
     console.log(num1)
 }
-GCD(5, 15)
+GCD(20, 15)
