@@ -6,8 +6,6 @@ function timeToWalk(steps, footLength, speed) {
     time += rest * 60
 
 
-
-
     let sec = Math.round(time % 60)
     let min = Math.floor(time / 60)
     let hours = Math.floor(min / 60)
