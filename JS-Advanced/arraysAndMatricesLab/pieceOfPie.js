@@ -7,7 +7,7 @@ function pieceOfPie(arr, start, end) {
         res.push(arr[i])
     }
 
-    console.log(res)
+    return res
 }
 pieceOfPie(['Pumpkin Pie',
     'Key Lime Pie',
