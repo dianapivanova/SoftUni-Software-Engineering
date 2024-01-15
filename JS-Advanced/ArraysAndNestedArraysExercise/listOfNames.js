@@ -1,11 +1,5 @@
 function listofNames(arr) {
-    arr = arr.sort((a, b) => a.localeCompare(b))
-    let row = 1
-
-    for (let name of arr) {
-        console.log(`${row}.${name}`)
-        row++
-    }
+    arr = arr.sort((a, b) => a.localeCompare(b)).forEach((value, i) => console.log(`${i + 1}.${value}`))
 
 }
 listofNames(["John", "Bob", "Christina", "Ema"])
