@@ -9,6 +9,6 @@ function sortingNumbers(arr) {
         result.push(arr.pop())
     }
 
-    console.log(result)
+    return result;
 }
 sortingNumbers([1, 65, 3, 52, 48, 63, 31, -3, 18, 56])
