@@ -1,17 +1,20 @@
 function magicMatrices(matrix) {
+    for (let i = 0; i < matrix.length - 1; i++) {
+        let rowOne = matrix[i].reduce((acc, value) => acc + value, 0);
+        let rowTwo = matrix[i + 1].reduce((acc, value) => acc + value, 0);
+        let colOne = matrix.reduce((acc, value) => acc + value[i], 0);
+        let colTwo = matrix.reduce((acc, value) => acc + value[i + 1], 0);
 
-    let isMagical = false
-
-    for (let row = 0; row < matrix.length; row++) {
-        for (let col = 0; col < matrix[row].length; col++) {
-
+        if (rowOne !== rowTwo || colOne !== colTwo) {
+            return false;
         }
     }
 
-    console.log(isMagical)
+    return true;
 }
-magicMatrices(
-    [[4, 5, 6],
-    [6, 5, 4],
-    [5, 5, 5]]
-)
+
+magicMatrices([
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+])
