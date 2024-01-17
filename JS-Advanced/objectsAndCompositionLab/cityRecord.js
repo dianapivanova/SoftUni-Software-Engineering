@@ -1,11 +1,10 @@
 function cityRecord(name, population, treasury) {
     let obj = {}
-    obj[name] = name
+    obj['name'] = name
     obj['population'] = population
     obj['treasury'] = treasury
 
 
-    console.log(name)
     return obj;
 
 
