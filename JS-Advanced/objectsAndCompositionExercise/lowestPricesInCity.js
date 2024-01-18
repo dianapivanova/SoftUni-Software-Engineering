@@ -14,9 +14,6 @@ function lowerCityPrices(array) {
             findProduct.town = town
             findProduct.price = price
         }
-
-
-
     }
 
     for (let obj of towns) {
