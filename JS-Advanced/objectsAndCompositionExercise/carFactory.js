@@ -24,7 +24,7 @@ function carFactory(order) {
 
     result.wheels = new Array(4).fill(wheelSize)
 
-    console.log(result)
+    return result;
 
 }
 carFactory({
