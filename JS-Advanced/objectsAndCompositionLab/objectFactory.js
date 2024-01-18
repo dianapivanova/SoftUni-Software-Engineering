@@ -12,7 +12,7 @@ function factory(library, orders) {
     for (const part of order.parts) {
       if (library[part]) {
         // Bind the function to the product template
-        product[part] = library[part].bind(product);
+        product[part] = library[part];
       }
     }
 
@@ -54,7 +54,7 @@ const orders = [
   }
 ];
 const products = factory(library, orders);
-console.log(products[0].print());
+products[0].print()
 
 
 
