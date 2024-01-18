@@ -1,13 +1,13 @@
 function constructionCrew(obj) {
 
-    if (obj.dizziness == true) {
+    if (obj.dizziness) {
 
         obj.levelOfHydrated += 0.1 * obj.weight * obj.experience
         obj.dizziness = false;
     }
 
 
-    console.log(obj)
+    return obj;
 }
 constructionCrew({
     weight: 80,
