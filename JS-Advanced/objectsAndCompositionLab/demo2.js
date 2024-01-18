@@ -6,8 +6,10 @@ function demo2() {
             return rect.width * rect.height
         }
 
+
         const { getArea } = rect
         console.log(getArea())
+
     }
 
 
