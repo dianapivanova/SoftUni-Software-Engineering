@@ -12,7 +12,7 @@ function cityTaxes(name, population, treasury) {
             this.population += Math.floor(this.population * (percentage / 100))
         },
         applyRecession(percentage) {
-            this.treasury -= Math.floor(treasury * (percentage / 100))
+            this.treasury -= Math.floor(this.treasury * (percentage / 100))
         }
 
     }
