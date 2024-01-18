@@ -5,7 +5,7 @@ function heroicInventory(array) {
     for (let hero of array) {
         let [name, level, items] = hero.split(' / ')
         level = Number(level)
-        items = items.split(', ')
+        items = items ? items.split(', ') : []
 
         let obj = { name, level, items }
         heroes.push(obj)
