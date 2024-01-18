@@ -8,7 +8,7 @@ function fromJSONToHTMLTable(json) {
     });
     result.push('</table>');
 
-    console.log(result.join('\n'));
+    return (result.join('\n'));
 
     function addKey(arr) {
         let result = '  <tr>';
