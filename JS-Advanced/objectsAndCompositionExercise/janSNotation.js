@@ -1,35 +1,37 @@
-function janSNotation(array) {
-    let nums = []
+function postfixCalculator(instructions) {
+    let operands = [];
+
     const arithmeticOperations = {
-        '+': (arr) => arr[0] + arr[1],
-        '-': (arr) => arr[0] - arr[1],
-        '*': (arr) => arr[0] * arr[1],
-        '/': (arr) => arr[0] / arr[1],
+        '+': (operand1, operand2) => operand1 + operand2,
+        '-': (operand1, operand2) => operand1 - operand2,
+        '*': (operand1, operand2) => operand1 * operand2,
+        '/': (operand1, operand2) => operand1 / operand2,
     };
 
-
-    while (array.length > 0) {
-        command = array.shift()
-
-        if (typeof (command) === 'string') {
-
-            if (nums.length < 2) {
-                console.log('Error: not enough operands!'); break;
-            } else if (nums.length > 2 && !array.includes(NaN)) {
-                console.log('Error: too many operands!')
+    for (let instruction of instructions) {
+        if (typeof instruction === 'number') {
+            operands.push(instruction);
+        } else if (typeof instruction === 'string') {
+            if (operands.length < 2) {
+                console.log('Error: not enough operands!');
+                return;
             }
 
-            let newNum = arithmeticOperations[command](nums.slice(nums.length - 2))
-            nums.splice(nums.length - 2, 2, newNum)
-        } else {
-            nums.push(command)
-        }
+            let operand2 = operands.pop();
+            let operand1 = operands.pop();
 
+            operands.push(arithmeticOperations[instruction](operand1, operand2));
+
+        }
     }
 
-    console.log(nums[0])
-
+    if (operands.length === 1) {
+        console.log(operands[0]);
+    } else {
+        console.log('Error: too many operands!');
+    }
 }
+
 janSNotation([3,
     4,
     '+'])

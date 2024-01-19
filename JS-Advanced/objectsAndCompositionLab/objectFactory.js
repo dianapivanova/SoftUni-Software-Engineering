@@ -1,26 +1,20 @@
 
 function factory(library, orders) {
-  // Array to store fulfilled orders
-  const products = [];
+  const products = []
 
-  // Iterate through each order
-  for (const order of orders) {
-    // Create a copy of the template
-    const product = { ...order.template };
+  for (let order of orders) {
+    const obj = { ...order.template }
 
-    // Add functions from the library based on the parts array
-    for (const part of order.parts) {
+    for (let part of order.parts) {
       if (library[part]) {
-        // Bind the function to the product template
-        product[part] = library[part];
+        obj[part] = library[part]
       }
     }
 
-    // Add the fulfilled order to the products array
-    products.push(product);
+    products.push(obj)
   }
 
-  return products;
+  return products
 }
 
 const library = {
