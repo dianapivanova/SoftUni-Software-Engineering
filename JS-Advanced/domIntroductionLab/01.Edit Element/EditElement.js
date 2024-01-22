@@ -1,4 +1,5 @@
 function editElement(reference, match, replacer) {
-    reference.textContent = (reference.textContent).split(match).join(replacer)
+    let el = reference.textContent
+    reference.textContent = el.split(match).join(replacer)
 
 }
