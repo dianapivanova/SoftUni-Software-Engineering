@@ -1,7 +1,7 @@
 function extract(content) {
 
     let para = document.getElementById(content).textContent
-    let pattern = /\((?<captured>([^)]+))\)/g
+    let pattern = /\(([^)]+)\)/g
     let result = []
 
     let match = para.matchAll(pattern)
