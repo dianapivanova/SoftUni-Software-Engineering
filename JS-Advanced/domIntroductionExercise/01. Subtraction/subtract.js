@@ -4,5 +4,4 @@ function subtract() {
     let divide = Number(firstNum) - Number(secondNum)
     let result = document.getElementById('result')
     result.textContent = divide
-    console.log(result)
 }
