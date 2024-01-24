@@ -1,6 +1,6 @@
-function extract(content) {
+function extract() {
 
-    let para = document.getElementById(content).textContent
+    let para = document.getElementById('content').textContent
     let pattern = /\(([^)]+)\)/g
     let result = []
 
@@ -11,5 +11,5 @@ function extract(content) {
         result.push(row[1])
     }
 
-    alert(result.join('; '));
+    return (result.join('; '));
 }
