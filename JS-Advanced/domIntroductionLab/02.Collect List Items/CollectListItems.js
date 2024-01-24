@@ -1,13 +1,11 @@
 function extractText() {
-
-    let result = []
+    let textarea = document.getElementById('result')
     let list = document.getElementById('items')
+    let result = []
 
-    for (let el of list.children) {
-        result.push(el.textContent)
+    for (let row of Array.from(list.children)) {
+        result.push(row.textContent)
     }
 
-    let textArea = document.getElementById('result')
-
-    textArea.value = result.join('\n')
+    textarea.value = result.join('\n')
 }
