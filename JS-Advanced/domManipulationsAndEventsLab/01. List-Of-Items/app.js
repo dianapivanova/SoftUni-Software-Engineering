@@ -1,12 +1,11 @@
 function addItem() {
-    let newText = document.getElementById('newItemText').value;
-    let newEl = document.createElement('li')
-    newEl.textContent = newText
+    let newText = document.getElementById("newItemText");
+    let appendTo = document.getElementById("items");
 
-    if (newEl.textContent == '') {
-        return;
+    if (newText.value !== "") {
+        let newElement = document.createElement('li');
+        newElement.textContent = newText.value;
+        appendTo.appendChild(newElement);
+        newText.value = '';
     }
-
-    let attachedTo = document.getElementById('items')
-    attachedTo.appendChild(newEl)
 }
