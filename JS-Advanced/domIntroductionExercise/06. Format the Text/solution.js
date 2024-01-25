@@ -1,17 +1,27 @@
 function solve() {
-  let inputStr = document.getElementById('input').value;
-  let output = document.getElementById('output');
+  let textToModify = document.getElementById("input").value;
+  let sentenceArray = textToModify.split('.')
+  sentenceArray = sentenceArray.filter(x => x.length > 0);
 
-  let input = inputStr.split('.').filter((p) => p.length > 0);
+  let output = document.getElementById("output");
 
-  for (let i = 0; i < input.length; i += 3) {
-    let arr = [];
-    for (let y = 0; y < 3; y++) {
-      if (input[i + y]) {
-        arr.push(input[i + y]);
-      }
+  let paragraph = []
+
+  for (let sentence of sentenceArray) {
+    if (paragraph.length < 3) {
+      paragraph.push(sentence)
+    } else {
+      output.innerHTML += `<p> ${paragraph.join('.')}</p>`
+      paragraph = []
+      paragraph.push(sentence)
     }
-    let paragraph = arr.join('.') + '.';
-    output.innerHTML += `<p>${paragraph}</p>`;
   }
+
+  if (output.innerHTML.length == 0 || paragraph.length > 0) {
+    output.innerHTML += `<p>${paragraph.join('.') + "."}</p>`
+    paragraph = []
+
+  }
+
+
 }
