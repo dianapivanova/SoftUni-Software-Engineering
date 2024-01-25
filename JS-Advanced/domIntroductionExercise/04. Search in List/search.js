@@ -1,24 +1,20 @@
 function search() {
-   let tableRef = document.querySelectorAll('ul li')
-   let matches = 0
-   let divRes = document.getElementById('result')
+   let tableData = Array.from(document.querySelectorAll('ul li'));
+   let searchBoxResult = document.getElementById("searchText");
+   let result = document.getElementById("result");
+   let matches = 0;
 
-   let searchedWord = document.getElementById('searchText')
-
-   for (let row of tableRef) {
-      row.style.fontWeight = 'normal'
-      row.style.textDecoration = 'none'
-   }
-
-   for (let row of tableRef) {
-      if (row.textContent.includes(searchedWord.value)) {
-         matches++
-         row.style.fontWeight = 'bold'
-         row.style.textDecoration = 'underline'
-
+   for (let row of tableData) {
+      if (row.textContent.includes(searchBoxResult.value)) {
+         matches++;
+         row.style.fontWeight = "bold"
+         row.style.textDecoration = "underline"
+      } else {
+         row.style.fontWeight = "none"
+         row.style.textDecoration = "none"
       }
    }
-   searchedWord.value = ''
 
-   divRes.textContent = `${matches} matches found`
+   result.textContent = `${matches} matches found`
+   searchBoxResult.value = ""
 }
