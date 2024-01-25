@@ -1,25 +1,34 @@
 function solve() {
-  let textReference = document.getElementById('text')
-  let conventionRef = document.getElementById('naming-convention')
-  let result = ''
+  const CAMEL_CASE = "Camel Case"
+  const PASCAL_CASE = "Pascal Case"
 
-  let textArr = textReference.value.toLowerCase().split(' ')
+  let textAreaValue = document.getElementById("text").value;
+  let conventionAreaValue = document.getElementById("naming-convention").value;
+  let resultArea = document.getElementById("result");
 
-  for (let word of textArr) {
-    if (conventionRef.value == 'Camel Case') {
-      if (result == '') {
+  let textToAdjust = textAreaValue.toLowerCase().split(' ')
+
+  let result = ""
+
+  if (conventionAreaValue !== CAMEL_CASE && conventionAreaValue !== PASCAL_CASE) {
+    resultArea.textContent = "Error!"; return;
+  }
+
+  if (conventionAreaValue == CAMEL_CASE) {
+    for (let word of textToAdjust) {
+      if (result == "") {
         result += word
       } else {
         result += word[0].toUpperCase() + word.slice(1)
       }
-    } else if (conventionRef.value == 'Pascal Case') {
+    }
+
+  } else if (conventionAreaValue == PASCAL_CASE) {
+    for (let word of textToAdjust) {
       result += word[0].toUpperCase() + word.slice(1)
-    } else {
-      result = 'Error!'
     }
   }
 
-  let resultArea = document.getElementById('result')
-  resultArea.textContent = result
+  resultArea.textContent = result;
 
 }
