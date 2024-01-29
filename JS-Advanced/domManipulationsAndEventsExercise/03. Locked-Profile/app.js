@@ -31,5 +31,4 @@ function lockedProfile() {
         event.target.textContent = SHOW_MORE;
     }
 
-
 }

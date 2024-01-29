@@ -6,7 +6,6 @@ function solve() {
       let tableArr = Array.from(document.querySelectorAll('tbody tr'))
       let searchedWord = document.getElementById("searchField")
 
-
       for (let row of tableArr) {
          let isSelected = false;
          let tableData = row.getElementsByTagName('td')
@@ -23,6 +22,5 @@ function solve() {
       }
       searchedWord.value = ''
    }
-
 
 }
