@@ -11,10 +11,11 @@ function create(words) {
       let appendToEl = document.getElementById('content');
       appendToEl.appendChild(divEl);
       divEl.addEventListener("click", onClick);
+
+      function onClick() {
+         pEl.style.display = 'inline';
+      }
    }
 
-   function onClick(e) {
 
-      e.target.children[0].style.display = "block"
-   }
 }
