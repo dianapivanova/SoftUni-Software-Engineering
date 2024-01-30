@@ -8,6 +8,6 @@ function add(num) {
     }
 
     addAnotherNum.toString = () => sum;
-    return addAnotherNum;
+    return addAnotherNum; //because of the above this now returns the sum variable
 }
 add(1)(6)(-3)
