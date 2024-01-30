@@ -1,10 +1,10 @@
 function solution(num1) {
 
-    function add5(num2) {
+    function asd(num2) {
         return num1 + num2
     }
 
-    return add5
+    return asd
 }
 
 let add5 = solution(5);
