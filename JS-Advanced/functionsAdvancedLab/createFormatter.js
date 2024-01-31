@@ -1,5 +1,6 @@
 function createFormatter(separator, symbol, symbolFirst, currencyFormatter) {
     let formatter = (value) => currencyFormatter(separator, symbol, symbolFirst, value);
+
     return formatter;
 }
 
@@ -9,7 +10,6 @@ function currencyFormatter(separator, symbol, symbolFirst, value) {
     if (symbolFirst) return symbol + ' ' + result;
     else return result + ' ' + symbol;
 }
-
 
 
 let dollarFormatter = createFormatter(',', '$', true, currencyFormatter);
