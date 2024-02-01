@@ -1,0 +1,15 @@
+{
+  "name": "softuni-software-engineering",
+  "version": "1.0.0",
+  "description": "Unit testing Demo",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "DI",
+  "license": "ISC",
+  "dependencies": {
+    "mocha": "^10.2.0"
+  }
+}
