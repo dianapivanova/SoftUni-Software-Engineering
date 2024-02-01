@@ -21,6 +21,6 @@ function subSum(array, startIndex, endIndex) {
         sum += array[i]
     }
 
-    console.log(sum)
+    return sum;
 }
 subSum([10, 20, 'twenty', 40, 50, 60], 2, 300)
