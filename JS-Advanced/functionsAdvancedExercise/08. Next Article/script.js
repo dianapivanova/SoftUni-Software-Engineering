@@ -12,3 +12,6 @@ function getArticleGenerator(articles) {
         return getNextOne;
     }
 }
+
+<div><button onclick="showNext()">Show Next Article</button></div>
+let showNext = getArticleGenerator(articles);
