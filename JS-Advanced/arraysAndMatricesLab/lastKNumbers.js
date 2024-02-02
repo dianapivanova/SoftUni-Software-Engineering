@@ -1,14 +1,17 @@
 function lastKNumbers(n, k) {
-    let sequence = [1];
+    let result = [1]
 
     for (let i = 1; i < n; i++) {
-        let sum = 0;
-        for (let j = Math.max(0, i - k); j < i; j++) {
-            sum += sequence[j];
+        let currentNum = 0
+        if (i - k <= 0) {
+            currentNum = result.reduce((acc, value) => acc + value)
+        } else {
+            currentNum = result.slice(i - k).reduce((acc, value) => acc + value)
         }
-        sequence.push(sum);
+
+        result.push(currentNum)
     }
 
-    console.log(sequence)
+    console.log(result)
 }
-lastKNumbers(6, 3)
+lastKNumbers(8, 2)
