@@ -9,7 +9,7 @@ function extractFromArray(array) {
         }
     }
 
-    console.log(res)
+    return res;
 }
 extractFromArray([0,
     3,
