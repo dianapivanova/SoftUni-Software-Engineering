@@ -1,17 +1,17 @@
 function extractFromArray(array) {
-    let biggestNum = array.shift()
-    let result = [biggestNum]
+    let res = [array.shift()]
+    let smallestNum = res[0]
 
     for (let el of array) {
-        if (el >= biggestNum) {
-            biggestNum = el
-            result.push(biggestNum)
+        if (el >= smallestNum) {
+            res.push(el)
+            smallestNum = el;
         }
     }
 
-    return result;
+    console.log(res)
 }
-extractFromArray([20,
+extractFromArray([0,
     3,
     2,
     15,
