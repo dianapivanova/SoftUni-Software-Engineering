@@ -1,25 +1,16 @@
 function addAndRemove(arr) {
+    let res = []
+    let initNum = 1
 
-    let result = []
-    let num = 1
-
-    for (let command of arr) {
-        if (command == 'add') {
-            result.push(num)
-        } else if (command == 'remove') {
-            result.pop()
-        }
-
-        num += 1
+    for (let i = 0; i < arr.length; i++) {
+        arr[i] == "add" ? res.push(initNum) : res.pop(initNum)
+        initNum++
     }
 
-    if (result.length > 0) {
-        console.log(result.join('\n'))
-    } else {
-        console.log('Empty')
-    }
+    res.length > 0 ? console.log(res.join('\n')) : console.log('Empty')
 
 }
-addAndRemove(['remove',
+addAndRemove(['add',
+    'add',
     'remove',
-    'remove'])
+    'add'])

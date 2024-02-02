@@ -5,7 +5,7 @@ function printNthArrayEl(array, step) {
         res.push(array[i])
     }
 
-    console.log(res)
+    return res;
 }
 printNthArrayEl(['5',
     '20',
