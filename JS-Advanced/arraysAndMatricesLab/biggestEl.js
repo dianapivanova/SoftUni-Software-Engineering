@@ -1,15 +1,15 @@
 function biggestEl(arr) {
     let biggestNum = Number.MIN_SAFE_INTEGER;
 
-    for (let rowId = 0; rowId < arr.length; rowId++) {
-        for (let colId = 0; colId < arr[rowId].length; colId++) {
-            if (arr[rowId][colId] > biggestNum) {
-                biggestNum = arr[rowId][colId];
+    for (let row = 0; row < arr.length; row++) {
+        for (let col = 0; col < arr[row].length; col++) {
+            if (arr[row][col] > biggestNum) {
+                biggestNum = arr[row][col]
             }
         }
     }
 
-    return biggestNum
+    console.log(biggestNum)
 }
 biggestEl([[20, 50, 10],
 [8, 33, 145]])

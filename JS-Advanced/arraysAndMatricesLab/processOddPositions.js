@@ -4,6 +4,6 @@ function processOddPositions(arr) {
         res.push(arr[i] * 2)
     }
     res = res.reverse()
-    console.log(res.join(' '))
+    return (res.join(' '))
 }
 processOddPositions([10, 15, 20, 25])
