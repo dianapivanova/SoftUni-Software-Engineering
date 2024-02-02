@@ -19,7 +19,7 @@ function equalNeighbors(matrix) {
         }
     }
 
-    console.log(equalPairs)
+    return equalPairs
 }
 equalNeighbors([
     ['test', 'yes', 'yo', 'ho'],
