@@ -13,6 +13,6 @@ function sortingNumbers(arr) {
         }
     }
 
-    console.log(res)
+    return res;
 }
 sortingNumbers([22, 9, 63, 3, 2, 19, 11, 21, 18])
