@@ -6,7 +6,7 @@ function magicMatrices(matrix) {
         let currentRowSum = 0
         currentRowSum = matrix[row].reduce((acc, value) => acc + value);
         if (currentRowSum !== rowSum) {
-            console.log('false'); return;
+            return false;
         }
     }
 
@@ -18,11 +18,11 @@ function magicMatrices(matrix) {
         }
 
         if (currentColNum !== rowSum) {
-            console.log('false'); return;
+            return false;
         }
     }
 
-    console.log('true')
+    return true;
 
 }
 
