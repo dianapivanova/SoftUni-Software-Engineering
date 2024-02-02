@@ -1,13 +1,8 @@
 function pieceOfPie(arr, start, end) {
-    let res = []
-    let startIdx = arr.indexOf(start)
+    let starIdx = arr.indexOf(start)
     let endIdx = arr.indexOf(end)
-
-    for (let i = startIdx; i <= endIdx; i++) {
-        res.push(arr[i])
-    }
-
-    return res
+    arr = arr.slice(starIdx, endIdx + 1)
+    return arr
 }
 pieceOfPie(['Pumpkin Pie',
     'Key Lime Pie',

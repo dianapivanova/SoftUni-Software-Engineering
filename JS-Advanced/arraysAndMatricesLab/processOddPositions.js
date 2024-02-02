@@ -1,14 +1,9 @@
 function processOddPositions(arr) {
     let res = []
-
-    for (let i = 0; i < arr.length; i++) {
-        if (i % 2 !== 0) {
-            res.push(arr[i])
-        }
+    for (let i = 1; i < arr.length; i += 2) {
+        res.push(arr[i] * 2)
     }
-
-    res = res.reverse().map(x => (x = x * 2)).join(' ')
-
-    return res
+    res = res.reverse()
+    console.log(res.join(' '))
 }
 processOddPositions([10, 15, 20, 25])
