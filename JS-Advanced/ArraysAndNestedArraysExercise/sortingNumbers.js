@@ -1,14 +1,18 @@
 function sortingNumbers(arr) {
-    let result = []
+    let res = []
     arr = arr.sort((a, b) => (a - b))
+    let rotations = arr.length
 
-    let rotations = arr.length / 2
+    for (let i = 0; i < rotations / 2; i++) {
+        if (arr.length >= 2) {
+            res.push(arr.shift())
+            res.push(arr.pop())
+        } else {
+            res.push(arr.shift())
 
-    for (let i = 0; i < rotations; i++) {
-        result.push(arr.shift())
-        result.push(arr.pop())
+        }
     }
 
-    return result;
+    console.log(res)
 }
-sortingNumbers([1])
+sortingNumbers([22, 9, 63, 3, 2, 19, 11, 21, 18])
