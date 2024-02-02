@@ -1,12 +1,11 @@
 function printNthArrayEl(array, step) {
-
-    let result = []
+    let res = [];
 
     for (let i = 0; i < array.length; i += step) {
-        result.push(array[i])
+        res.push(array[i])
     }
 
-    return result
+    console.log(res)
 }
 printNthArrayEl(['5',
     '20',
