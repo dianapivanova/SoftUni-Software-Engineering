@@ -1,11 +1,11 @@
 function negativePositiveNums(arr) {
     let result = []
 
-    for (let num of arr) {
-        if (num < 0) {
-            result.unshift(num)
+    for (let el of arr) {
+        if (el < 0) {
+            result.unshift(el)
         } else {
-            result.push(num)
+            result.push(el)
         }
     }
 
