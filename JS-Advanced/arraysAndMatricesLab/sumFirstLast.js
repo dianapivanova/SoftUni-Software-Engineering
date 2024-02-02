@@ -1,7 +1,4 @@
 function sum(arr) {
-    let num1 = Number(arr.shift())
-    let num2 = Number(arr.pop())
-
-    console.log(num1 + num2)
+    return (Number(arr.shift()) + Number(arr.pop()))
 }
 sum(['20', '30', '40'])

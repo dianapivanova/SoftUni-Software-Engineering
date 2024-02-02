@@ -12,6 +12,6 @@ function lastKNumbers(n, k) {
         result.push(currentNum)
     }
 
-    console.log(result)
+    return result
 }
 lastKNumbers(8, 2)
