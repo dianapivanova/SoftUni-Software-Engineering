@@ -1,26 +1,24 @@
 function townPopulation(arr) {
 
-    let townRegister = {}
+    let register = {}
 
-    for (let data of arr) {
-        let [city, population] = data.split(' <-> ')
-        population = Number(population)
+    arr.forEach(x => {
+        let [town, population] = x.split(' <-> ')
+        population = Number(population);
 
-        if (!townRegister.hasOwnProperty(city)) {
-            townRegister[city] = 0
+        if (!register.hasOwnProperty(town)) {
+            register[town] = population
+        } else {
+            register[town] += population;
         }
 
-        townRegister[city] += population
-    }
+    })
 
-    for (let [city, population] of Object.entries(townRegister)) {
-        console.log(`${city} : ${population}`)
-    }
-
+    Object.entries(register).forEach(x => console.log(x.join(' : ')))
 
 }
-townPopulation(['Sofia <-> 1200000',
-    'Montana <-> 20000',
+townPopulation(['Sofia <-> 1',
+    'Sofia <-> 1',
     'New York <-> 10000000',
     'Washington <-> 2345000',
     'Las Vegas <-> 1000000']
