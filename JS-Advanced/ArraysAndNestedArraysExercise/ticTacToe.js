@@ -6,63 +6,72 @@ function ticTacToe(data) {
         [false, false, false]
     ]
 
-    let isFirstPlayerPlay = true;
+    let isFirstPlayerMove = true;
+    for (let turn of data) {
+        let [row, column] = turn.split(' ')
+        let marker = ''
 
-    for (let coordinates of data) {
-        let [x, y] = coordinates.split(' ')
-        x = Number(x)
-        y = Number(y)
-
-        if (initDashboard[x][y]) {
-            console.log(`This place is already taken. Please choose another!`);
-            continue;
+        if (initDashboard[row][column] == false) {
+            if (isFirstPlayerMove) {
+                initDashboard[row][column] = 'X'
+                marker = 'X'
+            } else {
+                initDashboard[row][column] = 'O'
+                marker = 'O'
+            }
+        } else {
+            console.log('This place is already taken. Please choose another!'); continue;
         }
 
-        let marker = isFirstPlayerPlay ? 'X' : 'O';
-        initDashboard[x][y] = marker;
-
-        if (checkWin(initDashboard, marker)) {
-            console.log(`Player ${marker} wins!`)
-            return printDashboard(initDashboard)
+        if (victory(marker)) {
+            if (isFirstPlayerMove) {
+                console.log(`Player ${"X"} wins!`)
+            } else {
+                console.log(`Player ${"O"} wins!`)
+            }; break;
         }
 
-        if (!checkFreeSpace(initDashboard)) {
-            console.log(`The game ended! Nobody wins :(`)
-            return printDashboard(initDashboard)
+        if (freeBoardSpace(initDashboard) == false) {
+            console.log('The game ended! Nobody wins :('); break;
         }
 
-        isFirstPlayerPlay = !isFirstPlayerPlay
+
+        isFirstPlayerMove = !isFirstPlayerMove
     }
 
-    function checkWin(dashboard, marker) {
-        for (let i = 0; i < dashboard.length; i++) {
-            if (dashboard[i][0] == marker
-                && dashboard[i][1] == marker
-                && dashboard[i][2] == marker) {
+    function victory(marker) {
+        for (let i = 0; i < initDashboard.length; i++) {
+            if (initDashboard[i][0] == marker
+                && initDashboard[i][1] == marker
+                && initDashboard[i][2] == marker) {
                 return true;
-            } else if (dashboard[0][i] == marker
-                && dashboard[1][i] == marker
-                && dashboard[2][i] == marker) {
+            } else if (initDashboard[0][i] == marker
+                && initDashboard[1][i] == marker
+                && initDashboard[2][i] == marker) {
                 return true;
-            } else if (dashboard[0][0] == marker
-                && dashboard[1][1] == marker
-                && dashboard[2][2] == marker) {
+            } else if (initDashboard[0][0] == marker
+                && initDashboard[1][1] == marker
+                && initDashboard[2][2] == marker) {
                 return true;
-            } else if (dashboard[0][2] == marker
-                && dashboard[1][1] == marker
-                && dashboard[2][0] == marker) {
+            } else if (initDashboard[0][2] == marker
+                && initDashboard[1][1] == marker
+                && initDashboard[2][0] == marker) {
                 return true;
             }
         }
     }
 
-    function checkFreeSpace(dashboard) {
-        return !!dashboard.flat().filter(x => !x).length
+    function freeBoardSpace(initDashboard) {
+        for (let row = 0; row < initDashboard.length; row++) {
+            if (initDashboard[row].includes(false)) {
+                return true
+            }
+        }
+
+        return false;
     }
 
-    function printDashboard(initDashboard) {
-        initDashboard.forEach(row => console.log(row.join('\t')))
-    }
+    initDashboard.forEach(x => console.log(x.join('\t')))
 
 }
 ticTacToe(["0 1",
