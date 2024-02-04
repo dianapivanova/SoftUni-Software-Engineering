@@ -13,8 +13,6 @@ function factory(library, orders) {
     result.push(newObj)
   }
 
-  console.log(result)
-
   return result
 }
 
