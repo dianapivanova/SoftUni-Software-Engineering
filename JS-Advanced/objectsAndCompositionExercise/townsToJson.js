@@ -4,6 +4,7 @@ function townsToJson(array) {
     let result = []
     let headers = array.shift().split(splitter).filter(x => x !== '')
 
+
     for (let curRow of array) {
         let townInfo = curRow.split(splitter)
         townInfo = townInfo.filter(x => x !== '')

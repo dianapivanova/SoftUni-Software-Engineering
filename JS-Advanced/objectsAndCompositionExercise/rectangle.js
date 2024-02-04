@@ -1,15 +1,16 @@
 function rectangle(width, height, color) {
-    color = color.split(color[0]).join(color[0].toUpperCase())
+
     return {
-        width,
-        height,
-        color,
-        calcArea() {
-            return width * height
+        width: width,
+        height: height,
+        color: color[0].toUpperCase() + color.slice(1),
+        calcArea: function () {
+            return (this.width * this.height)
         }
     }
 
 }
+
 let rect = rectangle(4, 5, 'red');
 console.log(rect.width);
 console.log(rect.height);
