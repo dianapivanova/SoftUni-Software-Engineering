@@ -1,24 +1,22 @@
-function storeCatalogue(array) {
+function storeCatalogue(products) {
 
-    let result = {}
-
-    for (let product of array) {
-        let [item, price] = product.split(' : ')
+    let catalogue = {}
+    for (let productInfo of products) {
+        let [product, price] = productInfo.split(' : ');
         price = Number(price)
-        result[item] = price
+        catalogue[product] = price
     }
 
-    let sortedProducts = Object.entries(result).sort((a, b) => a[0].localeCompare(b[0]))
+    let sortedCatalogue = Object.entries(catalogue).sort((a, b) => (a[0].localeCompare(b[0])))
 
-    let currentLetter = ''
+    let currentLetter = '';
 
-    for (let product of sortedProducts) {
-        let productLetter = product[0][0]
-        if (currentLetter !== productLetter) {
-            currentLetter = productLetter
+    for (let [product, price] of sortedCatalogue) {
+        if (currentLetter !== product[0]) {
+            currentLetter = product[0]
             console.log(currentLetter)
         }
-        console.log(`  ${product[0]}: ${product[1]}`)
+        console.log(`${product}: ${price}`)
     }
 }
 storeCatalogue(['Appricot : 20.4',
