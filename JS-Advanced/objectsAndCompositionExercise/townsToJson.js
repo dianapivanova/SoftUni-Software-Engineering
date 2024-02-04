@@ -1,21 +1,19 @@
 function townsToJson(array) {
-
     let splitter = /\s*\|\s*/
-    let headers = array.shift()
-
 
     let result = []
+    let headers = array.shift().split(splitter).filter(x => x !== '')
 
-    for (let el of array) {
-        let obj = { Town: undefined, Latitude: undefined, Longitude: undefined }
-        let [town, latitude, longitude] = el.split(splitter).filter(x => x !== '')
-        latitude = Number(latitude);
-        longitude = Number(longitude);
-        obj.Town = town;
-        obj.Latitude = Number(latitude.toFixed(2))
-        obj.Longitude = Number(longitude.toFixed(2));
+    for (let curRow of array) {
+        let townInfo = curRow.split(splitter)
+        townInfo = townInfo.filter(x => x !== '')
 
-        result.push(obj)
+        let [curTown, curLat, curLong] = townInfo
+
+        curLat = Number(Number(curLat).toFixed(2))
+        curLong = Number(Number(curLong).toFixed(2))
+
+        result.push({ 'Town': curTown, 'Latitude': curLat, 'Longitude': curLong })
     }
 
     console.log(JSON.stringify(result))
