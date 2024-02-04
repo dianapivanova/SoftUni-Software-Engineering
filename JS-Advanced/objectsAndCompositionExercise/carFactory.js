@@ -23,7 +23,7 @@ function carFactory(order) {
 
     result.wheels = Array(4).fill(order.wheelsize)
 
-    console.log(result)
+    return result;
 }
 carFactory({
     model: 'VW Golf II',
