@@ -8,7 +8,7 @@ function fromJSONToHTMLTable(json) {
     });
     result.push('</table>');
 
-    return (result.join('\n'));
+    console.log(result.join('\n'));
 
     function addKey(arr) {
         let result = '  <tr>';
@@ -52,3 +52,10 @@ fromJSONToHTMLTable(`[{"Name":"Pesho",
 "Score":5.50,
 " Grade":10}]`
 )
+
+// <table>
+// <tr><th>Name</th><th>Score</th><th>Grade</th></tr>
+// <tr><td>Pesho</td><td>4</td><td>8</td></tr>
+// <tr><td>Gosho</td><td>5</td><td>8</td></tr>
+// <tr><td>Angel</td><td>5.5</td><td>10</td></tr>
+// </table>
