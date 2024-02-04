@@ -1,13 +1,10 @@
 function carFactory(order) {
-    let result = {
-        model: order.model,
-        engine: undefined,
-        carriage: undefined,
-        wheels: undefined
-    }
+
+    let result = {}
+    result.model = order.model
 
     if (order.power <= 90) {
-        result.engine = { power: 90, volume: 1800 }
+        result.engine = { power: 90, volume: 1800 };
     } else if (order.power <= 120) {
         result.engine = { power: 120, volume: 2400 }
     } else {
@@ -20,12 +17,13 @@ function carFactory(order) {
         result.carriage = { type: 'coupe', color: order.color }
     }
 
-    let wheelSize = order.wheelsize % 2 == 0 ? order.wheelsize - 1 : order.wheelsize
+    if (order.wheelsize % 2 == 0) {
+        order.wheelsize -= 1
+    }
 
-    result.wheels = new Array(4).fill(wheelSize)
+    result.wheels = Array(4).fill(order.wheelsize)
 
-    return result;
-
+    console.log(result)
 }
 carFactory({
     model: 'VW Golf II',
