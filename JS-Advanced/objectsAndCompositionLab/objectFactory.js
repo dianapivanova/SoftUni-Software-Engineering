@@ -1,20 +1,21 @@
 
 function factory(library, orders) {
-  const products = []
+  let result = []
 
   for (let order of orders) {
-    const obj = { ...order.template }
-
-    for (let part of order.parts) {
-      if (library[part]) {
-        obj[part] = library[part]
+    let newObj = { ...order.template }
+    let fns = order.parts
+    for (let fn of fns) {
+      if (library.hasOwnProperty(fn)) {
+        newObj[fn] = library[fn];
       }
     }
-
-    products.push(obj)
+    result.push(newObj)
   }
 
-  return products
+  console.log(result)
+
+  return result
 }
 
 const library = {
