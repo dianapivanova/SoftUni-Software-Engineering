@@ -1,25 +1,25 @@
 function lowerCityPrices(array) {
 
-    let towns = []
-    for (let row of array) {
-        let [town, product, price] = row.split(' | ')
-        price = Number(price)
+    let register = []
+    for (let townInfo of array) {
+        let [curTown, curproduct, curPrice] = townInfo.split(' | ');
+        curPrice = Number(curPrice);
 
-        let findProduct = towns.find(x => x.product == product)
+        let findProduct = register.find(x => x.product == curproduct)
 
         if (!findProduct) {
-            let obj = { product, town, price }
-            towns.push(obj)
-        } else if (findProduct.price > price) {
-            findProduct.town = town
-            findProduct.price = price
+            register.push({ 'town': curTown, 'product': curproduct, 'price': curPrice }); continue;
+        }
+
+        if (findProduct.price > curPrice) {
+            findProduct.price = curPrice;
+            findProduct.town = curTown
         }
     }
 
-    for (let obj of towns) {
-        let [product, town, price] = Object.entries(obj)
-        console.log(`${product[1]} -> ${price[1]} (${town[1]})`)
-    }
+    register.forEach(x => {
+        console.log(`${x.product} -> ${x.price} (${x.town})`)
+    })
 }
 lowerCityPrices(['Sample Town | Sample Product | 1000',
     'Sample Town | Orange | 2',
