@@ -1,26 +1,28 @@
 function solve() {
-  let textToModify = document.getElementById("input").value;
-  let sentenceArray = textToModify.split('.')
-  sentenceArray = sentenceArray.filter(x => x.length > 0);
 
-  let output = document.getElementById("output");
+  let textToModify = document.getElementById('input').value;
+  let resultArea = document.getElementById('output');
 
+  let sentences = textToModify.split('.').filter(x => x.trim() !== '')
+
+  let result = []
   let paragraph = []
 
-  for (let sentence of sentenceArray) {
+  for (let sentence of sentences) {
     if (paragraph.length < 3) {
-      paragraph.push(sentence)
+      paragraph.push(`${sentence}`)
     } else {
-      output.innerHTML += `<p> ${paragraph.join('.')}</p>`
+      result.push(`<p>${paragraph.join('.')}.</p>`);
       paragraph = []
       paragraph.push(sentence)
     }
   }
 
-  if (output.innerHTML.length == 0 || paragraph.length > 0) {
-    output.innerHTML += `<p>${paragraph.join('.') + "."}</p>`
+  if (paragraph.length > 0) {
+    result.push(`<p>${paragraph.join('.')}.</p>`);
     paragraph = []
-
   }
+
+  resultArea.innerHTML = result.join('\n')
 
 }
