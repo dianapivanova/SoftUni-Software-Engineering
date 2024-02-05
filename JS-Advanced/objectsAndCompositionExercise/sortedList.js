@@ -11,18 +11,26 @@ function createSortedList() {
     }
 
     function remove(index) {
-        if ((index >= 0 && index < this.size)) {
+        if (isValid(index)) {
             collection.splice(index, 1);
             collection.sort((a, b) => (a - b))
+            this.size--
         }
     }
 
     function get(index) {
-        if ((index >= 0 && index < this.size)) {
+        if (isValid(index)) {
             return collection[index]
         }
     }
 
+    function isValid(index) {
+        if (index >= 0 && index < collection.length) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
 let list = createSortedList();
