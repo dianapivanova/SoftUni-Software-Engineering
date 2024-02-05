@@ -1,20 +1,21 @@
 function search() {
-   let tableData = Array.from(document.querySelectorAll('ul li'));
-   let searchBoxResult = document.getElementById("searchText");
-   let result = document.getElementById("result");
    let matches = 0;
+   let tableRef = document.querySelectorAll('#towns li')
 
-   for (let row of tableData) {
-      if (row.textContent.includes(searchBoxResult.value)) {
+   let searchText = document.getElementById('searchText')
+   let matchResult = document.getElementById('result');
+
+   for (let el of tableRef) {
+      if (el.textContent.includes(searchText.value)) {
          matches++;
-         row.style.fontWeight = "bold"
-         row.style.textDecoration = "underline"
+         el.style.fontWeight = 'bold';
+         el.style.textDecoration = 'underline'
       } else {
-         row.style.fontWeight = "none"
-         row.style.textDecoration = "none"
+         el.style.fontWeight = 'none'
+         el.style.textDecoration = 'none'
       }
    }
 
-   result.textContent = `${matches} matches found`
-   searchBoxResult.value = ""
+   matchResult.textContent = `${matches} matches found`
+   searchText.value = ''
 }
