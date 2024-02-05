@@ -20,7 +20,7 @@ function solve() {
     } else if (namingConvention.value == PASCAL_CASE) {
       result += word[0].toUpperCase() + word.slice(1).toLowerCase()
     } else {
-      result = 'Error'; break;
+      result = 'Error!'; break;
     }
   }
 

@@ -9,6 +9,6 @@ function extract() {
         result.push(match)
     }
 
-    console.log(result.join('; '))
+    return result.join('; ')
 
 }
