@@ -1,8 +1,8 @@
 function calc() {
-    let firstNum = document.getElementById('num1').value
-    let secondNum = document.getElementById('num2').value
-    let resultArea = document.getElementById('sum')
+    let firstNum = document.getElementById('num1')
+    let secondNum = document.getElementById('num2')
+    let result = document.getElementById('sum')
 
-    resultArea.value = Number(firstNum) + Number(secondNum)
+    result.value = Number(firstNum.value) + Number(secondNum.value)
 
 }

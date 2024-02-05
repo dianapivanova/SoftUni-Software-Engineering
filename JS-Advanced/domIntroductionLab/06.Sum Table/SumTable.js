@@ -1,12 +1,14 @@
 function sumTable() {
-    let tableRows = document.getElementsByTagName('tr')
-    let output = document.getElementById('sum')
-    let total = 0
+    let table = document.getElementsByTagName('tr');
+    let tableArr = Array.from(table)
+    let resultArea = document.getElementById('sum')
 
-    for (let i = 1; i < tableRows.length - 1; i++) {
-        let num = tableRows[i].getElementsByTagName('td')[1]
-        total += Number(num.textContent)
+    let sum = 0
+
+    for (let i = 1; i < tableArr.length; i++) {
+        let num = Number(tableArr[i].children[1].textContent)
+        sum += num
     }
 
-    output.textContent = total
+    resultArea.textContent = sum.toFixed(2)
 }

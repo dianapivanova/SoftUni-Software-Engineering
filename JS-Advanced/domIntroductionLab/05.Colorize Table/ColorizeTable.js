@@ -1,9 +1,8 @@
 function colorize() {
-    let table = document.getElementsByTagName('tr')
+    let table = document.querySelectorAll('tr')
+    let tableArr = Array.from(table)
 
-    for (let i = 1; i < table.length; i++) {
-        if (i % 2 == 1) {
-            table[i].style.background = 'teal'
-        }
+    for (let i = 1; i < tableArr.length; i += 2) {
+        tableArr[i].style.background = 'teal'
     }
 }
