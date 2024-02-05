@@ -1,24 +1,27 @@
 function solve() {
+    let number = document.getElementById('input')
+    let outputField = document.getElementById('result')
 
-    let input = document.getElementById('input');
-    let result = document.getElementById('result');
-    let selectMenuTo = document.getElementById('selectMenuTo');
-    let optionBinary = document.createElement('option');
-    optionBinary.value = 'binary';
-    optionBinary.textContent = 'Binary';
-    let optionHexadecimal = document.createElement('option');
-    optionHexadecimal.value = 'hexadecimal';
-    optionHexadecimal.textContent = 'Hexadecimal';
-    selectMenuTo.appendChild(optionBinary);
-    selectMenuTo.appendChild(optionHexadecimal);
+    let selectMenuTo = document.getElementById('selectMenuTo')
 
-    document.getElementsByTagName('button')[0].addEventListener("click", calculate);
+    let binaryOption = document.createElement('option')
+    binaryOption.value = 'binary'
+    binaryOption.textContent = 'Binary'
+    selectMenuTo.appendChild(binaryOption)
 
-    function calculate() {
-        if (selectMenuTo.value === 'binary') {
-            result.value = Number(input.value).toString(2);
-        } else if (selectMenuTo.value === 'hexadecimal') {
-            result.value = Number(input.value).toString(16).toUpperCase();
+    let hexaOption = document.createElement('option')
+    hexaOption.value = 'hexadecimal'
+    hexaOption.textContent = 'Hexadecimal'
+    selectMenuTo.appendChild(hexaOption)
+
+    let buttonTarget = document.querySelector('button')
+    buttonTarget.addEventListener('click', onConvert)
+
+    function onConvert() {
+        if (selectMenuTo.value == 'binary') {
+            outputField.value = Number(number.value).toString(2)
+        } else if (selectMenuTo.value == 'hexadecimal') {
+            outputField.value = Number(number.value).toString(16).toUpperCase()
         }
     }
 }
