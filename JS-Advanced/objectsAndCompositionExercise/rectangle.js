@@ -1,14 +1,15 @@
 function rectangle(width, height, color) {
 
-    return {
-        width: width,
-        height: height,
+    let myObj = {
+        width,
+        height,
         color: color[0].toUpperCase() + color.slice(1),
-        calcArea: function () {
-            return (this.width * this.height)
+        calcArea() {
+            return width * height
         }
     }
 
+    return myObj
 }
 
 let rect = rectangle(4, 5, 'red');
