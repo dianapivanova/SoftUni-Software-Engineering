@@ -1,40 +1,28 @@
 function createSortedList() {
-    const collection = [];
+    let collection = []
+    let size = 0;
+    return { add, remove, get, size }
 
-    const result = {
-        add,
-        remove,
-        get,
-        size: 0,
-    };
 
-    return result;
-
-    function add(num) {
-        collection.push(num);
-        this.size++;
-        collection.sort((a, b) => a - b);
+    function add(element) {
+        collection.push(element)
+        collection.sort((a, b) => (a - b))
+        this.size++
     }
 
     function remove(index) {
-        const valid = checkIndex(index);
-        if (valid) {
+        if ((index >= 0 && index < this.size)) {
             collection.splice(index, 1);
-            this.size--;
+            collection.sort((a, b) => (a - b))
         }
     }
 
     function get(index) {
-        const valid = checkIndex(index);
-
-        if (valid) {
-            return collection[index];
+        if ((index >= 0 && index < this.size)) {
+            return collection[index]
         }
     }
 
-    function checkIndex(index) {
-        return index >= 0 && index < collection.length;
-    }
 }
 
 let list = createSortedList();
@@ -44,3 +32,4 @@ list.add(7);
 console.log(list.get(1));
 list.remove(1);
 console.log(list.get(1));
+
