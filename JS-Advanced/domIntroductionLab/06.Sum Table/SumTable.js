@@ -4,11 +4,13 @@ function sumTable() {
     let resultArea = document.getElementById('sum')
 
     let sum = 0
+    resultArea.textContent = sum
 
     for (let i = 1; i < tableArr.length; i++) {
         let num = Number(tableArr[i].children[1].textContent)
         sum += num
     }
 
-    resultArea.textContent = sum.toFixed(2)
+    resultArea.textContent = sum.toFixed(2);
+
 }
