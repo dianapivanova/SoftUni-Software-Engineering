@@ -1,32 +1,16 @@
 function generateReport() {
-    let inputElements = Array.from(document.getElementsByTagName('input'));
+    let checkedHeaders = []
+    let output = document.getElementById('output')
+    let tableHeaders = document.getElementsByTagName('th');
 
-    const resultArr = [];
-    let tableRows = Array.from(document.getElementsByTagName('tr'));
-    const checkedCols = [];
-
-    for (let i = 0; i < tableRows.length; i++) {
-        const row = tableRows[i];
-        const obj = {};
-
-        for (let y = 0; y < row.children.length; y++) {
-            const element = row.children[y];
-            if (i == 0) {
-                if (element.children[0].checked) {
-                    checkedCols.push(y);
-                }
-                continue;
-            }
-
-            if (checkedCols.includes(y)) {
-                let propertyName = inputElements[y].name;
-                obj[propertyName] = element.textContent;
-            }
-        }
-        if (i !== 0) {
-            resultArr.push(obj);
+    for (let header of tableHeaders) {
+        let checkBox = header.querySelector('[type="checkbox"]')
+        if (checkBox.checked == true) {
+            inputElement = document.querySelector('input[name="employee"]')
+            checkedHeaders.push(inputElement.name)
         }
     }
 
-    document.getElementById('output').value = JSON.stringify(resultArr);
+    let tableRows = document.querySelector('table').children
+    console.log(tableRows)
 }
