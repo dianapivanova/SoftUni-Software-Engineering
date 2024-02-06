@@ -1,17 +1,17 @@
 function validate() {
-    let reg = /^([\w\-.]+)@([a-z]+)(\.[a-z]+)+$/;
-    let inputElement = document.getElementById('email');
-    let value = inputElement.value;
+    //<name>@<domain>.<extension>
+    let pattern = /[a-z]+\@[a-z]+\.[a-z]+/
+    let inputRef = document.getElementById('email')
+    inputRef.addEventListener('change', onChange)
 
-    inputElement.addEventListener('change', checkEmail);
-
-    function checkEmail(event) {
-        if (reg.test(event.target.value)) {
-            event.target.removeAttribute('class');
-            return;
+    function onChange(e) {
+        e.target.classList.add('error');
+        let match = e.target.value.match(pattern);
+        if (match) {
+            e.target.classList.remove('error');
+        } else {
+            e.target.classList.add('error')
         }
-
-        event.target.className = 'error';
     }
 
 }
