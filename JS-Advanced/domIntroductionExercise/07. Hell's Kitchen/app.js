@@ -6,11 +6,12 @@ function solve() {
 
    function onClick() {
       let arr = document.querySelector('textarea').value;
-      let restOutput = document.querySelector('#bestRestaurant span');
-      let workersOutput = document.querySelector('#workers span');
+      let modifiedArr = JSON.parse(arr)
+      let restOutput = document.querySelector('#bestRestaurant p');
+      let workersOutput = document.querySelector('#workers p');
       let restaurants = []
 
-      for (let restaurantInfo of arr) {
+      for (let restaurantInfo of modifiedArr) {
          let [name, workersInfo] = restaurantInfo.split(' - ')
          let findName = restaurants.find(x => x.name == name)
          let workersObj = findWorkersAndSalary(workersInfo);
@@ -36,10 +37,12 @@ function solve() {
       }
 
       function findWorkersAndSalary(workersInfo) {
-         let workersInfoArr = workersInfo.split(' ')
+         let workersInfoArr = workersInfo.split(', ')
          let workersObj = {}
-         for (let i = 0; i < workersInfoArr; i += 2) {
-            workersObj[workersInfoArr[i]] = Number(workersInfo[i + 1])
+         for (let tokens of workersInfoArr) {
+            let [employee, salary] = tokens.split(' ')
+            salary = Number(salary);
+            workersObj[employee] = salary
          }
 
          return workersObj;
@@ -67,13 +70,14 @@ function solve() {
       function bestRestaurantOutput(restaurants) {
          let highestAvgSalary = 0;
          let bestSalary = 0
+         let restEntries = restaurants.map(x => Object.entries(x))
 
-         for (let entries of restaurants) {
-            let currentAvgSalary = entries[1][1]
+         for (let entries of Object.entries(restEntries)) {
+            let currentAvgSalary = entries[1][1][1]
             if (highestAvgSalary < currentAvgSalary) {
                highestAvgSalary = currentAvgSalary
-               bestRestaurant = entries[0][1]
-               bestSalary = entries[2][1]
+               bestRestaurant = entries[1][0][1]
+               bestSalary = entries[1][2][1]
             }
          }
          return `Name: ${bestRestaurant} Average Salary: ${highestAvgSalary.toFixed(2)} Best Salary: ${bestSalary.toFixed(2)}`
@@ -84,11 +88,11 @@ function solve() {
       function bestWorkers(bestRestaurant) {
          let findRestaurant = restaurants.find(x => x.name == bestRestaurant)
          let workers = findRestaurant.workers
-         let sortedWorkersArr = Object.entries(workers).sort((a, b) => b[0] - a[0]);
+         let sortedWorkersArr = Object.entries(workers).sort((a, b) => b[1] - a[1]);
          let result = []
 
          for (let worker of sortedWorkersArr) {
-            result.push(`Name: ${worker[0]} With Salary: ${worker[1].toFixed(2)}`)
+            result.push(`Name: ${worker[0]} With Salary: ${worker[1]}`)
          }
 
          return result.join(' ')
