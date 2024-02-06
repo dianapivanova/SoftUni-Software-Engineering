@@ -1,23 +1,20 @@
 function deleteByEmail() {
+    let resultRef = document.querySelector('input[name="email"]')
+    let outputField = document.getElementById('result');
+    let tableRef = document.querySelectorAll('tbody tr')
 
-    let table = document.querySelectorAll("tbody tr");
-    let searchedEmailAddress = document.querySelector('[name="email"]').value;
-    let outputTextFormat = document.getElementById("result");
-    let isFound = false;
 
-    for (let row of table) {
-        let emailInfo = row.getElementsByTagName('td')[1].textContent;
+    for (let row of tableRef) {
+        let lookedEmail = resultRef.value;
 
-        if (emailInfo == searchedEmailAddress) {
-            row.remove()
-            isFound = true;
+        if (lookedEmail == row.querySelectorAll('td')[1].textContent) {
+            outputField.textContent = 'Deleted.'
+            row.remove(); break;
+
+        } else {
+            outputField.textContent = 'Not found.'
         }
     }
 
-    if (isFound) {
-        outputTextFormat.textContent = 'Deleted.'
-    } else {
-        outputTextFormat.textContent = 'Not found.'
-    }
 
 }
