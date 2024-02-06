@@ -1,26 +1,22 @@
 function addItem() {
-    let newText = document.getElementById("newItemText");
-    let appendTo = document.getElementById("items");
+    let outputField = document.getElementById('newItemText');
+    let ulRef = document.getElementById('items')
 
-    if (newText.value !== "") {
-        let newElement = document.createElement('li');
-        newElement.textContent = newText.value;
+    if (outputField.value !== '') {
+        let newEl = document.createElement('li')
+        newEl.textContent = outputField.value
+        ulRef.appendChild(newEl)
 
-        const deleteBtn = document.createElement('a')
-        deleteBtn.textContent = '[Delete]'
-        deleteBtn.href = '#' //a tag with no href will be disabled and the client won't be able to click;
-        //we are using # as a link in order not to use the link as a navigation (not to redirect)
-        newElement.appendChild(deleteBtn);
-        deleteBtn.onclick = onDelete
-        // deleteBtn.addEventListener('click', onDelete)
+        outputField.value = ''
 
-        appendTo.appendChild(newElement);
-        newText.value = '';
+        let newAElement = document.createElement('a')
+        newAElement.textContent = '[Delete]'
+        newAElement.href = '#';
+        newEl.appendChild(newAElement)
+        newAElement.addEventListener('click', onClick)
 
-        function onDelete(event) {
-            const deletedElement = event.target.parentElement
-            deletedElement.remove()
-
+        function onClick(e) {
+            e.target.parentElement.remove()
         }
     }
 }
