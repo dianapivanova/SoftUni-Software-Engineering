@@ -1,30 +1,32 @@
 function solve() {
-   Array.from(document.querySelectorAll("button.add-product")).forEach(x => x.addEventListener('click', onAdd));
-   document.querySelector(".checkout").addEventListener("click", checkout);
-   const products = {
-      'Bread': 0.80,
-      'Milk': 1.09,
-      'Tomatoes': 0.99
+   let outputField = document.querySelector('textarea')
+   let buttons = document.getElementsByClassName('add-product');
+
+   for (let button of Array.from(buttons)) {
+      button.addEventListener('click', onClick)
    }
 
-   let output = document.querySelector("textarea");
-   const bought = [];
-   let total = 0;
-   let textOutput = '';
+   let totalPrice = 0;
+   let products = []
 
-   function onAdd(event) {
-      const currentProduct = event.target.parentNode.parentNode.querySelector(".product-title").textContent;
-      textOutput = `Added ${currentProduct} for ${products[currentProduct].toFixed(2)} to the cart.\n`;
-      total += products[currentProduct];
-      if (!bought.includes(currentProduct)) {
-         bought.push(currentProduct);
+   function onClick(e) {
+      let product = e.target.parentElement.parentElement.querySelector('.product-title').textContent;
+      let price = e.target.parentElement.parentElement.querySelector('.product-line-price').textContent;
+      outputField.value += `Added ${product} for ${price} to the cart.\n`
+      if (!products.includes(product)) {
+         products.push(product)
       }
-      output.value += textOutput
+      totalPrice += Number(price)
    }
 
-   function checkout() {
-      textOutput = `You bought ${bought.join(', ')} for ${total.toFixed(2)}.`;
-      output.value += textOutput;
-      Array.from(document.querySelectorAll('button')).forEach(x => x.disabled = true);
+   let checkoutButton = document.querySelector('.checkout')
+   checkoutButton.addEventListener('click', checkoutClick)
+
+   function checkoutClick(e) {
+      outputField.value += `You bought ${products.join(', ')} for ${totalPrice.toFixed(2)}.`
+      checkoutButton.disabled = true;
+      for (let button of Array.from(buttons)) {
+         button.disabled = true;
+      }
    }
 }
