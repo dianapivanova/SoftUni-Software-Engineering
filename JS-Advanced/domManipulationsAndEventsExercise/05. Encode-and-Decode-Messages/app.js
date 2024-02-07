@@ -1,35 +1,29 @@
 function encodeAndDecodeMessages() {
-    const receivedMessage = document.querySelectorAll('textarea')[0];
-    const sendMessage = document.querySelectorAll('textarea')[1];
-    const encodeBtn = document.querySelectorAll('button')[0];
-    const decodeBtn = document.querySelectorAll('button')[1];
 
-    encodeBtn.addEventListener('click', onEncode);
-    decodeBtn.addEventListener('click', onDecode);
+    let [writeMessageArea, receiveMessageArea] = document.querySelectorAll('textarea');
+    let [encodeBtn, decodeBtn] = document.querySelectorAll('button');
+    encodeBtn.addEventListener('click', encodeAndSend)
+    decodeBtn.addEventListener('click', decodeAndReceive)
 
-    function onEncode() {
-        let textToEncrypt = receivedMessage.value.split('')
-        let encryptedResult = ''
-
-        for (let char of textToEncrypt) {
-            let newChar = String.fromCharCode(char.charCodeAt(0) + 1)
-            encryptedResult += newChar
+    function encodeAndSend() {
+        let message = writeMessageArea.value.split('');
+        let encodedMsg = ''
+        for (let char of message) {
+            let newChar = String.fromCharCode(char.charCodeAt() + 1)
+            encodedMsg += newChar
         }
-
-        receivedMessage.value = '';
-        sendMessage.value = encryptedResult;
+        writeMessageArea.value = '';
+        receiveMessageArea.value = encodedMsg;
     }
 
-    function onDecode() {
-        let textToDecrypt = sendMessage.value.split('')
-        let decryptedResult = ''
-
-        for (let char of textToDecrypt) {
-            let newChar = String.fromCharCode(char.charCodeAt(0) - 1)
-            decryptedResult += newChar
+    function decodeAndReceive() {
+        let encodedMsg = receiveMessageArea.value.split('');
+        let decodedMsg = '';
+        for (let char of encodedMsg) {
+            let newChar = String.fromCharCode(char.charCodeAt() - 1)
+            decodedMsg += newChar
         }
-
-        sendMessage.value = decryptedResult;
+        receiveMessageArea = decodedMsg
     }
 
 }
