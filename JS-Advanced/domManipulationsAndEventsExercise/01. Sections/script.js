@@ -1,19 +1,21 @@
 function create(words) {
+   let field = document.getElementById('content');
+
 
 
    for (let word of words) {
-
-      let divEl = document.createElement('div');
-      let pEl = document.createElement('p');
-      pEl.style.display = 'none';
-      pEl.textContent = word;
-      divEl.appendChild(pEl);
-      let appendToEl = document.getElementById('content');
-      appendToEl.appendChild(divEl);
-      divEl.addEventListener("click", onClick);
+      let elDiv = document.createElement('div');
+      let par = document.createElement('p')
+      par.textContent = word;
+      elDiv.appendChild(par);
+      par.style.display = 'none'
+      elDiv.addEventListener('click', onShow);
+      field.appendChild(elDiv);
    }
 
-   function onClick() {
-      divEl.children[0].style = 'inline';
+   function onShow(e) {
+      let par = e.target.querySelector('p')
+      par.style.display = 'block'
    }
+
 }
