@@ -1,46 +1,36 @@
 function attachEventsListeners() {
-
-    //confir
-    const RATIO = {
+    //const 
+    let time = {
         days: 1,
         hours: 24,
         minutes: 1440,
         seconds: 86400
     }
 
-    //helper functions
-    function convert(value, unit) {
-        let inDays = value / RATIO[unit]
+    let daysField = document.getElementById('days');
+    let hoursField = document.getElementById('hours');
+    let minutesField = document.getElementById('minutes');
+    let secondsField = document.getElementById('seconds');
 
-        return {
-            days: inDays,
-            hours: inDays * RATIO.hours,
-            minutes: inDays * RATIO.minutes,
-            seconds: inDays * RATIO.seconds
-        }
+    let buttonsArr = Array.from(document.querySelectorAll('input[type="button"]'));
+
+    for (let button of buttonsArr) {
+        button.addEventListener('click', onConvert)
     }
 
-    //capture metrics
-    let daysInputValue = document.getElementById('days');
-    let hoursInputValue = document.getElementById('hours');
-    let minutesInputValue = document.getElementById('minutes');
-    let secondsInputValue = document.getElementById('seconds');
-
-
-    //event listener setup
-    document.querySelector('main').addEventListener('click', onConvert);
 
     function onConvert(e) {
-        if (e.target.tagName == "INPUT" && e.target.type == "button") {
-            let input = e.target.parentElement.querySelector('[type="text"]');
-            let inputValue = Number(input.value);
-            let time = convert(inputValue, input.id)
-
-            daysInputValue.value = time.days;
-            hoursInputValue.value = time.hours;
-            minutesInputValue.value = time.minutes;
-            secondsInputValue.value = time.seconds;
+        let convertedTime = e.target.parentElement.querySelector('input[type="text"]');
+        let numToModify = Number(convertedTime.value);
+        if (numToModify == NaN) {
+            return;
         }
+        let typeOfInput = convertedTime.id
+        let typeOfInputInDays = numToModify / time[typeOfInput]
+        daysField.value = typeOfInputInDays * time.days
+        hoursField.value = typeOfInputInDays * time.hours
+        minutesField.value = typeOfInputInDays * time.minutes
+        secondsField.value = typeOfInputInDays * time.seconds
     }
 
 }
