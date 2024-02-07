@@ -1,34 +1,28 @@
 function lockedProfile() {
-    //constants 
-    const SHOW_MORE = "Show more";
-    const HIDE_IT = "Hide it";
+    let arrButtons = Array.from(document.querySelectorAll('button'))
 
-    //get button elements
-    const btnElements = Array.from(document.querySelectorAll('div button'));
-
-    // attach event listeners
-    for (let btn of btnElements) {
-        btn.addEventListener("click", show)
+    for (let button of arrButtons) {
+        button.addEventListener('click', onShow)
     }
 
-    // on click functionality
-    function show(event) {
-        const divChildren = Array.from(event.target.parentElement.children);
-        const isLocked = divChildren[2].checked;
-        if (isLocked) {
-            return;
+    function onShow(e) {
+
+        let check = e.target.parentElement.querySelector('input[value="lock"]');
+
+
+        if (e.target.textContent == 'Show more') {
+            if (!check.checked) {
+                e.target.parentElement.querySelector('div').style.display = 'inline-block';
+                e.target.textContent = 'Hide it'
+            }
+        } else if (e.target.textContent == 'Hide it') {
+            if (!check.checked) {
+                e.target.parentElement.querySelector('div').style.display = 'none';
+                e.target.textContent = 'Show more'
+            }
         }
 
-        const hiddenFieldElements = event.target.previousElementSibling;
-        if (event.target.textContent == SHOW_MORE) {
-            hiddenFieldElements.style.display = "inline"
-            event.target.textContent = HIDE_IT;
 
-            return;
-        }
-
-        hiddenFieldElements.style.display = "none";
-        event.target.textContent = SHOW_MORE;
     }
 
 }
