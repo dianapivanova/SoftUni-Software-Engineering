@@ -1,84 +1,45 @@
 function solve() {
+  let [inputArea, outputArea] = document.querySelectorAll('textarea');
+  let [generateBtn, buyBtn] = document.querySelectorAll('button');
 
-  //capture elements
-  const tableBody = document.querySelector('table.table tbody');
-  const [input, output] = [...document.querySelectorAll('textarea')];
-  const [generateBtn, buyBtn] = [...document.querySelectorAll('button')];
+  generateBtn.addEventListener('click', addProduct)
+  buyBtn.addEventListener('click', printProduct)
 
-  // adding handlers
-  generateBtn.addEventListener('click', onGenerate);
-  buyBtn.addEventListener('click', onBuy);
+  function addProduct() {
+    let productObject = JSON.parse(inputArea.value)
+    let table = document.querySelector('tbody')
 
-  //helper functions
-  function p(...content) {
-
-    return createElement("p", {}, ...content);
-  }
-
-  function td(...content) {
-
-    return createElement("td", {}, ...content);
-  }
-
-  function createElement(type, props, ...content) {
-    const element = document.createElement(type);
-
-    //loop props and fill element
-    for (let prop in props) {
-      element[prop] = props[prop]
+    for (let entry of productObject) {
+      let newRow = document.createElement('tr');
+      newRow.innerHTML = `
+          <td><img src="${entry.img}"></td>
+          <td><p>${entry.name}</p></td>
+          <td><p>${entry.price}</p></td>
+          <td><p>${entry.decFactor}</p></td>
+          <td><input type="checkbox"></td>
+      `;
+      table.appendChild(newRow);
     }
+  }
 
-    for (let entry of content) {
+  function printProduct() {
+    let boughtFurniture = []
+    let totalPrice = 0;
+    let avgFactor = 0
 
-      if (typeof (entry) == 'string' || typeof (entry) == 'number') {
-        entry = document.createTextNode(entry);
+    let table = document.querySelectorAll('tbody tr')
 
+    for (let row of table) {
+      let mark = row.querySelector('input[type="checkbox"]')
+      if (mark.checked) {
+        boughtFurniture.push(row.querySelectorAll("td")[1].textContent)
+        totalPrice += Number(row.querySelectorAll("td")[2].textContent)
+        avgFactor += Number(row.querySelectorAll("td")[3].textContent)
       }
-
-      element.appendChild(entry)
     }
-    return element;
+
+    outputArea.value = `Bought furniture: ${boughtFurniture.join(', ')}\n`
+    outputArea.value += `Total price: ${totalPrice.toFixed(2)}\n`
+    outputArea.value += `Average decoration factor: ${avgFactor / boughtFurniture.length}`
   }
-
-  // click functions
-  const items = []
-  function onGenerate(e) {
-
-    const data = JSON.parse(input.value);
-
-    for (let item of data) {
-      const checkbox = createElement("input", { type: 'checkbox' });
-
-      const { img, name, price, decFactor } = item;
-
-      const row = createElement('tr', {}, td(createElement('img', { src: img })),
-        td(p(name)),
-        td(p(price)),
-        td(p(decFactor)),
-        td(checkbox))
-
-      items.push({ element: row, isChecked, item });
-
-      function isChecked() {
-        return checkbox.checked;
-      }
-
-      tableBody.appendChild(row);
-    }
-  }
-
-  function onBuy(e) {
-    const furniture = items.filter(i => i.isChecked()).reduce((acc, { item: c }, i, a) => {
-      acc.names.push(c.name);
-      acc.total += Number(c.price);
-      acc.decFactor += Number(c.decFactor) / a.length;
-      return acc;
-    },
-      { names: [], total: 0, decFactor: 0 });
-
-    const result = `Bought furniture: ${furniture.names.join(', ')}\nTotal price: ${furniture.total.toFixed(2)}\nAverage decoration factor: ${furniture.decFactor}`;
-
-    output.value = result
-  }
-
 }
