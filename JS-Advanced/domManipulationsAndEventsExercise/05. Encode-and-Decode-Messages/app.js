@@ -23,7 +23,7 @@ function encodeAndDecodeMessages() {
             let newChar = String.fromCharCode(char.charCodeAt() - 1)
             decodedMsg += newChar
         }
-        receiveMessageArea = decodedMsg
+        receiveMessageArea.value = decodedMsg
     }
 
 }
