@@ -1,18 +1,25 @@
 function filterEmployees(data, criteriaTuple) {
-    let parsedData = JSON.parse(data);
-    let [key, value] = criteriaTuple.split('-')
-    let result = []
+  let parsedData = JSON.parse(data)
 
-    for (let employee of parsedData) {
-        if (employee[key] == value) {
-            result.push(`${employee['first_name']} ${employee['last_name']} - ${employee['email']}`)
-        }
+
+  let employees = [];
+
+  for (let i = 0; i < parsedData.length; i++) {
+    let obj = parsedData[i]
+    if (criteriaTuple == 'all') {
+      employees.push(`${obj['first_name']} ${obj['last_name']} - ${obj['email']}`)
+    } else {
+      let [criteria, criteriaValue] = criteriaTuple.split('-')
+      if (obj[criteria] == criteriaValue) {
+        employees.push(`${obj['first_name']} ${obj['last_name']} - ${obj['email']}`)
+      }
     }
+  }
 
-    for (let i = 0; i < result.length; i++) {
-        console.log(`${i}. ${result[i]}`)
-    }
 
+  for (let i = 0; i < employees.length; i++) {
+    console.log(`${i}. ${employees[i]}`)
+  }
 }
 filterEmployees(`[{
     "id": "1",
@@ -34,4 +41,4 @@ filterEmployees(`[{
     "email": "emaldin2@hostgator.com",
     "gender": "Male"
   }]`,
-    'gender-Female')
+  'all')
