@@ -1,1 +1,0 @@
-console.log(Math.max.call(null, ...[5, 6, 7, 8]))
