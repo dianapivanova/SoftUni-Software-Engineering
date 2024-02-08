@@ -1,22 +1,19 @@
 function argumentInfo(...arguments) {
-
-    let types = {}
-
+    let typeObj = {}
     for (let argument of arguments) {
-        console.log(`${typeof argument}: ${argument}`)
+        let type = typeof (argument)
+        console.log(`${type}: ${argument}`)
 
-        if (!types[typeof argument]) {
-            types[typeof argument] = 1
+        if (!typeObj.hasOwnProperty(type)) {
+            typeObj[type] = 1
         } else {
-            types[typeof argument] += 1
+            typeObj[type]++
         }
     }
 
-    let resultArr = Object.entries(types).sort((a, b) => b[1] - a[1])
-
-    for (let entries of resultArr) {
-        console.log(`${entries[0]} = ${entries[1]}`)
-    }
+    Object.entries(typeObj)
+        .sort((a, b) => (b[1] - a[1]))
+        .forEach(x => console.log(`${x[0]} = ${x[1]}`))
 }
 
 argumentInfo('cat', 42, function () { console.log('Hello world!'); })
