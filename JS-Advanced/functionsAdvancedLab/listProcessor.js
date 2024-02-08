@@ -1,20 +1,23 @@
 function listProcessor(commands) {
 
-    let result = []
+    let collection = [];
 
-    let objCommands = {
-        add: (string) => result.push(string),
-        remove: (string) => result = result.filter(x => x !== string),
-        print: () => console.log(result.join(','))
+    let obj = {
+        add: (str) => collection.push(str),
+        remove: (str) => collection = collection.filter(x => x !== str),
+        print: () => console.log(collection.join(','))
     }
 
-
-    for (let row of commands) {
-        let [command, receivedString] = row.split(' ');
-        if (command !== 'print') {
-            objCommands[command](receivedString)
+    for (let command of commands) {
+        if (command == 'print') {
+            obj.print()
         } else {
-            objCommands[command]()
+            let [action, str] = command.split(' ')
+            if (action == 'add') {
+                obj.add(str)
+            } else {
+                obj.remove(str)
+            }
         }
     }
 
