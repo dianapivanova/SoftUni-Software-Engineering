@@ -1,7 +1,8 @@
 function solution() {
-    let internalStr = ''
+    let internalStr = '';
+
     return {
-        append: (string) => internalStr += string,
+        append: (str) => internalStr += str,
         removeStart: (n) => internalStr = internalStr.slice(n),
         removeEnd: (n) => internalStr = internalStr.slice(0, internalStr.length - n),
         print: () => console.log(internalStr)
