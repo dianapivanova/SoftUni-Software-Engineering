@@ -1,16 +1,16 @@
 function getNextNum() {
-    let prevNum = 0;
+    let previousNum = 0;
     let currentNum = 1;
 
+    function getFi() {
+        let newNum = previousNum + currentNum
+        previousNum = currentNum
+        currentNum = newNum
 
-    function createNextNum() {
-        let newNum = prevNum + currentNum
-        prevNum = currentNum;
-        currentNum = newNum;
-        return prevNum
+        return previousNum
     }
 
-    return createNextNum
+    return getFi
 }
 
 let fib = getNextNum();
