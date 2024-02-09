@@ -1,17 +1,12 @@
 function getArticleGenerator(articles) {
-    const output = document.getElementById('content')
-    let ourArrCopy = articles.slice();
+    let copyArray = Array.from(articles);
 
-    return function getNextOne() {
-        if (ourArrCopy[0] !== undefined) {
+    return function showNextArticle() {
+        let divEl = document.getElementById('content');
+        if (copyArray.length > 0) {
             let article = document.createElement('article');
-            article.textContent = articles.shift()
-            output.appendChild(article)
+            article.textContent = copyArray.shift();
+            divEl.appendChild(article);
         }
-
-        return getNextOne;
-    }
+    };
 }
-
-<div><button onclick="showNext()">Show Next Article</button></div>
-let showNext = getArticleGenerator(articles);
