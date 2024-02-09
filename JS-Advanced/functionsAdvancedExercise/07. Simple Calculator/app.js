@@ -1,20 +1,21 @@
 function calculator() {
-
-    debugger
-    const html = {
+    let obj = {
         n1: '',
         n2: '',
         res: ''
     }
-
     return {
         init: (selector1, selector2, resultSelector) => {
-            html.n1 = document.querySelector(selector1);
-            html.n2 = document.querySelector(selector2);
-            html.res = document.querySelector(resultSelector)
+            obj.n1 = document.querySelector(selector1)
+            obj.n2 = document.querySelector(selector2);
+            obj.res = document.querySelector(resultSelector);
         },
-        add: () => html.res.value = Number(html.n1.value) + Number(html.n2.value),
-        subtract: () => html.res.value = Number(html.n1.value) - Number(html.n2.value)
+        add: () => {
+            obj.res.value = Number(obj.n1.value) + Number(obj.n2.value);
+        },
+        subtract: () => {
+            obj.res.value = Number(obj.n1.value) - Number(obj.n2.value);
+        }
     }
 }
 
