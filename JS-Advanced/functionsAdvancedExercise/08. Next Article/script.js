@@ -1,7 +1,7 @@
 function getArticleGenerator(articles) {
     let copyArray = Array.from(articles);
 
-    return function showNextArticle() {
+    function showNextArticle() {
         let divEl = document.getElementById('content');
         if (copyArray.length > 0) {
             let article = document.createElement('article');
@@ -9,4 +9,6 @@ function getArticleGenerator(articles) {
             divEl.appendChild(article);
         }
     };
+
+    return showNextArticle
 }
