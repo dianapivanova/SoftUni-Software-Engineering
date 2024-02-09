@@ -7,7 +7,7 @@ function add(num) {
         return addAnotherNum;
     }
 
-    addAnotherNum.toString = () => sum;
+    addAnotherNum.toString() = () => sum
     return addAnotherNum; //because of the above this now returns the sum variable
 }
-add(1)(6)(-3)
+console.log(add(1)(6)(-3))
