@@ -14,21 +14,16 @@ function solution() {
   let assignedTeam = document.getElementById('team')
   let description = document.getElementById('description')
 
-
-  const inputValues = {
-    employee: employeeField.value,
-    categoryField: categoryField.value,
-    urgencyField: urgencyField.value,
-    assignedTeam: assignedTeam.value,
-    description: description.value
-  }
+  let inputValues = [];
 
   function onDefault(e) {
     e.preventDefault();
+
     if (employeeField.value == '' || categoryField.value == '' || urgencyField.value == '' || assignedTeam.value == '' || description.value == '') {
       return;
     }
 
+    inputValues.push(employeeField.value, categoryField.value, urgencyField.value, assignedTeam.value, description.value)
     createArticle(employeeField, categoryField, urgencyField, assignedTeam, description);
     clearField(employeeField, categoryField, urgencyField, assignedTeam, description)
     document.querySelector('#add-btn').disabled = true;
@@ -45,6 +40,7 @@ function solution() {
 
   function createArticle(employeeField, categoryField, urgencyField, assignedTeam, description) {
     let articleLi = document.createElement('li')
+    articleLi.classList.add('problem-content')
     articleLi.innerHTML +=
       `<article>` +
       `<p>From: ${employeeField.value}</p>` +
@@ -66,33 +62,32 @@ function solution() {
 
   const buttonCommands = {
     edit: (e) => {
-      employeeField.value = inputValues[employee]
-      categoryField.value = inputValues[categoryField]
-      urgencyField.value = inputValues[urgencyField]
-      assignedTeam.value = inputValues[assignedTeam]
-      description.value = inputValues[description]
+      employeeField.value = inputValues[0]
+      categoryField.value = inputValues[1]
+      urgencyField.value = inputValues[2]
+      assignedTeam.value = inputValues[3]
+      description.value = inputValues[4]
 
       document.querySelector('#add-btn').disabled = false;
       e.target.parentElement.remove();
     },
     continue: (e) => {
-      let liEl = e.target.parentElement.parentElement;
-      Array.from(liEl.querySelectorAll('button')).forEach(x => x.remove);
-      liEl.innerHTML += `<button class="resolve-btn">Resolve</button>`
+      let liEl = e.target.parentElement;
+      Array.from(liEl.querySelectorAll('button')).forEach(x => x.remove());
+      liEl.innerHTML += `<button class="resolve-btn">Resolved</button>`
       liEl.querySelector('button').addEventListener('click', buttonCommands['resolved'])
-      pendingSec.querySelector('pending-list').appendChild(liEl);
-      e.target.parentElement.remove();
+      pendingSec.querySelector('ul').appendChild(liEl);
     },
     resolved: (e) => {
-      let liEl = e.target.parentElement.parentElement;
-      liEl.querySelectorAll('button').remove()
+      let liEl = e.target.parentElement;
+      liEl.querySelector('button').remove()
       liEl.innerHTML += `<button class="clear-btn">Clear</button>`
       liEl.querySelector('button').addEventListener('click', buttonCommands['clear'])
-      resolvedSec.querySelector('resolved-list').appendChild(liEl);
-      e.target.parentElement.remove();
+      resolvedSec.querySelector('ul').appendChild(liEl);
     },
     clear: (e) => {
       e.target.parentElement.remove()
+      document.querySelector('#add-btn').disabled = false;
     }
   }
 }
