@@ -5,7 +5,7 @@ function solution() {
   let [problemSec, previewSec, pendingSec, resolvedSec] = document.querySelectorAll('#wrapper section');
   let formRef = document.querySelector('form');
 
-  formRef.addEventListener('submit', onDefault);
+  formRef.addEventListener('click', onDefault);
 
   let employeeField = document.getElementById('employee')
   let categoryField = document.getElementById('category')
@@ -69,8 +69,10 @@ function solution() {
 
       document.querySelector('#add-btn').disabled = false;
       e.target.parentElement.remove();
+      inputValues = [];
     },
     continue: (e) => {
+
       let liEl = e.target.parentElement;
       Array.from(liEl.querySelectorAll('button')).forEach(x => x.remove());
       liEl.innerHTML += `<button class="resolve-btn">Resolved</button>`
