@@ -5,7 +5,6 @@ function solution() {
   let [problemSec, previewSec, pendingSec, resolvedSec] = document.querySelectorAll('#wrapper section');
   let formRef = document.querySelector('form');
 
-  let submitBtn = formRef.querySelector('button');
   formRef.addEventListener('submit', onDefault);
 
   let employeeField = document.getElementById('employee')
@@ -56,8 +55,8 @@ function solution() {
   }
 
   function getButtons(btn1, btn2) {
-    return (`<button class=${btn1.class}>${btn1.text}</button>` +
-      `<button class=${btn2.class}>${btn2.text}</button>`)
+    return (`<button class="${btn1.class}">${btn1.text}</button>` +
+      `<button class="${btn2.class}">${btn2.text}</button>`)
   }
 
   const buttonCommands = {
@@ -88,6 +87,7 @@ function solution() {
     clear: (e) => {
       e.target.parentElement.remove()
       document.querySelector('#add-btn').disabled = false;
+      inputValues = [];
     }
   }
 }
