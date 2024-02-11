@@ -1,6 +1,19 @@
-function printDeckOfCards(cards) {
+function printDeckOfCards(array) {
 
-    let result = [];
+    let result = []
+    for (let card of array) {
+        let face = card.slice(0, card.length - 1)
+        let suit = card.slice(card.length - 1)
+
+        try {
+            createCard(face, suit)
+            result.push(createCard(face, suit))
+        } catch (err) {
+            console.log(`Invalid card: ${card}`); return;
+
+        }
+    }
+
     function createCard(face, suit) {
         let faces = ['2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K, A'][0].split(', ')
         let suits = {
@@ -11,7 +24,7 @@ function printDeckOfCards(cards) {
         }
 
         if (!faces.includes(face)) {
-            throw new Error('Invalid face');
+            throw new Error('Error');
         }
 
         const cardCreationObj = {
@@ -22,13 +35,9 @@ function printDeckOfCards(cards) {
             }
         }
 
-        return cardCreationObj
-
+        return cardCreationObj.toString()
     }
 
-    for (let card of cards) {
-
-    }
-
+    console.log(result.join(' '))
 }
-printDeckOfCards()
+printDeckOfCards(['1C', '3D', 'QD', '1C'])

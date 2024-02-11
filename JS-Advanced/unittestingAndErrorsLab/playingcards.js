@@ -19,7 +19,7 @@ function createCard(face, suit) {
         }
     }
 
-    return cardCreationObj
+    console.log(cardCreationObj.toString())
 
 }
-createCard('4', 'H')
+createCard('1', 'H')
