@@ -8,7 +8,7 @@ function createCard(face, suit) {
     }
 
     if (!faces.includes(face)) {
-        throw new Error('Invalid face');
+        throw new Error('Error');
     }
 
     const cardCreationObj = {
