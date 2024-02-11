@@ -1,97 +1,118 @@
 window.addEventListener('load', solution);
 
-function solution() {
+function solve() {
+    let [pickClassSec, previewSec, confirmClassSec] = Array.from(document.getElementById('wrapper').children);
+    let formRef = document.querySelector('form');
+    formRef.addEventListener('submit', onDefault);
 
-  let [problemSec, previewSec, pendingSec, resolvedSec] = document.querySelectorAll('#wrapper section');
-  let formRef = document.querySelector('form');
+    let nameVar = document.getElementById('name');
+    let emailVar = document.getElementById('email');
+    let contactNumvar = document.getElementById('contact-number');
+    let preferredClassVar = document.getElementById('class-type');
+    let preferredClassTime = document.getElementById('class-time');
 
-  formRef.addEventListener('click', onDefault);
+    let inputValues = {};
 
-  let employeeField = document.getElementById('employee')
-  let categoryField = document.getElementById('category')
-  let urgencyField = document.getElementById('urgency')
-  let assignedTeam = document.getElementById('team')
-  let description = document.getElementById('description')
+    function onDefault(e) {
+        e.preventDefault();
 
-  let inputValues = [];
+        if (nameVar.value == ''
+            || emailVar.value == ''
+            || contactNumvar.value == ''
+            || preferredClassVar.value == ''
+            || preferredClassTime.value == '') {
+            return;
+        }
 
-  function onDefault(e) {
-    e.preventDefault();
+        inputValues = {
+            name: nameVar.value,
+            email: emailVar.value,
+            contactNum: contactNumvar.value,
+            preferredClass: preferredClassVar.value,
+            preferredTime: preferredClassTime.value
+        };
 
-    if (employeeField.value == '' || categoryField.value == '' || urgencyField.value == '' || assignedTeam.value == '' || description.value == '') {
-      return;
+        createArticle();
+        clearContent();
+        document.querySelector('#next-btn').disabled = true;
     }
 
-    inputValues.push(employeeField.value, categoryField.value, urgencyField.value, assignedTeam.value, description.value)
-    createArticle(employeeField, categoryField, urgencyField, assignedTeam, description);
-    clearField(employeeField, categoryField, urgencyField, assignedTeam, description)
-    document.querySelector('#add-btn').disabled = true;
-  }
+    let btnFunctions = {
+        edit: (e) => {
+            document.querySelector('#next-btn').disabled = false;
+            nameVar.value = inputValues.name;
+            emailVar.value = inputValues.email;
+            contactNumvar.value = inputValues.contactNum;
+            preferredClassVar.value = inputValues.preferredClass;
+            preferredClassTime.value = inputValues.preferredTime;
+            e.target.parentElement.remove();
+        },
+        continue: (e) => {
+            let articleLi = e.target.parentElement;
+            articleLi.classList.remove('info-item');
+            articleLi.classList.add('continue-info');
+            e.target.parentElement.querySelectorAll('button').forEach(x => x.remove());
+            articleLi.innerHTML += getButtons({ class: 'cancel-btn', name: "Cancel" }, { class: "confirm-btn", name: "Confirm" });
+            Array.from(articleLi.querySelectorAll('button')).forEach(x => x.addEventListener('click', btnFunctions[x.textContent.toLowerCase()]));
+            document.querySelector('.confirm-class').appendChild(articleLi);
+        },
+        cancel: (e) => {
+            e.target.parentElement.remove();
+            document.querySelector('#next-btn').disabled = false;
+        },
+        confirm: (e) => {
+            document.getElementById('main').remove();
+            let h1El = document.createElement('h1');
+            h1El.id = "thank-you";
+            h1El.textContent = "Thank you for scheduling your appointment, we look forward to seeing you!";
+            let button = document.createElement('button');
+            button.textContent = "Done";
+            button.id = "done-btn";
 
-  function clearField(employeeField, categoryField, urgencyField, assignedTeam, description) {
-    employeeField.value = ''
-    categoryField.value = ''
-    urgencyField.value = ''
-    assignedTeam.value = ''
-    description.value = ''
+            document.body.appendChild(h1El);
+            document.body.appendChild(button);
+            button.addEventListener('click', onRefresh);
+        }
+    };
 
-  }
-
-  function createArticle(employeeField, categoryField, urgencyField, assignedTeam, description) {
-    let articleLi = document.createElement('li')
-    articleLi.classList.add('problem-content')
-    articleLi.innerHTML +=
-      `<article>` +
-      `<p>From: ${employeeField.value}</p>` +
-      `<p>Category: ${categoryField.value}</p>` +
-      `<p>Urgency: ${urgencyField.value}</p>` +
-      `<p>Assigned to: ${assignedTeam.value}</p>` +
-      `<p>"Description: ${description.value}"</p>` +
-      `</article>` +
-      getButtons({ class: 'edit-btn', text: 'Edit' }, { class: 'continue-btn', text: 'Continue' })
-    let btns = articleLi.querySelectorAll('button')
-    Array.from(btns).forEach(x => x.addEventListener('click', buttonCommands[x.textContent.toLowerCase()]))
-    previewSec.querySelector('.preview-list').appendChild(articleLi);
-  }
-
-  function getButtons(btn1, btn2) {
-    return (`<button class="${btn1.class}">${btn1.text}</button>` +
-      `<button class="${btn2.class}">${btn2.text}</button>`)
-  }
-
-  const buttonCommands = {
-    edit: (e) => {
-      employeeField.value = inputValues[0]
-      categoryField.value = inputValues[1]
-      urgencyField.value = inputValues[2]
-      assignedTeam.value = inputValues[3]
-      description.value = inputValues[4]
-
-      document.querySelector('#add-btn').disabled = false;
-      e.target.parentElement.remove();
-      inputValues = [];
-    },
-    continue: (e) => {
-
-      let liEl = e.target.parentElement;
-      Array.from(liEl.querySelectorAll('button')).forEach(x => x.remove());
-      liEl.innerHTML += `<button class="resolve-btn">Resolved</button>`
-      liEl.querySelector('button').addEventListener('click', buttonCommands['resolved'])
-      pendingSec.querySelector('ul').appendChild(liEl);
-    },
-    resolved: (e) => {
-      let liEl = e.target.parentElement;
-      liEl.querySelector('button').remove()
-      liEl.innerHTML += `<button class="clear-btn">Clear</button>`
-      liEl.querySelector('button').addEventListener('click', buttonCommands['clear'])
-      resolvedSec.querySelector('ul').appendChild(liEl);
-    },
-    clear: (e) => {
-      e.target.parentElement.remove()
-      document.querySelector('#add-btn').disabled = false;
-      inputValues = [];
+    function onRefresh(e) {
+        location.reload();
     }
-  }
+
+    function createArticle() {
+        let articleLi = document.createElement('li');
+        articleLi.classList.add('info-item');
+        articleLi.innerHTML = createArticleHTML(inputValues);
+        Array.from(articleLi.querySelectorAll('button')).forEach(x => x.addEventListener('click', btnFunctions[x.textContent.toLowerCase()]));
+        document.querySelector('.class-info').appendChild(articleLi);
+    }
+
+    function createArticleHTML(inputValues) {
+        return (
+            `<article class="personal-info">` +
+            `<p>${inputValues.name}</p>` +
+            `<p>${inputValues.email}</p>` +
+            `<p>${inputValues.contactNum}</p>` +
+            `<p>${inputValues.preferredClass}</p>` +
+            `<p>${inputValues.preferredTime}</p>` +
+            `</article>` +
+            getButtons({ class: 'edit-btn', name: "Edit" }, { class: "continue-btn", name: "Continue" }));
+    }
+
+    function getButtons(btn1, btn2) {
+        return (
+            `<button class="${btn1.class}">${btn1.name}</button>` +
+            `<button class="${btn2.class}">${btn2.name}</button>`
+        );
+    }
+
+    function clearContent() {
+        nameVar.value = '';
+        emailVar.value = '';
+        contactNumvar.value = '';
+        preferredClassVar.value = '';
+        preferredClassTime.value = '';
+    }
 }
 
 

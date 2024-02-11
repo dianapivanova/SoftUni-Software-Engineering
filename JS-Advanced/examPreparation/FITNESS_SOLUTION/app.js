@@ -74,7 +74,6 @@ function solve() {
         classTypeElement.value = "";
         classTimeElement.value = "";
 
-
         nextButtonElement.disabled = true;
 
         editBtn.addEventListener("click", onEdit)
@@ -117,17 +116,17 @@ function solve() {
 
             cancelBtn.addEventListener("click", onCancel)
 
-            function onCancel(){
+            function onCancel() {
                 liElementContinue.remove()
                 nextButtonElement.disabled = false
             }
             confirmBtn.addEventListener("click", onConfirm)
 
-            function onConfirm(){
+            function onConfirm() {
                 mainElement.remove()
                 let header1 = document.createElement("h1")
                 header1.setAttribute("id", "thank-you");
-                header1.textContent = "Thank you for scheduling your appointment, we look forward to seeing you!" 
+                header1.textContent = "Thank you for scheduling your appointment, we look forward to seeing you!"
 
                 let backBtn = document.createElement("button")
                 backBtn.setAttribute("id", "done-btn")
@@ -136,9 +135,9 @@ function solve() {
                 bodyElement.appendChild(header1)
                 bodyElement.appendChild(backBtn)
 
-                backBtn.addEventListener("click",onBack)
+                backBtn.addEventListener("click", onBack)
 
-                function onBack(){
+                function onBack() {
                     location.reload()
                 }
             }
@@ -150,7 +149,6 @@ function solve() {
 
 
 expect($(document.querySelector(".class-info > li")).length).to.equal(1, "The class must be added to the list")
-
 
 
 expect($(document.getElementById("name")).val()).to.equal('', 'Name input field was not cleared');
