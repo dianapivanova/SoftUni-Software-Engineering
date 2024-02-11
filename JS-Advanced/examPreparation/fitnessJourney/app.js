@@ -1,111 +1,148 @@
 window.addEventListener('load', solve);
 
+/// fields (Name, Email, Contact Number, Preferred Class and Class Time) 
+
 function solve() {
-    let [pickClassSec, previewSec, confirmClassSec] = Array.from(document.getElementById('wrapper').children);
-    let formRef = document.querySelector('form')
-    formRef.addEventListener('submit', onDefault);
 
-    let nameVar = document.getElementById('name')
-    let emailVar = document.getElementById('email')
-    let contactNumvar = document.getElementById('contact-number')
-    let preferredClassVar = document.getElementById('class-type')
-    let preferredClassTime = document.getElementById('class-time')
+    const nameInputField = document.getElementById('name');
+    const emailInputField = document.getElementById('email')
+    const contactNumInputField = document.getElementById('contact-number')
+    const classInputField = document.getElementById('class-type')
+    const classTimeInputField = document.getElementById('class-time');
+    const nextBtnRef = document.getElementById('next-btn');
+    const previewUlRef = document.getElementsByClassName('class-info')[0];
+    const confirmUlRef = document.getElementsByClassName('confirm-class')[0];
+    const bodyRef = document.getElementById('body')
+    const mainRef = document.getElementById('main')
 
-    let inputValuesArr = []
+    const formRef = document.querySelector('form')
+    formRef.addEventListener('submit', onDefault)
 
     function onDefault(e) {
-        e.preventDefault()
-        if (nameVar.value == ''
-            || emailVar.value == ''
-            || contactNumvar.value == ''
-            || preferredClassVar.value == ''
-            || preferredClassTime.value == '') {
+        e.preventDefault();
+
+        let nameVal = nameInputField.value;
+        let emailVal = emailInputField.value;
+        let contactNumVal = contactNumInputField.value
+        let classVal = classInputField.value
+        let classTimeVal = classTimeInputField.value;
+
+        if (nameVal == "" || emailVal == "" || contactNumVal == "" || classVal == "" || classTimeVal == "") {
             return;
         }
 
-        inputValuesArr.push(nameVar.value, emailVar.value, contactNumvar.value, preferredClassVar.value, preferredClassTime.value);
+        let liElelement = document.createElement('li');
+        liElelement.setAttribute("class", "info-item")
+        let article = document.createElement('article');
+        article.setAttribute('class', 'personal-info');
 
-        let articleLi = document.createElement('li');
-        articleLi.classList.add('info-item');
-        articleLi.innerHTML += createArticle(nameVar.value, emailVar.value, contactNumvar.value, preferredClassVar.value, preferredClassTime.value)
-        Array.from(articleLi.querySelectorAll('button')).forEach(x => x.addEventListener('click', btnFunctions[x.textContent.toLowerCase()]))
-        clearContent(nameVar, emailVar, contactNumvar, preferredClassVar, preferredClassTime);
-        document.querySelector('.class-info').appendChild(articleLi);
-        document.querySelector('#next-btn').disabled = true;
-    }
+        let nameEl = document.createElement('p')
+        nameEl.textContent = nameVal
 
-    let btnFunctions = {
-        edit: (e) => {
-            document.querySelector('#next-btn').disabled = false;
-            nameVar.value = inputValuesArr[0]
-            emailVar.value = inputValuesArr[1]
-            contactNumvar.value = inputValuesArr[2]
-            preferredClassVar.value = inputValuesArr[3]
-            preferredClassTime.value = inputValuesArr[4]
-            e.target.parentElement.remove()
-        },
-        continue: (e) => {
-            let articleLi = e.target.parentElement;
-            articleLi.classList.remove('info-item')
-            articleLi.classList.add('continue-info');
-            e.target.parentElement.querySelectorAll('button').forEach(x => x.remove());
-            articleLi.innerHTML += getButtons({ class: 'cancel-btn', name: "Cancel" }, { class: "confirm-btn", name: "Confirm" });
-            Array.from(articleLi.querySelectorAll('button')).forEach(x => x.addEventListener('click', btnFunctions[x.textContent.toLowerCase()]))
-            document.querySelector('.confirm-class').appendChild(articleLi);
+        let emailEl = document.createElement('p')
+        emailEl.textContent = emailVal
 
-        },
-        cancel: (e) => {
-            e.target.parentElement.remove();
-            document.querySelector('#next-btn').disabled = false;
-        },
-        confirm: (e) => {
-            document.getElementById('main').remove();
-            let h1El = document.createElement('h1');
-            h1El.id = "thank-you"
-            h1El.textContent = "Thank you for scheduling your appointment, we look forward to seeing you!"
-            let button = document.createElement('button')
-            button.textContent = "Done"
-            button.id = "done-btn"
+        let contactNumEl = document.createElement('p')
+        contactNumEl.textContent = contactNumVal
 
-            document.body.appendChild(h1El);
-            document.body.appendChild(button);
-            button.addEventListener('click', onRefresh);
+        let classEl = document.createElement('p')
+        classEl.textContent = classVal
+
+        let classTimeEl = document.createElement('p')
+        classTimeEl.textContent = classTimeVal
+
+        article.appendChild(nameEl)
+        article.appendChild(emailEl)
+        article.appendChild(contactNumEl)
+        article.appendChild(classEl)
+        article.appendChild(classTimeEl)
+
+        liElelement.appendChild(article)
+        previewUlRef.appendChild(liElelement)
+
+        let editBtn = document.createElement('button')
+        editBtn.setAttribute("class", "edit-btn");
+        editBtn.textContent = "Edit"
+        liElelement.appendChild(editBtn)
+        let continuteBtn = document.createElement('button')
+        continuteBtn.setAttribute('class', 'continue-btn')
+        continuteBtn.textContent = "Continue"
+        liElelement.appendChild(continuteBtn)
+        editBtn.addEventListener('click', onEdit)
+        continuteBtn.addEventListener('click', onContinue)
+
+        nameInputField.value = ''
+        emailInputField.value = ''
+        contactNumInputField.value = ''
+        classInputField.value = ''
+        classTimeInputField.value = ''
+        nextBtnRef.disabled = true
+
+        function onEdit(e) {
+
+            nameInputField.value = nameVal
+            emailInputField.value = emailVal
+            contactNumInputField.value = contactNumVal
+            classInputField.value = classVal
+            classTimeInputField.value = classTimeVal
+            nextBtnRef.disabled = false;
+            liElelement.remove()
         }
-    }
 
-    function onRefresh(e) {
-        location.reload()
-    }
+        function onContinue(e) {
+            liElelement.remove();
 
-    function createArticle(nameVar, emailVar, contactNumvar, preferredClassVar, preferredClassTime) {
-        return (
-            `<article class="personal-info">` +
-            `<p>${nameVar}</p>` +
-            `<p>${emailVar}</p>` +
-            `<p>${contactNumvar}</p>` +
-            `<p>${preferredClassVar}</p>` +
-            `<p>${preferredClassTime}</p>` +
-            `</article>` +
-            getButtons({ class: 'edit-btn', name: "Edit" }, { class: "continue-btn", name: "Continue" }));
+            let newLiEl = document.createElement('li')
+            newLiEl.setAttribute("class", "continue-info");
+            let newArticle = article;
 
-    }
+            let cancelBtn = document.createElement('button')
+            cancelBtn.setAttribute('class', 'cancel-btn')
+            cancelBtn.textContent = "Cancel"
+            cancelBtn.addEventListener("click", onCancel)
 
-    function getButtons(btn1, btn2) {
-        return (
-            `<button class="${btn1.class}">${btn1.name}</button>` +
-            `<button class="${btn2.class}">${btn2.name}</button>`
-        )
-    }
+            let confirmBtn = document.createElement('button')
+            confirmBtn.setAttribute('class', "confirm-btn")
+            confirmBtn.textContent = "Confirm"
+            confirmBtn.addEventListener('click', onConfirm)
 
-    function clearContent(nameVar, emailVar, contactNumvar, preferredClassVar, preferredClassTime) {
-        nameVar.value = ''
-        emailVar.value = ''
-        contactNumvar.value = ''
-        preferredClassVar.value = ''
-        preferredClassTime.value = ''
+            newLiEl.appendChild(newArticle)
+            newLiEl.appendChild(cancelBtn)
+            newLiEl.appendChild(confirmBtn)
+
+            confirmUlRef.appendChild(newLiEl)
+
+            function onCancel(e) {
+                newLiEl.remove()
+                nextBtnRef.disabled = false;
+            }
+
+            function onConfirm(e) {
+                mainRef.remove()
+                let h1El = document.createElement('h1')
+                h1El.setAttribute('id', 'thank-you')
+                h1El.textContent = "Thank you for scheduling your appointment, we look forward to seeing you!";
+                let doneBtn = document.createElement('button')
+                doneBtn.setAttribute('id', "done-btn")
+                doneBtn.textContent = "Done"
+                doneBtn.addEventListener('click', refresh)
+
+                bodyRef.appendChild(h1El)
+                bodyRef.appendChild(doneBtn)
+
+                function refresh(e) {
+                    nextBtnRef.disabled = false;
+                    location.reload()
+
+                }
+
+            }
+        }
+
     }
 
 }
+
 
 
 
