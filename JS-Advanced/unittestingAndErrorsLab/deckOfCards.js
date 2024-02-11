@@ -35,7 +35,7 @@ function printDeckOfCards(array) {
             }
         }
 
-        return cardCreationObj.toString()
+        return cardCreationObj
     }
 
     console.log(result.join(' '))
