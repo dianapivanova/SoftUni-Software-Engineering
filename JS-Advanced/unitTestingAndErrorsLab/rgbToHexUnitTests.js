@@ -390,7 +390,6 @@ describe("Suite", function () {
                 })
 
                 it('throws an error with only 1 argument', function () {
-                    let green = 0
                     let blue = 0
                     expect(rgbToHexColor(blue)).to.throw
                 })
