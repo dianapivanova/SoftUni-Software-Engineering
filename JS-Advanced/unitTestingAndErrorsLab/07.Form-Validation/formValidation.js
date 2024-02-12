@@ -12,8 +12,8 @@ function validate() {
     let validDiv = document.getElementById('valid')
 
     const usernamePattern = /^[A-Za-z0-9]{3,20}$/
-    const passwordPattern = /^\w{5,15}$/
-    const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/
+    const passwordPattern = /^[\w]{5,15}$/
+    const emailPattern = /^[^@.]+@[^@]*\.[^@]*$/
 
     let buttonRef = document.getElementById('submit');
     buttonRef.addEventListener('click', onSubmit);
@@ -26,9 +26,10 @@ function validate() {
         }
     }
 
-    let isValid = true;
+
     function onSubmit(e) {
         e.preventDefault();
+        let isValid = true;
 
         let name = usernameRef.value;
         let email = emailRef.value;
@@ -38,22 +39,19 @@ function validate() {
         let matchName = name.match(usernamePattern)
         let matchEmail = email.match(emailPattern)
         let passMatch = password.match(passwordPattern)
+        let confirmPassMatch = password.match(passwordPattern)
 
         if (!matchName || name == "") {
             isValid = false;
             usernameRef.style.borderColor = 'red'
         } else {
             usernameRef.style.border = 'none'
+            isValid = true;
         }
 
-        if (!passMatch || password == "") {
-            isValid = false;
-            passwordRef.style.borderColor = 'red'
-        } else {
-            passwordRef.style.border = 'none'
-        }
-
-        if (confirmPass !== password || confirmPass == "") {
+        if (confirmPass !== password
+            || !passMatch
+            || !confirmPassMatch) {
             isValid = false;
             confirmPassRef.style.borderColor = 'red'
             passwordRef.style.borderColor = 'red'
@@ -62,7 +60,7 @@ function validate() {
             passwordRef.style.border = 'none'
         }
 
-        if (!matchEmail || email == "") {
+        if (!matchEmail) {
             isValid = false;
             emailRef.style.borderColor = 'red'
         } else {
@@ -81,6 +79,8 @@ function validate() {
 
         if (isValid) {
             validDiv.style.display = 'block'
+        } else {
+            validDiv.style.display = 'none'
         }
 
     }
