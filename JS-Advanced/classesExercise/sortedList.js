@@ -3,7 +3,7 @@ class List {
     size = 0;
     add(el) {
         this.collection.push(el);
-        this.collection = this.collection.sort((a, b) => (a[0] - b[0]));
+        this.collection = this.collection.sort((a, b) => (a - b));
         this.size++
     };
     remove(index) {
