@@ -39,7 +39,7 @@ function requestValidator(object) {
         throw new Error(`Invalid request header: Invalid Message`)
     }
 
-    console.log(object)
+    return object;
 
 }
 requestValidator({
