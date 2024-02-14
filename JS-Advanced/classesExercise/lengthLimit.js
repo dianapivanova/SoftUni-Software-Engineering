@@ -11,10 +11,10 @@ class Stringer {
     decrease(value) {
         if (this.innerLength - value < 0) {
             this.innerLength = 0;
+        } else {
+            this.innerLength -= value;
+
         }
-
-        this.innerLength -= value;
-
     }
     toString() {
         if (this.innerLength < this.innerString.length) {
