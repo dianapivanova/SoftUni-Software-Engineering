@@ -24,12 +24,13 @@ class FashionRetailInventory {
         const index = this.productStock.findIndex(
             (x) => x.productName === productName && x.size === size
         );
-        if (index == -1) {
-            throw new Error(`The product ${productName}, size ${size} is not in the inventory`);
-        } else {
+        if (index !== -1) {
             let idx = this.productStock[index]
             this.productStock.splice(idx, 1);
             return `The product ${productName}, size ${size} was successfully removed from the inventory`;
+
+        } else {
+            throw new Error(`The product ${productName}, size ${size} is not in the inventory`);
         }
 
     }
@@ -59,9 +60,6 @@ class FashionRetailInventory {
 }
 
 const storeHouse = new FashionRetailInventory("East", "Milano");
-console.log(storeHouse.addProduct("Shirt", "M", 10, 25.0));
-console.log(storeHouse.addProduct("T-Shirt", "M", 10, 25.0));
-console.log(storeHouse.sendProduct("T-Shirt", "M"));
 console.log(storeHouse.sendProduct("Sweather", "M"));
 
 
