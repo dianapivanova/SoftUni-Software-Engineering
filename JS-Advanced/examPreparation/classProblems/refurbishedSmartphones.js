@@ -8,9 +8,9 @@ class RefurbishedSmartphones {
 
     addSmartphone(model, storage, price, condition) {
         if (model === "" ||
-            storage <= 0 ||
+            storage < 0 ||
             !Number.isInteger(storage) ||
-            price <= 0 ||
+            price < 0 ||
             condition === "") {
             throw new Error('Invalid smartphone!');
         };
@@ -83,7 +83,7 @@ class RefurbishedSmartphones {
     };
 }
 let retailer = new RefurbishedSmartphones('SecondLife Devices');
-retailer.addSmartphone('Samsung S20 Ultra', 256, 1000, 'good');
+retailer.addSmartphone('Samsung S20 Ultra', 0, 1000, 'good');
 retailer.addSmartphone('Iphone 12 mini', 128, 800, 'perfect');
 retailer.addSmartphone('Aiaomi Redmi Note 10 Pro', 512, 330, 'perfect');
 retailer.sellSmartphone('Samsung S20 Ultra', 256);
