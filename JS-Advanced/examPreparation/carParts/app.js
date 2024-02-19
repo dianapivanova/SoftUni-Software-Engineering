@@ -24,8 +24,8 @@ function solve() {
                         || partNameRef.value == ""
                         || partNumberRef.value == ""
                         || conditionRef.value == ""
-                        || carYearRef.value < 1980
-                        || carYearRef.value > 2023) {
+                        || Number(carYearRef.value) < 1980
+                        || Number(carYearRef.value) > 2023) {
                         return;
                 }
 
@@ -133,7 +133,7 @@ function solve() {
                         }
                 }
         }
-};
+}
 
 
 

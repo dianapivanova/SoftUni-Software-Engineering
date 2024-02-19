@@ -31,6 +31,13 @@ function solve() {
             return;
         }
 
+        nameInputField.value = ''
+        emailInputField.value = ''
+        contactNumInputField.value = ''
+        classInputField.value = ''
+        classTimeInputField.value = ''
+        nextBtnRef.disabled = true
+
         let liElelement = document.createElement('li');
         liElelement.setAttribute("class", "info-item")
         let article = document.createElement('article');
@@ -70,13 +77,6 @@ function solve() {
         liElelement.appendChild(continuteBtn)
         editBtn.addEventListener('click', onEdit)
         continuteBtn.addEventListener('click', onContinue)
-
-        nameInputField.value = ''
-        emailInputField.value = ''
-        contactNumInputField.value = ''
-        classInputField.value = ''
-        classTimeInputField.value = ''
-        nextBtnRef.disabled = true
 
         function onEdit(e) {
 

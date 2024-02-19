@@ -25,3 +25,5 @@ function subSum(array, startIndex, endIndex) {
     return sum;
 }
 subSum([10, 20, 'twenty', 40, 50, 60], 2, 300)
+
+console.log(277.75.toFixed(2))
