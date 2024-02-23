@@ -92,6 +92,7 @@ function solution() {
         continueBtn.addEventListener('click', onContinue);
 
         function onContinue(e) {
+            addBtn.disabled = false;
             liElement.remove();
             let newLiElement = document.createElement('li');
             newLiElement.classList.add('problem-content');

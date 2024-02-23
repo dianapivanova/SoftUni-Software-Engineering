@@ -7,8 +7,8 @@ function personAndTeacher() {
 
     }
     class Teacher extends Person {
-        constructor(subject) {
-            super(this.name, this.email);
+        constructor(name, email, subject) {
+            super(name, email);
             this.subject = subject;
         }
     }
