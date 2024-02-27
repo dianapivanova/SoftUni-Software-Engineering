@@ -89,10 +89,10 @@ describe("Suite Tests Car Service", function () {
         it("throws an error with the first parameter invalid", function () {
             expect(() => carService.partsToBuy(undefined, [])).to.throw(`Invalid input`);
         });
-        it("throws an error with the first parameter invalid", function () {
+        it("throws an error with the second parameter invalid", function () {
             expect(() => carService.partsToBuy([], undefined)).to.throw(`Invalid input`);
         });
-        it("throws an error with the first parameter invalid", function () {
+        it("throws an error with the both parameters invalid", function () {
             expect(() => carService.partsToBuy(undefined, undefined)).to.throw(`Invalid input`);
         });
         it("returns 0 if the first array is empty", function () {
