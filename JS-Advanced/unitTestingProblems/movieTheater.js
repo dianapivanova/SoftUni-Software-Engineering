@@ -152,12 +152,8 @@ describe("Suite Tests MOvie Theater", function () {
 
         it("works with valid all parameters", function () {
             const result = movieTheater.reservation([{ rowNumber: 1, freeSeats: 7 }, { rowNumber: 2, freeSeats: 5 }], 5);
-
-            // Assert that the result is equal to the string '1'
             expect(result).to.equal(2);
         });
-
-
 
     })
 });

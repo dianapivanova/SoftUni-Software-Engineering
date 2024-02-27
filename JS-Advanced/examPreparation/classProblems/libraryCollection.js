@@ -4,7 +4,7 @@ class LibraryCollection {
         this.books = [];
     }
     addBook(bookName, bookAuthor) {
-        if (this.capacity == this.books.length) {
+        if (this.capacity <= this.books.length) {
             throw new Error(`Not enough space in the collection.`);
         }
         this.books.push({ bookName, bookAuthor, payed: false })
@@ -16,7 +16,7 @@ class LibraryCollection {
             throw new Error(`${bookName} is not in the collection.`)
         }
         if (findBook.payed == true) {
-            throw new Error`${bookName} has already been paid.`
+            throw new Error(`${bookName} has already been paid.`)
         }
         findBook.payed = true;
         return `${bookName} has been successfully paid.`
@@ -24,7 +24,7 @@ class LibraryCollection {
     removeBook(bookName) {
         let findBook = this.books.find(x => x.bookName == bookName);
         if (!findBook) {
-            throw new Error(`The book, you're looking for, is not found.`)
+            throw new Error("The book, you're looking for, is not found.")
         }
         if (findBook.payed == false) {
             throw new Error(`${bookName} need to be paid before removing from the collection.`)
@@ -49,7 +49,7 @@ class LibraryCollection {
         } else {
             let findBook = this.books.find(x => x.bookAuthor == bookAuthor);
             if (!findBook) {
-                throw new Error`${bookAuthor} is not in the collection."`
+                throw new Error(`${bookAuthor} is not in the collection.`)
             }
             let hasPaid = `Has Paid`
             if (findBook.payed == false) {
