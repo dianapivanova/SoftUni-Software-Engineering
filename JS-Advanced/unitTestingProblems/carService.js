@@ -48,12 +48,61 @@ const carService = {
 import { expect } from "chai";
 
 describe("Suite Tests Car Service", function () {
-    describe("", function () {
+    describe("testing isItExpensive functionality ", function () {
 
-        it("TODO …", function () {
-            // TODO: …
+        it("works with Engine as an argument", function () {
+            expect(carService.isItExpensive('Engine')).to.equal(`The issue with the car is more severe and it will cost more money`);
+        });
+        it("works with Transmission as an argument", function () {
+            expect(carService.isItExpensive('Transmission')).to.equal(`The issue with the car is more severe and it will cost more money`);
+        });
+        it("works with test as an argument", function () {
+            expect(carService.isItExpensive('test')).to.equal(`The overall price will be a bit cheaper`);
         });
     });
 
-    // TODO: …
+    describe("testing discount functionality", function () {
+
+        it("throws an error with the first parameter invalid", function () {
+            expect(() => carService.discount(undefined, 3)).to.throw(`Invalid input`);
+        });
+        it("throws an error with the second parameter invalid", function () {
+            expect(() => carService.discount(3, undefined)).to.throw(`Invalid input`);
+        });
+        it("throws an error with both parameters invalid", function () {
+            expect(() => carService.discount(3, undefined)).to.throw(`Invalid input`);
+        });
+
+        it("works with proper arguments and 15% discount", function () {
+            expect(carService.discount(3, 100)).to.equal(`Discount applied! You saved 15$`);
+        });
+        it("works with proper arguments and no discount", function () {
+            expect(carService.discount(1, 100)).to.equal(`You cannot apply a discount`);
+        });
+        it("works with proper arguments and 30% discount", function () {
+            expect(carService.discount(10, 100)).to.equal(`Discount applied! You saved 30$`);
+        });
+    });
+
+    describe("testing partsToBuy functionality", function () {
+
+        it("throws an error with the first parameter invalid", function () {
+            expect(() => carService.partsToBuy(undefined, [])).to.throw(`Invalid input`);
+        });
+        it("throws an error with the first parameter invalid", function () {
+            expect(() => carService.partsToBuy([], undefined)).to.throw(`Invalid input`);
+        });
+        it("throws an error with the first parameter invalid", function () {
+            expect(() => carService.partsToBuy(undefined, undefined)).to.throw(`Invalid input`);
+        });
+        it("returns 0 if the first array is empty", function () {
+            expect(carService.partsToBuy([], ["blowoff valve", "injectors"])).to.equal(0);
+        });
+        it("returns the right sum if both arrays are valid and not empty", function () {
+            expect(carService.partsToBuy([{ part: "blowoff valve", price: 145 }, { part: "coil springs", price: 230 }], ["blowoff valve", "injectors"])).to.equal(145);
+        });
+
+    });
+
+
 });
