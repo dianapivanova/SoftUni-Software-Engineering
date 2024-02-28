@@ -114,7 +114,11 @@ function solve() {
                 newLiEl.remove();
                 nextBtn.disabled = false;
                 h1VerificationRef.textContent = 'Confirmed.';
-                h1VerificationRef.classList.add('reservation-confirmed');
+                if (h1VerificationRef.classList.contains('reservation-cancelled')) {
+                    h1VerificationRef.classList.replace('reservation-cancelled', 'reservation-confirmed');
+                } else {
+                    h1VerificationRef.classList.add('reservation-confirmed');
+                }
             }
 
             function onCancel() {
@@ -122,6 +126,11 @@ function solve() {
                 nextBtn.disabled = false;
                 h1VerificationRef.textContent = 'Cancelled.';
                 h1VerificationRef.classList.add('reservation-cancelled');
+                if (h1VerificationRef.classList.contains('reservation-confirmed')) {
+                    h1VerificationRef.classList.replace('reservation-confirmed', 'reservation-cancelled');
+                } else {
+                    h1VerificationRef.classList.add('reservation-cancelled');
+                }
             }
         }
     }
