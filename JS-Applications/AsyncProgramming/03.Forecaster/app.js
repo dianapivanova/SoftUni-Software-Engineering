@@ -10,6 +10,7 @@ function attachEvents() {
     const locUrl = `http://localhost:3030/jsonstore/forecaster/locations`;
 
     const forecastSectionRef = document.getElementById('forecast');
+    forecastSectionRef.innerHTML = '';
 
     document.getElementById('submit').addEventListener('click', getWeather);
 
