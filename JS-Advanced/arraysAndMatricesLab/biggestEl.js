@@ -4,7 +4,7 @@ function biggestEl(arr) {
     for (let row = 0; row < arr.length; row++) {
         for (let col = 0; col < arr[row].length; col++) {
             if (arr[row][col] > biggestNum) {
-                biggestNum = arr[row][col]
+                biggestNum = arr[row][col];
             }
         }
     }
