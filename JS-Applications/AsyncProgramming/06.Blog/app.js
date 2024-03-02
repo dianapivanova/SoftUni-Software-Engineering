@@ -1,65 +1,53 @@
 function attachEvents() {
-    //Get DOM elements
-    let postsSelect = document.querySelector('select#posts');
-    let btnLoadPosts = document.getElementById('btnLoadPosts');
-    let btnViewPost = document.getElementById('btnViewPost');
-    let postTitle = document.getElementById('post-title');
-    let postContent = document.getElementById('post-body');
 
+    const loadPostsBtn = document.getElementById('btnLoadPosts');
+    const viewButton = document.getElementById('btnViewPost');
+    const postsOptionsRef = document.getElementById('posts');
+    const postDetailsH1 = document.getElementById('post-body');
+    const commentsUl = document.getElementById('post-comments');
 
-    //Add event listeners
-    btnLoadPosts.addEventListener('click', handleLoadPosts);
-    btnViewPost.addEventListener('click', handleViewPost);
-    let commonData;
+    loadPostsBtn.addEventListener('click', getOptions);
 
-    function handleLoadPosts() {
-        //Get posts
-        fetch('http://localhost:3030/jsonstore/blog/posts')
-            .then(res => res.json())
-            .then(data => addPosts(data));
+    async function getOptions() {
+        const postUrl = `http://localhost:3030/jsonstore/blog/posts`;
+        const response = await fetch(postUrl);
+        const data = await response.json();
 
-        function addPosts(data) {
-            commonData = data;
-
-            postsSelect.innerHTML = '';
-
-            for (let [id, postInfo] of Object.entries(data)) {
-                //Create option
-                let option = document.createElement('option');
-                option.value = id;
-                option.textContent = postInfo.title;
-                option.dataset.body = postInfo.body;
-                postsSelect.appendChild(option);
-            }
+        for (let key in data) {
+            let optionEl = document.createElement('option');
+            optionEl.textContent = data[key].title;
+            optionEl.value = key
+            postsOptionsRef.appendChild(optionEl);
         }
-    }
+    };
 
-    function handleViewPost() {
-        //Get post id
-        let selectedPostId = document.getElementById('posts').value;
+    viewButton.addEventListener('click', getPosts);
 
-        postTitle.textContent = commonData[selectedPostId].title;
-        postContent.textContent = commonData[selectedPostId].body;
+    async function getPosts() {
 
 
-        //Fetch comments
-        fetch('http://localhost:3030/jsonstore/blog/comments')
-            .then(res => res.json())
-            .then(data => handleComments(data));
+        let id = '';
 
-        //Handle comments
-        function handleComments(data) {
-            let commentsUl = document.getElementById('post-comments');
-            commentsUl.innerHTML = '';
+        document.querySelectorAll('option').forEach(x => {
+            if (x.selected) {
+                id = x.value;
+            }
+        })
 
-            for (let [commentInfo] of Object.entries(data)) {
-                if (commentInfo.postId == selectedPostId) {
-                    //Create comment li
-                    let li = document.createElement('li');
-                    li.id = commentInfo.id
-                    li.textContent = commentInfo.text;
-                    commentsUl.appendChild(li);
-                }
+        const post = `http://localhost:3030/jsonstore/blog/posts/${id}`;
+        const responsePost = await fetch(post);
+        const postData = await responsePost.json();
+        postDetailsH1.textContent = postData.body;
+
+        const url = `http://localhost:3030/jsonstore/blog/comments/`;
+        const response = await fetch(url);
+        const data = await response.json();
+
+        for (let key in data) {
+            let liElement = document.createElement('li');
+            if (data[key].postId == id) {
+                liElement.textContent = data[key].text;
+                commentsUl.appendChild(liElement);
             }
         }
     }
