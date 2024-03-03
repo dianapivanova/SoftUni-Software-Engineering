@@ -1,27 +1,27 @@
 async function getInfo() {
 
-    const stopId = document.getElementById('stopId').value;
+    const stopNameRef = document.getElementById('stopName');
+    const busesRef = document.getElementById('buses');
+
+    let stopId = document.getElementById('stopId').value;
     let url = `http://localhost:3030/jsonstore/bus/businfo/${stopId}`;
-    let buses = document.getElementById('buses')
 
     try {
-        const response = await fetch(url);
-
+        let response = await fetch(url);
         if (!response.ok) {
             const error = new Error(response.statusText);
             throw error;
         }
-
-        const data = await response.json();
-        document.getElementById('stopName').textContent = data.name;
-        Object.entries(data.buses).forEach((busId, time) => {
-            const liItem = document.createElement('li');
-            liItem.textContent = `Bus ${busId} arrives in ${time} minutes`;
-            buses.appendChild(liItem);
+        let data = await response.json();
+        stopNameRef.textContent = data.name;
+        Object.entries(data.buses).forEach(x => {
+            let liEl = document.createElement('li');
+            liEl.textContent = `Bus ${x[0]} arrives in ${x[1]} minutes`;
+            busesRef.appendChild(liEl);
         })
 
     } catch (err) {
-        document.getElementById('stopName').textContent = 'Error';
+        stopNameRef.textContent = 'Error';
     }
-
 }
+
