@@ -40,5 +40,5 @@ async function submitHandler(e) {
         })
     });
     formRef.reset();
-    loadStudents(); // important!!
+    loadStudents();
 }
