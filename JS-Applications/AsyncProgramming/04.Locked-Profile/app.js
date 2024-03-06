@@ -11,7 +11,6 @@ async function lockedProfile() {
         main.appendChild(profileElement);
     })
 
-
     function createProfileCard(profile, count) {
 
         const profileElement = document.createElement('div');
