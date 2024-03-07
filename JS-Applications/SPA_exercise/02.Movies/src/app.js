@@ -1,0 +1,1 @@
+document.querySelectorAll('section').forEach(x => x.style.display = 'none');
