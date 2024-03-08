@@ -1,6 +1,7 @@
 import { homePage } from "./home.js";
 import { registerPage } from "./register.js";
 import { loginPage } from "./login.js";
+import { updateNavBar } from "./utils.js";
 document.querySelector('nav').addEventListener('click', onNavigate);
 
 const routes = {
@@ -15,8 +16,11 @@ function onNavigate(event) {
         const url = new URL(event.target.href);
         const view = routes[url.pathname];
         view();
+
+        homePage();
+        updateNavBar();
     }
 
-
-
 }
+
+

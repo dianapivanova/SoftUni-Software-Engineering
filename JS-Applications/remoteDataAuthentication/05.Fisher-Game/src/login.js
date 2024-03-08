@@ -1,35 +1,32 @@
-const loginForm = document.querySelector('form');
-loginForm.addEventListener('submit', userLogin);
-document.getElementById('user').style.display = 'none';
+const loginForm = document.querySelector('form#login');
 
-async function userLogin(e) {
+loginForm.addEventListener('submit', onSubmit);
+
+async function onSubmit(e) {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const email = formData.get('email');
-    const password = formData.get('password');
+    const formData = new FormData(loginForm);
+    let { email, password } = Object.fromEntries(formData);
+    const url = 'http://localhost:3030/users/login';
+
     try {
-        const res = await fetch('http://localhost:3030/users/login', {
+        const request = await fetch(url, {
             method: 'post',
-            headers: { 'Content-Type': 'aplication/json' },
-            body: JSON.stringify({
-                email,
-                password
-            })
-        });
-        if (!res) {
-            const error = await res.json();
-            throw new Error(error.message);
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        })
+
+        if (!request.ok) {
+            const err = await request.json();
+            throw new Error(err.message)
         }
-        const data = await res.json();
-        const userData = {
-            email: data.email,
-            id: data._id,
-            token: data.accessToken
-        };
-        localStorage.setItem('userData', JSON.stringify(userData));
+        const data = await request.json();
+        localStorage.setItem('userData', JSON.stringify(data));
+
         window.location = './index.html';
-    } catch (error) {
+
+    } catch (err) {
         document.querySelector('form').reset();
-        alert(error.message);
+        alert(err.message);
     }
 }
+

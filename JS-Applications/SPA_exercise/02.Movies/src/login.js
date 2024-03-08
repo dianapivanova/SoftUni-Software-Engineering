@@ -1,3 +1,7 @@
+import { showView } from "./utils.js";
+
+const section = document.getElementById('form-login');
+
 export function loginPage() {
-    console.log('login')
+    showView(section)
 }

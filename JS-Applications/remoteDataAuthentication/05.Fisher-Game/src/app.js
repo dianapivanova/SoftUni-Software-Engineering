@@ -1,32 +1,107 @@
+
 const userData = JSON.parse(localStorage.getItem('userData'));
+document.querySelector('#catches').innerHTML = '';
+document.querySelector('#catches').textContent = 'Click to load catches';
 
 if (userData) {
-    document.querySelector('.email span').textContent = userData.email;
-    document.querySelector('#guest').style.display = 'none';
-    document.querySelector('#addForm .add').disabled = false;
-    loadData();
+    document.getElementById('logout').style.display = 'inline-block';
+    document.getElementById('login').style.display = 'none';
+    document.getElementById('register').style.display = 'none';
+    document.querySelector('p.email span').textContent = userData.email;
+    document.querySelector('.add').disabled = false;
 } else {
-    document.getElementById('user').style.display = 'none';
+    document.getElementById('logout').style.display = 'none';
+    document.getElementById('login').style.display = 'inline-block';
+    document.getElementById('register').style.display = 'inline-block';
 }
 
-document.querySelector('.load').addEventListener('click', loadData);
-document.querySelector('#addForm').addEventListener('submit', onSubmit);
-document.querySelector('#main').addEventListener('click', buttonDelegation);
-document.querySelector('#logout').addEventListener('click', onLogout);
-document.getElementById('catches').innerHTML = '';
+const logOutBtn = document.getElementById('logout');
+logOutBtn.addEventListener('click', onLogOut);
 
-async function onLogout() {
-    await fetch('http://localhost:3030/users/logout', {
+async function onLogOut(e) {
+
+    const response = await fetch('http://localhost:3030/users/logout', {
         method: 'get',
-        headers: {
-            'X-Authorization': userData.token
-        }
-    });
+        headers: { 'X-Authorization': userData.token }
+    })
+
     localStorage.clear();
-    document.querySelector('#logout').style.disabled = 'none';
-    document.querySelector('#addForm .add').disabled = 'true';
-    document.querySelector('#guest').style.display = 'inline-block';
+    window.location = './index.html'
 }
+
+const loadBtn = document.querySelector('button.load')
+loadBtn.addEventListener('click', onLoad);
+
+async function onLoad(e) {
+    let url = 'http://localhost:3030/data/catches';
+    try {
+        const request = await fetch(url);
+        if (!request.ok) {
+            let error = await request.json();
+            throw new Error(error.message);
+        }
+        const data = await request.json();
+
+        document.querySelector('#catches').textContent = '';
+        const catchesContainer = document.getElementById('catches');
+        data.forEach(catchData => {
+            const catchElement = createCatch(catchData);
+            console.log(catchElement); // Log the generated HTML for debugging
+            catchesContainer.appendChild(catchElement);
+        });
+    } catch (error) {
+        alert(error.message);
+    }
+}
+
+function createCatch(data) {
+    const isCreator = (userData && data._ownerId === userData.id);
+    const catchElement = document.createElement('div');
+    catchElement.classList.add('catch');
+
+    catchElement.appendChild(createElement('label', {}, 'Angler'));
+    catchElement.appendChild(createElement('input', { type: 'text', class: 'angler', value: data.angler, disabled: !isCreator }));
+    catchElement.appendChild(createElement('label', {}, 'Weight'));
+    catchElement.appendChild(createElement('input', { type: 'text', class: 'weight', value: data.weight, disabled: !isCreator }));
+    catchElement.appendChild(createElement('label', {}, 'Species'));
+    catchElement.appendChild(createElement('input', { type: 'text', class: 'species', value: data.species, disabled: !isCreator }));
+    catchElement.appendChild(createElement('label', {}, 'Location'));
+    catchElement.appendChild(createElement('input', { type: 'text', class: 'location', value: data.location, disabled: !isCreator }));
+    catchElement.appendChild(createElement('label', {}, 'Bait'));
+    catchElement.appendChild(createElement('input', { type: 'text', class: 'bait', value: data.bait, disabled: !isCreator }));
+    catchElement.appendChild(createElement('label', {}, 'Capture Time'));
+    catchElement.appendChild(createElement('input', { type: 'text', class: 'captureTime', value: data.captureTime, disabled: !isCreator }));
+    catchElement.appendChild(createElement('button', { class: 'update', id: data._id, disabled: !isCreator }, 'Update'));
+    catchElement.appendChild(createElement('button', { class: 'delete', id: data._id, disabled: !isCreator }, 'Delete'));
+
+    return catchElement;
+}
+
+
+function createElement(type, attr, ...content) {
+    const element = document.createElement(type);
+    for (const key in attr) {
+        if (key === 'class') {
+            element.className = attr[key];
+        } else if (key === 'disabled') {
+            element.disabled = attr[key];
+        } else {
+            element.setAttribute(key, attr[key]);
+        }
+    }
+
+    for (let item of content) {
+        if (typeof item === 'string' || typeof item === 'number') {
+            item = document.createTextNode(item);
+        }
+        element.appendChild(item);
+    }
+    return element;
+}
+
+const addForm = document.getElementById('addForm');
+
+addForm.addEventListener('submit', onSubmit);
 
 async function onSubmit(e) {
     e.preventDefault();
@@ -36,129 +111,33 @@ async function onSubmit(e) {
         return;
     }
 
-    const formData = new FormData(e.target);
-    const data = [...formData.entries()].reduce((acc, [k, v]) => Object.assign(acc, { [k]: v }), {});
+    const formData = new FormData(addForm);
+    const { angler, weight, species, location, bait, captureTime } = Object.fromEntries(formData)
+    if (angler == '' ||
+        weight == "" ||
+        species == "" ||
+        location == "" ||
+        bait == "" ||
+        captureTime == "") {
+        alert('faggot'); return;
+    }
 
     try {
-        if (Object.values(data).some((x) => x === '')) {
-            throw new Error('All fields are requierd!');
-        }
-
-        const res = await fetch('http://localhost:3030/data/catches', {
+        let request = await fetch('http://localhost:3030/data/catches', {
             method: 'post',
             headers: {
-                'Content-Type': 'aplication/json',
+                'Content-type': 'application/json',
                 'X-Authorization': userData.token
             },
-            body: JSON.stringify(data)
-        });
-
-        if (!res.ok) {
-            const error = await res.json();
-            throw new Error(error.message);
+            body: JSON.stringify({ angler, weight, species, location, bait, captureTime })
+        })
+        if (!request.ok) {
+            const error = await request.json();
+            throw new Error(error)
         }
-        loadData();
-        e.target.reset();
-    } catch (error) {
-        alert(error.message);
-    }
-}
-
-async function loadData() {
-    const res = await fetch('http://localhost:3030/data/catches');
-    const data = await res.json();
-    document.getElementById('catches').replaceChildren(...data.map(createCatch));
-}
-
-function buttonDelegation(e) {
-    const currBtn = e.target.textContent;
-    const id = e.target.id === '' ? e.target.dataset.id : e.target.id;
-    const currentCatchEl = e.target.parentElement;
-    if (currBtn === 'Delete') {
-        deleteCatch(id);
-    } else if (currBtn === 'Update') {
-        updateCatchElement(id, currentCatchEl);
-    }
-}
-
-async function deleteCatch(id) {
-    await fetch(`http://localhost:3030/data/catches/${id}`, {
-        method: 'delete',
-        headers: {
-            'Content-Type': 'aplication/json',
-            'X-Authorization': userData.token
-        }
-    });
-    loadData();
-}
-
-async function updateCatchElement(id, currentCatchEl) {
-    let [angler, weight, species, location, bait, captureTime] = currentCatchEl.querySelectorAll('input');
-
-    try {
-        const res = await fetch(`http://localhost:3030/data/catches/${id}`, {
-            method: 'put',
-            headers: {
-                'Content-Type': 'aplication/json',
-                'X-Authorization': userData.token
-            },
-            body: JSON.stringify({
-                angler: angler.value,
-                weight: +weight.value,
-                species: species.value,
-                location: location.value,
-                bait: bait.value,
-                captureTime: +captureTime.value
-            })
-        });
-        if (!res.ok) {
-            const error = await res.json();
-            throw new Error(error.message);
-        }
-    } catch (error) {
-        alert(error.message);
-    }
-    loadData();
-}
-
-function createCatch(data) {
-    const isDisabled = (userData && data._ownerId === userData.id) ? false : true;
-    const catches = createElement('div', { class: 'catch' },
-        createElement('label', {}, 'Angler'),
-        createElement('input', { type: 'text', class: 'angler', value: data.angler, disabled: isDisabled }),
-        createElement('label', {}, 'Weight'),
-        createElement('input', { type: 'text', class: 'weight', value: data.weight, disabled: isDisabled }),
-        createElement('label', {}, 'Species'),
-        createElement('input', { type: 'text', class: 'species', value: data.species, disabled: isDisabled }),
-        createElement('label', {}, 'Location'),
-        createElement('input', { type: 'text', class: 'location', value: data.location, disabled: isDisabled }),
-        createElement('label', {}, 'Bait'),
-        createElement('input', { type: 'text', class: 'bait', value: data.bait, disabled: isDisabled }),
-        createElement('label', {}, 'Capture Time'),
-        createElement('input', { type: 'text', class: 'captureTime', value: data.captureTime, disabled: isDisabled }),
-        createElement('button', { class: 'update', id: data._id, disabled: isDisabled }, 'Update'),
-        createElement('button', { class: 'delete', id: data._id, disabled: isDisabled }, 'Delete')
-    );
-    return catches;
-}
-
-function createElement(type, attr, ...content) {
-    const element = document.createElement(type);
-    for (const item in attr) {
-        if (item == 'class') {
-            element.classList.add(attr[item]);
-        } else if (item == 'disabled') {
-            element.disabled = attr[item];
-        } else {
-            element[item] = attr[item];
-        }
+    } catch (err) {
+        alert(userData.token)
     }
 
-    for (let item of content) {
-        if (typeof item == 'string' || typeof item == 'number') {
-            item = document.createTextNode(item);
-        }
-        element.appendChild(item);
-    }
-    return element;
+
 }
