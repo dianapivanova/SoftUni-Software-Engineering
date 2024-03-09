@@ -22,7 +22,7 @@ async function onLogOut(e) {
 
     const response = await fetch('http://localhost:3030/users/logout', {
         method: 'get',
-        headers: { 'X-Authorization': userData.token }
+        headers: { 'X-Authorization': userData.accessToken }
     })
 
     localStorage.clear();
@@ -55,7 +55,7 @@ async function onLoad(e) {
 }
 
 function createCatch(data) {
-    const isCreator = (userData && data._ownerId === userData.id);
+    const isCreator = (userData && data._ownerId === userData._id);
     const catchElement = document.createElement('div');
     catchElement.classList.add('catch');
 
@@ -71,8 +71,20 @@ function createCatch(data) {
     catchElement.appendChild(createElement('input', { type: 'text', class: 'bait', value: data.bait, disabled: !isCreator }));
     catchElement.appendChild(createElement('label', {}, 'Capture Time'));
     catchElement.appendChild(createElement('input', { type: 'text', class: 'captureTime', value: data.captureTime, disabled: !isCreator }));
-    catchElement.appendChild(createElement('button', { class: 'update', id: data._id, disabled: !isCreator }, 'Update'));
-    catchElement.appendChild(createElement('button', { class: 'delete', id: data._id, disabled: !isCreator }, 'Delete'));
+
+    // Create the update button
+    const updateButton = createElement('button', { class: 'update', id: data._id });
+    updateButton.textContent = 'Update';
+    updateButton.disabled = !isCreator; // Disable if the user is not the creator
+    updateButton.addEventListener('click', onUpdate);
+    catchElement.appendChild(updateButton);
+
+    // Create the delete button
+    const deleteButton = createElement('button', { class: 'delete', id: data._id });
+    deleteButton.textContent = 'Delete';
+    deleteButton.disabled = !isCreator; // Disable if the user is not the creator
+    deleteButton.addEventListener('click', onDelete)
+    catchElement.appendChild(deleteButton);
 
     return catchElement;
 }
@@ -123,11 +135,12 @@ async function onSubmit(e) {
     }
 
     try {
-        let request = await fetch('http://localhost:3030/data/catches', {
+        const url = 'http://localhost:3030/data/catches'
+        let request = await fetch(url, {
             method: 'post',
             headers: {
                 'Content-type': 'application/json',
-                'X-Authorization': userData.token
+                'X-Authorization': userData.accessToken
             },
             body: JSON.stringify({ angler, weight, species, location, bait, captureTime })
         })
@@ -136,8 +149,63 @@ async function onSubmit(e) {
             throw new Error(error)
         }
     } catch (err) {
-        alert(userData.token)
+        alert(err.message)
     }
 
+}
 
+async function onUpdate(e) {
+    const id = e.target.id;
+    const inputFields = Array.from(e.target.parentElement.querySelectorAll('input'));
+    try {
+        if (!inputFields || inputFields.length === 0) {
+            throw new Error("No input fields found");
+        }
+
+        const values = inputFields.map(field => field.value);
+        console.log("Input field values:", values);
+
+        const [angler, weight, species, location, bait, captureTime] = values;
+
+        console.log("Updated values:", angler, weight, species, location, bait, captureTime);
+
+        const url = `http://localhost:3030/data/catches/${id}`;
+        const request = await fetch(url, {
+            method: 'put',
+            headers: {
+                'Content-type': 'application/json',
+                'X-Authorization': userData.accessToken
+            },
+            body: JSON.stringify({ angler, weight, species, location, bait, captureTime })
+        });
+
+        if (!request.ok) {
+            const error = await request.json();
+            throw new Error(error);
+        }
+    } catch (err) {
+        console.error("Error updating catch:", err);
+        alert(err.message);
+    }
+}
+
+async function onDelete(e) {
+    const id = e.target.id
+    try {
+        const url = `http://localhost:3030/data/catches/${id}`;
+        let request = await fetch(url, {
+            method: 'delete',
+            headers: {
+                'Content-type': 'application/json',
+                'X-Authorization': userData.accessToken
+            }
+        })
+        if (!request.ok) {
+            const error = await request.json();
+            throw new Error(error)
+        }
+    } catch (err) {
+        alert(err.message)
+    }
+    e.target.parentElement.remove();
 }
