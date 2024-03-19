@@ -1,6 +1,6 @@
 class Restaurant {
-    constructor(budgetMoney) {
-        this.budgetMoney = budgetMoney;
+    constructor(budget) {
+        this.budgetMoney = budget;
         this.menu = {};
         this.stockProducts = {};
         this.history = [];
@@ -62,6 +62,9 @@ class Restaurant {
         }
         let neededProducts = Object.entries(this.menu[meal].products);
         for(let [product, qty] of neededProducts) {
+            if(!this.stockProducts[product]) {
+                return `For the time being, we cannot complete your order (${meal}), we are very sorry...`
+            }
             if(qty > this.stockProducts[product]) {
                 return `For the time being, we cannot complete your order (${meal}), we are very sorry...`
             }
@@ -70,10 +73,7 @@ class Restaurant {
             this.stockProducts[product] -= qty;
         }
         let price = this.menu[meal].price
+        this.budgetMoney += price
         return `Your order (${meal}) will be completed in the next 30 minutes and will cost you ${price}.`
     }
 }
-let kitchen = new Restaurant(5);
-console.log(kitchen.loadProducts(['Banana 10 5', 'Banana 20 10', 'Strawberries 50 30', 'Yogurt 10 10', 'Yogurt 500 1500', 'Honey 5 50']));
-
-
