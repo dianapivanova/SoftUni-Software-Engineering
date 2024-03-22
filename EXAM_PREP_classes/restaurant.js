@@ -62,9 +62,7 @@ class Restaurant {
         }
         let neededProducts = Object.entries(this.menu[meal].products);
         for(let [product, qty] of neededProducts) {
-            if(!this.stockProducts[product]) {
-                return `For the time being, we cannot complete your order (${meal}), we are very sorry...`
-            }
+            
             if(qty > this.stockProducts[product]) {
                 return `For the time being, we cannot complete your order (${meal}), we are very sorry...`
             }
