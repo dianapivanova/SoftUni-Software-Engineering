@@ -17,7 +17,7 @@ class InventoryManager {
     } else {
       this.items.push({itemName, quantity});
     }
-    return `Added ${quantity} ${itemName}(s) to the inventory.`
+    return (`Added ${quantity} ${itemName}(s) to the inventory.`)
   }
   sellItem(itemName, quantity) {
     if(quantity <= 0) {
@@ -37,7 +37,7 @@ class InventoryManager {
       this.outOfStock.push(itemName)
       
     }
-    return `Sold ${quantity} ${itemName}(s) from the inventory.`;
+    return (`Sold ${quantity} ${itemName}(s) from the inventory.`);
   }
   restockItem(itemName, quantity) {
     if(quantity <=0) {
@@ -53,7 +53,7 @@ class InventoryManager {
       let idx = this.outOfStock.indexOf(itemName);
       this.outOfStock.splice(idx, 1);
     }
-    return `Restocked ${quantity} ${itemName}(s) in the inventory.`
+    return (`Restocked ${quantity} ${itemName}(s) in the inventory.`)
   }
   getInventorySummary() {
     let result = ['Current Inventory:'];
