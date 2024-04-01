@@ -39,11 +39,11 @@ function solve() {
     let parTime = document.createElement("p");
     parTime.textContent = `Begins: ${date} at: ${time}`;
     let parPlace = document.createElement("p");
-    parPlace.textContent = `In: ${place} `;
+    parPlace.textContent = `In: ${place}`;
     let parEvent = document.createElement("p");
-    parEvent.textContent = `Event: ${event} `;
+    parEvent.textContent = `Event: ${event}`;
     let parContact = document.createElement("p");
-    parContact.textContent = `Contact: ${email} `;
+    parContact.textContent = `Contact: ${email}`;
     article.appendChild(parTime);
     article.appendChild(parPlace);
     article.appendChild(parEvent);
