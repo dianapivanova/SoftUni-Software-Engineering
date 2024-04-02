@@ -41,7 +41,7 @@ class InventoryManager {
   }
   restockItem(itemName, quantity) {
     if(quantity <=0) {
-      throw new error('Quantity must be greater than zero.');
+      throw new Error('Quantity must be greater than zero.');
     }
     let findItem = this.items.find(x => x.itemName == itemName);
     if(findItem) {
