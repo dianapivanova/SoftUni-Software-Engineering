@@ -28,7 +28,6 @@ function solve() {
       return;
     }
 
-
     let firstName = firstNameRef.value;
     let lastName = lastNameRef.value;
     let dateIn = dateInRef.value;
@@ -112,15 +111,30 @@ function solve() {
       function onConfirm(e) {
         newLiElement.remove();
         nextBtn.disabled = false;
-        verification.classList.add("reservation-confirmed");
-        verification.textContent = `Confirmed.`;
+        verification.textContent = "Confirmed.";
+        if (verification.classList.contains("reservation-cancelled")) {
+          verification.classList.replace(
+            "reservation-cancelled",
+            "reservation-confirmed"
+          );
+        } else {
+          verification.classList.add("reservation-confirmed");
+        }
       }
 
       function onCancel(e) {
         newLiElement.remove();
         nextBtn.disabled = false;
+        verification.textContent = "Cancelled.";
         verification.classList.add("reservation-cancelled");
-        verification.textContent = `Cancelled.`;
+        if (verification.classList.contains("reservation-confirmed")) {
+          verification.classList.replace(
+            "reservation-confirmed",
+            "reservation-cancelled"
+          );
+        } else {
+          verification.classList.add("reservation-cancelled");
+        }
       }
     }
   }
