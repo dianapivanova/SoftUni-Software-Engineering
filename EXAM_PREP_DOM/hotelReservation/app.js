@@ -1,27 +1,26 @@
 window.addEventListener("load", solve);
 
 function solve() {
-  const fNameRef = document.getElementById("first-name");
-  const lNameRef = document.getElementById("last-name");
+  const firstNameRef = document.getElementById("first-name");
+  const lastNameRef = document.getElementById("last-name");
   const dateInRef = document.getElementById("date-in");
   const dateOutRef = document.getElementById("date-out");
-  const guestRef = document.getElementById("people-count");
-
-  const resInfoSec = document.querySelector(".info-list");
-  const confirmResSec = document.querySelector(".confirm-list");
-  const h1El = document.getElementById('verification');
-
+  const peopleCountRef = document.getElementById("people-count");
   const nextBtn = document.getElementById("next-btn");
+  const infoList = document.querySelector(".info-list");
+  const confirmList = document.querySelector(".confirm-list");
+  const verification = document.getElementById("verification");
+
   nextBtn.addEventListener("click", onDefault);
 
   function onDefault(e) {
     e.preventDefault();
     if (
-      fNameRef.value == "" ||
-      lNameRef.value == "" ||
+      firstNameRef.value == "" ||
+      lastNameRef.value == "" ||
       dateInRef.value == "" ||
       dateOutRef.value == "" ||
-      guestRef.value == ""
+      peopleCountRef.value == ""
     ) {
       return;
     }
@@ -29,28 +28,29 @@ function solve() {
       return;
     }
 
-    let fName = fNameRef.value;
-    let lName = lNameRef.value;
+
+    let firstName = firstNameRef.value;
+    let lastName = lastNameRef.value;
     let dateIn = dateInRef.value;
     let dateOut = dateOutRef.value;
-    let guest = guestRef.value;
+    let people = peopleCountRef.value;
 
     let liElement = document.createElement("li");
     liElement.classList.add("reservation-content");
     let article = document.createElement("article");
     let h3El = document.createElement("h3");
-    h3El.textContent = `Name: ${fName} ${lName}`;
-    let dateInPar = document.createElement("p");
-    dateInPar.textContent = `From date: ${dateIn}`;
-    let dateOutPar = document.createElement("p");
-    dateOutPar.textContent = `To date: ${dateOut}`;
-    let guestPar = document.createElement("p");
-    guestPar.textContent = `For ${guest} people`;
+    h3El.textContent = `Name: ${firstName} ${lastName}`;
+    let par1 = document.createElement("p");
+    par1.textContent = `From date: ${dateIn}`;
+    let par2 = document.createElement("p");
+    par2.textContent = `To date: ${dateOut}`;
+    let par3 = document.createElement("p");
+    par3.textContent = `For ${people} people`;
 
     article.appendChild(h3El);
-    article.appendChild(dateInPar);
-    article.appendChild(dateOutPar);
-    article.appendChild(guestPar);
+    article.appendChild(par1);
+    article.appendChild(par2);
+    article.appendChild(par3);
 
     liElement.appendChild(article);
 
@@ -65,63 +65,63 @@ function solve() {
     liElement.appendChild(editBtn);
     liElement.appendChild(continueBtn);
 
-    resInfoSec.appendChild(liElement);
-
     editBtn.addEventListener("click", onEdit);
     continueBtn.addEventListener("click", onContinue);
 
+    infoList.appendChild(liElement);
+
     nextBtn.disabled = true;
-    fNameRef.value = "";
-    lNameRef.value = "";
+    firstNameRef.value = "";
+    lastNameRef.value = "";
     dateInRef.value = "";
     dateOutRef.value = "";
-    guestRef.value = "";
+    peopleCountRef.value = "";
 
     function onEdit(e) {
-        nextBtn.disabled = false;
-        liElement.remove();
-        fNameRef.value = fName;
-        lNameRef.value = lName;
-        dateInRef.value = dateIn;
-        dateOutRef.value = dateOut;
-        guestRef.value = guest;
+      nextBtn.disabled = false;
+      liElement.remove();
+      firstNameRef.value = firstName;
+      lastNameRef.value = lastName;
+      dateInRef.value = dateIn;
+      dateOutRef.value = dateOut;
+      peopleCountRef.value = people;
     }
 
     function onContinue(e) {
-        liElement.remove();
-        let newLiElement = document.createElement('li');
-        newLiElement.classList.add("reservation-content");
-        newLiElement.appendChild(article);
+      liElement.remove();
+      let newLiElement = document.createElement("li");
+      newLiElement.classList.add("reservation-content");
+      newLiElement.appendChild(article);
 
-        let confirmBtn = document.createElement("button");
-        confirmBtn.classList.add("confirm-btn");
-        confirmBtn.textContent = "Confirm";
-    
-        let cancelBtn = document.createElement("button");
-        cancelBtn.classList.add("cancel-btn");
-        cancelBtn.textContent = "Cancel";
+      let confirmBtn = document.createElement("button");
+      confirmBtn.classList.add("confirm-btn");
+      confirmBtn.textContent = "Confirm";
 
-        newLiElement.appendChild(confirmBtn);
-        newLiElement.appendChild(cancelBtn);
+      let cancelBtn = document.createElement("button");
+      cancelBtn.classList.add("cancel-btn");
+      cancelBtn.textContent = "Cancel";
 
-        confirmBtn.addEventListener("click", onConfirm);
-        cancelBtn.addEventListener("click", onCancel);
+      newLiElement.appendChild(confirmBtn);
+      newLiElement.appendChild(cancelBtn);
 
-        confirmResSec.appendChild(newLiElement);
+      confirmList.appendChild(newLiElement);
 
-        function onCancel(e) {
-            newLiElement.remove();
-            nextBtn.disabled = false;
-            h1El.classList.add('reservation-cancelled');
-            h1El.textContent = 'Cancelled.';
-        }
+      confirmBtn.addEventListener("click", onConfirm);
+      cancelBtn.addEventListener("click", onCancel);
 
-        function onConfirm(e) {
-            newLiElement.remove();
-            nextBtn.disabled = false;
-            h1El.classList.add('reservation-confirmed');
-            h1El.textContent = 'Confirmed.';
-        }
+      function onConfirm(e) {
+        newLiElement.remove();
+        nextBtn.disabled = false;
+        verification.classList.add("reservation-confirmed");
+        verification.textContent = `Confirmed.`;
+      }
+
+      function onCancel(e) {
+        newLiElement.remove();
+        nextBtn.disabled = false;
+        verification.classList.add("reservation-cancelled");
+        verification.textContent = `Cancelled.`;
+      }
     }
   }
 }
