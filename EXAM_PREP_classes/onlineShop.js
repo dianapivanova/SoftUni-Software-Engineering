@@ -7,7 +7,7 @@ class OnlineShop {
 
   loadingStore(product, quantity, spaceRequired) {
     if (this.warehouseSpace < spaceRequired) {
-      throw new Error("Not enough space in the warehouse");
+      throw new Error("Not enough space in the warehouse.");
     }
     this.products.push({ product, quantity });
     this.warehouseSpace -= spaceRequired;
