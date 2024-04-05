@@ -1,49 +1,40 @@
 function solve() {
+  const departBtn = document.getElementById("depart");
+  const arriveBtn = document.getElementById("arrive");
+  const infoSecRef = document.querySelector(".info");
+  let busId = "depot";
+  let stopName = "";
 
-    const departBtn = document.getElementById('depart');
-    departBtn.addEventListener('click', depart);
+  async function depart() {
+    let url = `http://localhost:3030/jsonstore/bus/schedule/${busId}`;
 
-    const arriveBtn = document.getElementById('arrive');
-    arriveBtn.addEventListener('click', arrive);
-
-    const textArea = document.querySelector('.info');
-
-    let stopId = 'depot';
-    let stopName = '';
-
-    async function depart(e) {
-        const url = `http://localhost:3030/jsonstore/bus/schedule/${stopId}`;
-
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                const error = await response.json();
-                throw error
-            }
-            const data = await response.json();
-            stopName = data.name;
-            stopId = data.next;
-            textArea.textContent = `Next Stop: ${stopName}`
-            arriveBtn.disabled = false;
-            departBtn.disabled = true;
-        } catch (err) {
-            arriveBtn.disabled = true;
-            departBtn.disabled = true;
-            textArea.textContent = 'Error';
-        }
-
+    try {
+      let res = await fetch(url);
+      if (!res.ok) {
+        let err = await res.json();
+        throw new Error(err);
+      }
+      let data = await res.json();
+      stopName = data.name;
+      infoSecRef.textContent = `Next stop ${stopName}`;
+      busId = data.next;
+    } catch (err) {
+        console.error(err.message);
+      infoSecRef.textContent = `Error`;
+      departBtn.disabled = true;
+      arriveBtn.disabled = true;
     }
+    departBtn.disabled = true;
+    arriveBtn.disabled = false;
+  }
 
-    function arrive() {
-        departBtn.disabled = false;
-        arriveBtn.disabled = true;
-        infoBox.textContent = `Arriving at ${stopName}`
-    }
+  function arrive() {
+    infoSecRef.textContent = `Arriving at ${stopName}`
+    departBtn.disabled = false;
+    arriveBtn.disabled = true;
+  }
 
-    return {
-        depart,
-        arrive
-    };
+  return { depart, arrive };
 }
 
 let result = solve();
