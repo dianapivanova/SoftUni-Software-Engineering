@@ -1,56 +1,54 @@
-function attachEvents() {
+async function attachEvents() {
 
+    const postUrl = `http://localhost:3030/jsonstore/blog/posts`;
+    const commentUrl = `http://localhost:3030/jsonstore/blog/comments/`;
     const loadPostsBtn = document.getElementById('btnLoadPosts');
-    const viewButton = document.getElementById('btnViewPost');
-    const postsOptionsRef = document.getElementById('posts');
-    const postDetailsH1 = document.getElementById('post-body');
-    const commentsUl = document.getElementById('post-comments');
+    const postsOptions= document.getElementById('posts');
+    const viewPostBtn = document.getElementById('btnViewPost');
+    let postData = {};
+    const postTitleH1 = document.getElementById('post-title');
+    const postBodyPar = document.getElementById('post-body');
+    const postCommentsUl = document.getElementById('post-comments');
+    
+    loadPostsBtn.addEventListener('click', getPosts);
 
-    loadPostsBtn.addEventListener('click', getOptions);
-
-    async function getOptions() {
-        const postUrl = `http://localhost:3030/jsonstore/blog/posts`;
-        const response = await fetch(postUrl);
-        const data = await response.json();
-
-        for (let key in data) {
+    async function getPosts(e) {
+        postData = await makeRequest(postUrl);
+        Object.entries(postData).forEach(x => {
             let optionEl = document.createElement('option');
-            optionEl.textContent = data[key].title;
-            optionEl.value = key
-            postsOptionsRef.appendChild(optionEl);
-        }
-    };
-
-    viewButton.addEventListener('click', getPosts);
-
-    async function getPosts() {
-
-
-        let id = '';
-
-        document.querySelectorAll('option').forEach(x => {
-            if (x.selected) {
-                id = x.value;
-            }
+            optionEl.value = x[0];
+            optionEl.textContent = x[1].title;
+            postsOptions.appendChild(optionEl);
         })
+    }
 
-        const post = `http://localhost:3030/jsonstore/blog/posts/${id}`;
-        const responsePost = await fetch(post);
-        const postData = await responsePost.json();
-        postDetailsH1.textContent = postData.body;
+    viewPostBtn.addEventListener('click', onViewPosts)
 
-        const url = `http://localhost:3030/jsonstore/blog/comments/`;
-        const response = await fetch(url);
-        const data = await response.json();
+    async function onViewPosts(e) {
+        postCommentsUl.innerHTML = '';
+        let id = postsOptions.value;
+        let title = postData[id].title;
+        let content= postData[id].body;
+        postTitleH1.textContent = title;
+        postBodyPar.textContent = content;
 
-        for (let key in data) {
-            let liElement = document.createElement('li');
-            if (data[key].postId == id) {
-                liElement.textContent = data[key].text;
-                commentsUl.appendChild(liElement);
-            }
+        let data = await makeRequest(commentUrl);
+        for(let entries of Object.entries(data)) {
+            if(entries[1].postId == id) {
+                let liEl = document.createElement('li');
+                    liEl.id = entries[1].id;
+                    liEl.textContent = entries[1].text;
+                    postCommentsUl.appendChild(liEl);
         }
     }
 }
 
-attachEvents();
+async function makeRequest(url) {
+    let res = await fetch(url);
+    let data = await res.json();
+    return data;
+}
+}
+
+
+attachEvents()
