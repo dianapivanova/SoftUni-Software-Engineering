@@ -1,84 +1,73 @@
 function attachEvents() {
-    //GET DATA
+    const url = `http://localhost:3030/jsonstore/phonebook`;
+    //load phonebook
     const loadBtn = document.getElementById('btnLoad');
-    const ulEl = document.getElementById('phonebook');
-
-    loadBtn.addEventListener('click', onLoad);
-
-    //CREATE DATA
-    const personDataRef = document.getElementById('person');
-    const phoneDataRef = document.getElementById('phone');
+    const phonebookUl = document.getElementById('phonebook');
+    // create phonebook
+    const personRef = document.getElementById('person');
+    const phoneRef = document.getElementById('phone');
     const createBtn = document.getElementById('btnCreate');
+    
+    loadBtn.addEventListener('click', onLoad);
     createBtn.addEventListener('click', onCreate);
 
-    async function onLoad() {
-        const url = `http://localhost:3030/jsonstore/phonebook`;
-
+    async function onLoad(e) {
         try {
-            let response = await fetch(url);
-
-            if (!response.ok) {
-                const error = await response.json();
-                throw error;
+            let req = await fetch(url);
+            if (!req.ok) {
+                let err = await req.json();
+                throw new Error(err.message);
             }
-
-            let data = await response.json();
-
-            Object.values(data).forEach(x => {
+            let data = await req.json();
+            Array.from(Object.values(data)).forEach(x => {
                 let liEl = document.createElement('li');
+                liEl.id = x._id;
                 liEl.textContent = `${x.person}: ${x.phone}`;
-                liEl.id = x['_id'];
                 let deleteBtn = document.createElement('button');
-                deleteBtn.textContent = 'Delete';
-                deleteBtn.addEventListener('click', onDelete);
                 liEl.appendChild(deleteBtn);
-                ulEl.appendChild(liEl);
+                deleteBtn.addEventListener('click', onDelete);
+                deleteBtn.textContent = 'Delete';
+                phonebookUl.appendChild(liEl);
             })
-
-        } catch (err) {
-            alert(err.message);
+        } catch(err) {
+            alert(err.message)
         }
     }
 
     async function onDelete(e) {
-        let key = e.target.parentElement.id;
-        let url = `http://localhost:3030/jsonstore/phonebook/${key}`;
-
+        let id = e.target.parentElement.id;
         try {
-            let request = await fetch(url, {
-                method: 'delete'
-            })
-
-            if (!request.ok) {
-                const error = await request.json();
-                throw error;
+          let res =  await fetch(url + "/" + id, {
+                method: "delete",
+            });
+            if(!res.ok) {
+                let err = await res.json();
+                throw new Error(err.message);
             }
         } catch (err) {
             alert(err.message);
         }
-
         e.target.parentElement.remove();
     }
 
     async function onCreate(e) {
-        const url = `http://localhost:3030/jsonstore/phonebook`;
-        let person = personDataRef.value;
-        let phone = phoneDataRef.value;
-
+        let person = personRef.value;
+        let phone = phoneRef.value;
         try {
-            let request = await fetch(url, {
+            let res = await fetch(url, {
                 method: 'post',
-                headers: { 'Content-type': 'application/json' },
-                body: JSON.stringify({ person, phone })
+                headers: {'Content-type': 'application/json'},
+                body: JSON.stringify({person, phone})
             });
-
-            if (!request.ok) {
-                const err = await request.json();
-                throw err
+            if(!res.ok) {
+                let err = await res.json();
+                throw new Error(err.message);
             }
-
-        } catch (err) {
-            alert(err.message)
+            personRef.value = '';
+            phoneRef.value = '';
+            onLoad();
+        } catch(err) {
+            alert(err.message);
         }
     }
 }
