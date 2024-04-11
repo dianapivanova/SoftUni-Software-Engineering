@@ -1,44 +1,62 @@
-const url = 'http://localhost:3030/jsonstore/collections/students';
-const formRef = document.querySelector('#form');
-const tbodyRef = document.querySelector('tbody');
-window.addEventListener('load', loadStudents);
-formRef.addEventListener('submit', submitHandler);
+const tBodyRef = document.querySelector("tbody");
+const url = `http://localhost:3030/jsonstore/collections/students`;
+const submitBtn = document.getElementById("submit");
+const form = document.querySelector("form");
 
-async function loadStudents() {
-    tbodyRef.innerHTML = '';
-    const requestAll = await fetch(url);
-    const data = await requestAll.json();
-    Object.values(data).forEach(item => {
-        let inner = '<tr>';
-        inner += `<td>${item.firstName}</td>`;
-        inner += `<td>${item.lastName}</td>`;
-        inner += `<td>${item.facultyNumber}</td>`;
-        inner += `<td>${Number(item.grade).toFixed(2)}</td>`;
-        tbodyRef.innerHTML += inner + '</tr>';
-    });
-}
+submitBtn.addEventListener("click", onSubmit);
 
-async function submitHandler(e) {
-    e.preventDefault();
-    const first = formRef.elements['firstName'].value;
-    const last = formRef.elements['lastName'].value;
-    const faculty = formRef.elements['facultyNumber'].value;
-    const grade = formRef.elements['grade'].value;
-
-    if (!first || !last || !faculty || !grade) {
-        return;
+window.onload = async function extractStudents() {
+  try {
+    let res = await fetch(url);
+    if (!res.ok) {
+      let err = await res.json();
+      throw new Error(err.message);
     }
-
-    await fetch(url, {
-        method: 'post',
-        headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify({
-            'firstName': first,
-            'lastName': last,
-            'facultyNumber': faculty,
-            'grade': grade
-        })
+    let data = await res.json();
+    Object.values(data).forEach((x) => {
+      tBodyRef.innerHTML += `<tr>
+            <td>${x.firstName}</td>
+            <td>${x.lastName}</td>
+            <td>${Number(x.facultyNumber)}</td>
+            <td>${Number(x.grade)}</td>
+        </tr>`;
     });
-    formRef.reset();
-    loadStudents();
+  } catch (err) {
+    console.log(err.message);
+    alert(err.message);
+  }
+};
+
+async function onSubmit(e) {
+    e.preventDefault();
+  let data = new FormData(form);
+  let firstName = data.get("firstName");
+  let lastName = data.get("lastName");
+  let facultyNumber = data.get("facultyNumber");
+  let grade = data.get("grade");
+  if (
+    !firstName ||
+    !lastName ||
+    typeof Number(facultyNumber) !== "number" ||
+    !grade ||
+    isNaN(Number(grade)) || 
+    isNaN(Number(facultyNumber))
+  ) {
+    return
+  }
+  try {
+    let req = await fetch(url, {
+        method: 'post',
+        headers: {'Content-type': 'application/json'},
+        body: JSON.stringify({firstName, lastName, facultyNumber, grade})
+    })
+    if(!req.ok) {
+        let err = await req.json();
+      throw new Error(err.message);
+    }
+    form.reset();
+
+  } catch(err) {
+    alert(err.message);
+  }
 }
