@@ -52,6 +52,12 @@ function appendBooks(data) {
     resultTbody.appendChild(tr);
 }
 
+function el(type, cont) {
+    const el = document.createElement(type);
+    el.textContent = cont;
+    return el;
+}
+
 async function onEdit(e) {
     const saveBtn = el("button", "Save");
     saveBtn.addEventListener("click", onSave);
@@ -73,7 +79,8 @@ async function onEdit(e) {
     async function onSave() {
         try {
             await fetch(url + "/" + data.id, {
-                method: "patch",
+                method: "put",
+                headers: {'Content-type': 'application/json'},
                 body: JSON.stringify({ author: data.author, title: data.title }),
             });
         } catch (error) {
@@ -110,10 +117,4 @@ async function createNewBook(data) {
     } catch (error) {
         alert(error);
     }
-}
-
-function el(type, cont) {
-    const el = document.createElement(type);
-    el.textContent = cont;
-    return el;
 }
